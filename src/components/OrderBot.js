@@ -142,7 +142,7 @@ const ementa = [
         nome: "Arroz", 
         preco: 3.0, 
         imagem: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop",
-        descricao: "Porção de arroz branco" 
+        descricao: "Porção de arroz blanco" 
       },
       { 
         id: 402, 
@@ -619,60 +619,60 @@ const MenuItem = ({ item, onAdd }) => {
           </button>
         )}
 
-{showDetails && (
-  <div className="mt-3 pt-3 border-t border-gray-100">
-    {item.opcoes && (
-      <div className="mt-4 pt-4 border-t border-gray-100">
-        {item.opcoes.carnes && (
-          <div className="mb-4">
-            <h4 className="font-medium text-gray-700 mb-2">Carnes:</h4>
-            <div className="grid grid-cols-2 gap-2">
-              {item.opcoes.carnes.map((carne) => {
-                const hasSoMaminha = selectedOptions.carnes.some(c => {
-                  const cOpt = item.opcoes?.carnes?.find(opt => opt.nome === c);
-                  return cOpt?.soMaminha;
-                });
-                
-                const isDisabled = (
-                  // Se já tem 2 carnes selecionadas e esta não está selecionada
-                  (selectedOptions.carnes.length >= 2 && !selectedOptions.carnes.includes(carne.nome)) ||
-                  // OU se já tem "Só Maminha" selecionada e esta não é "Só Maminha"
-                  (hasSoMaminha && !carne.soMaminha)
-                );
+        {showDetails && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            {item.opcoes && (
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                {item.opcoes.carnes && (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700 mb-2">Carnes:</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.opcoes.carnes.map((carne) => {
+                        const hasSoMaminha = selectedOptions.carnes.some(c => {
+                          const cOpt = item.opcoes?.carnes?.find(opt => opt.nome === c);
+                          return cOpt?.soMaminha;
+                        });
+                        
+                        const isDisabled = (
+                          // Se já tem 2 carnes selecionadas e esta não está selecionada
+                          (selectedOptions.carnes.length >= 2 && !selectedOptions.carnes.includes(carne.nome)) ||
+                          // OU se já tem "Só Maminha" selecionada e esta não é "Só Maminha"
+                          (hasSoMaminha && !carne.soMaminha)
+                        );
 
-                return (
-                  <label 
-                    key={carne.id}
-                    className={`flex items-center p-2 rounded border text-sm ${
-                      selectedOptions.carnes.includes(carne.nome) ? 
-                      'border-green-500 bg-green-50' : 'border-gray-200'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedOptions.carnes.includes(carne.nome)}
-                      onChange={() => handleOptionChange("carnes", carne.nome)}
-                      className="mr-2"
-                      disabled={isDisabled}
-                    />
-                    {carne.nome}
-                    {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
-                  </label>
-                );
-              })}
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {selectedOptions.carnes.some(c => {
-                const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
-                return carne?.soMaminha;
-              }) ? (
-                "Selecionou a opção 'Só Maminha'"
-              ) : (
-                "Selecione 2 carnes ou a opção 'Só Maminha'"
-              )}
-            </p>
-          </div>
-        )}
+                        return (
+                          <label 
+                            key={carne.id}
+                            className={`flex items-center p-2 rounded border text-sm ${
+                              selectedOptions.carnes.includes(carne.nome) ? 
+                              'border-green-500 bg-green-50' : 'border-gray-200'
+                            }`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedOptions.carnes.includes(carne.nome)}
+                              onChange={() => handleOptionChange("carnes", carne.nome)}
+                              className="mr-2"
+                              disabled={isDisabled}
+                            />
+                            {carne.nome}
+                            {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
+                          </label>
+                        );
+                      })}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {selectedOptions.carnes.some(c => {
+                        const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
+                        return carne?.soMaminha;
+                      }) ? (
+                        "Selecionou a opção 'Só Maminha'"
+                      ) : (
+                        "Selecione 2 carnes ou a opção 'Só Maminha'"
+                      )}
+                    </p>
+                  </div>
+                )}
 
                 {item.opcoes.acompanhamentos && (
                   <div className="mb-4">
@@ -1207,7 +1207,7 @@ const CheckoutForm = ({
             onClick={onBack}
             className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors"
           >
-            Voltar ao Cardápio
+            Voltar à Ementa
           </button>
           <button
             type="submit"
@@ -1304,35 +1304,6 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Contact Section */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold mb-4">Contactos</h3>
-            <div className="flex items-start">
-              <MapPin className="text-green-400 mr-3 mt-1" size={20} />
-              <div>
-                <p className="font-medium">Endereço</p>
-                <p className="text-gray-300">Estr. de Alvor, São Sebastião</p>
-                <p className="text-gray-300">8500-769 Portimão</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <Phone className="text-green-400 mr-3" size={20} />
-              <a href="tel:+351933737672" className="hover:text-green-400 transition-colors">
-                (93) 373-7672
-              </a>
-            </div>
-            <div className="flex space-x-4 pt-2">
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
-                className="text-white hover:text-green-400 transition-colors">
-                <Instagram size={24} />
-              </a>
-              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="text-white hover:text-green-400 transition-colors">
-                <Facebook size={24} />
-              </a>
-            </div>
-          </div>
-          
           {/* Hours Section */}
           <div>
             <h3 className="text-xl font-bold mb-4">Horário</h3>
@@ -1355,22 +1326,51 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          
-          {/* Map Section */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Localização</h3>
-            <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden">
-            <iframe 
-            title="Mapa de localização"  // Adicione um título único
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3190.569347476754!2d-8.53968968431738!3d37.13859997984561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA4JzE5LjAiTiA4wrAzMiczMTQuMCJX!5e0!3m2!1spt-PT!2spt!4v1620000000000!5m2!1spt-PT!2spt" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }}
-            allowFullScreen="" 
-            loading="lazy"
-            className="min-h-[200px]"
-            ></iframe>
 
+          {/* Contact Section */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold mb-4">Contactos</h3>
+            <div className="flex items-center">
+              <Phone className="text-green-400 mr-3" size={20} />
+              <a href="tel:+351933737672" className="hover:text-green-400 transition-colors">
+                (93) 373-7672
+              </a>
+            </div>
+          </div>
+          
+          {/* Location Section */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold mb-4">Localização</h3>
+            <div className="flex items-start">
+              <MapPin className="text-green-400 mr-3 mt-1" size={20} />
+              <div>
+                <p className="text-gray-300">Estr. de Alvor, São Sebastião</p>
+                <p className="text-gray-300">8500-769 Portimão</p>
+              </div>
+            </div>
+            
+            <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden mt-4">
+              <iframe 
+                title="Mapa de localização"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3190.569347476754!2d-8.53968968431738!3d37.13859997984561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA4JzE5LjAiTiA4wrAzMiczMTQuMCJX!5e0!3m2!1spt-PT!2spt!4v1620000000000!5m2!1spt-PT!2spt" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }}
+                allowFullScreen="" 
+                loading="lazy"
+                className="min-h-[200px]"
+              ></iframe>
+            </div>
+            
+            <div className="flex justify-center space-x-4 pt-2">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
+                className="text-white hover:text-green-400 transition-colors">
+                <Instagram size={24} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
+                className="text-white hover:text-green-400 transition-colors">
+                <Facebook size={24} />
+              </a>
             </div>
           </div>
         </div>
@@ -1386,32 +1386,149 @@ const Footer = () => {
 
 // ========== COMPONENTE PRINCIPAL (ORDERBOT) ========== //
 export default function OrderBot() {
-  const [cart, setCart] = useState([]);
-  const [step, setStep] = useState(1);
+  // Carregar dados do localStorage ou inicializar com valores padrão
+  const loadFromLocalStorage = (key, defaultValue) => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue;
+    } catch (error) {
+      console.error("Erro ao carregar do localStorage:", error);
+      return defaultValue;
+    }
+  };
+
+  const [cart, setCart] = useState(() => loadFromLocalStorage('cart', []));
+  const [step, setStep] = useState(() => loadFromLocalStorage('step', 1));
   const [openCategory, setOpenCategory] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [nome, setNome] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [contato, setContato] = useState("");
-  const [entrega, setEntrega] = useState(false);
-  const [metodoPagamento, setMetodoPagamento] = useState("");
-  const [mbwayPhone, setMbwayPhone] = useState("");
-  const [observacoes, setObservacoes] = useState("");
+  const [nome, setNome] = useState(() => loadFromLocalStorage('nome', ""));
+  const [endereco, setEndereco] = useState(() => loadFromLocalStorage('endereco', ""));
+  const [contato, setContato] = useState(() => loadFromLocalStorage('contato', ""));
+  const [entrega, setEntrega] = useState(() => loadFromLocalStorage('entrega', false));
+  const [metodoPagamento, setMetodoPagamento] = useState(() => loadFromLocalStorage('metodoPagamento', ""));
+  const [mbwayPhone, setMbwayPhone] = useState(() => loadFromLocalStorage('mbwayPhone', ""));
+  const [observacoes, setObservacoes] = useState(() => loadFromLocalStorage('observacoes', ""));
   const [orderNumber, setOrderNumber] = useState(null);
+
+  // Salvar no localStorage sempre que os dados mudarem
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('step', JSON.stringify(step));
+    localStorage.setItem('nome', JSON.stringify(nome));
+    localStorage.setItem('endereco', JSON.stringify(endereco));
+    localStorage.setItem('contato', JSON.stringify(contato));
+    localStorage.setItem('entrega', JSON.stringify(entrega));
+    localStorage.setItem('metodoPagamento', JSON.stringify(metodoPagamento));
+    localStorage.setItem('mbwayPhone', JSON.stringify(mbwayPhone));
+    localStorage.setItem('observacoes', JSON.stringify(observacoes));
+  }, [cart, step, nome, endereco, contato, entrega, metodoPagamento, mbwayPhone, observacoes]);
+
+  // Resetar a página ao voltar para a ementa
+  const resetToMenu = () => {
+    setOpenCategory(null);
+    setIsCartOpen(false);
+    setStep(1);
+  };
 
   useEffect(() => {
     // Gera número do pedido quando chegar na confirmação
     if (step === 3) {
-      setOrderNumber(Math.floor(10000 + Math.random() * 90000));
+      const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
+      setOrderNumber(newOrderNumber);
+      
+      // Limpar o carrinho após a confirmação
+      localStorage.removeItem('cart');
+      localStorage.removeItem('step');
+      localStorage.removeItem('nome');
+      localStorage.removeItem('endereco');
+      localStorage.removeItem('contato');
+      localStorage.removeItem('entrega');
+      localStorage.removeItem('metodoPagamento');
+      localStorage.removeItem('mbwayPhone');
+      localStorage.removeItem('observacoes');
     }
-  }, [step]);
-
+  }, [step]); // Removi orderNumber das dependências
+  
+  useEffect(() => {
+    // Envia o pedido para o WhatsApp quando orderNumber é definido
+    if (step === 3 && orderNumber) {
+      const sendOrderToWhatsApp = () => {
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('pt-PT', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+        const formattedTime = now.toLocaleTimeString('pt-PT', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+  
+        const itemsText = cart.map(item => {
+          let itemText = `${item.quantidade}x *${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
+          if (item.selectedOptions) {
+            if (item.selectedOptions.carnes?.length > 0) {
+              itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
+            }
+            if (item.selectedOptions.acompanhamentos) {
+              itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos}`;
+            }
+            if (item.selectedOptions.salada) {
+              itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
+            }
+            if (item.selectedOptions.bebida) {
+              itemText += `\n  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
+            }
+            if (item.selectedOptions.toppings?.length > 0) {
+              itemText += `\n  🍓 *Toppings:* ${item.selectedOptions.toppings.join(", ")}`;
+            }
+          }
+          return itemText;
+        }).join('\n\n');
+  
+        let paymentMethod = '';
+        if (metodoPagamento === 'mbway') {
+          paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})\nNúmero do restaurante: 933 737 672`;
+        } else if (metodoPagamento === 'cartao') {
+          paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
+        } else if (metodoPagamento === 'multibanco') {
+          paymentMethod = '💳 *Multibanco* (Pagamento por referência MB)';
+        } else {
+          paymentMethod = '💵 *Dinheiro* (Com troco)';
+        }
+  
+        const subtotal = cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0);
+        const total = subtotal + (entrega ? 4 : 0);
+  
+        const message = `*🍖 NOVO PEDIDO #${orderNumber} - CHURRASCARIA GAÚCHA* 🍖\n\n` +
+          `📅 *Data:* ${formattedDate}\n` +
+          `⏰ *Hora:* ${formattedTime}\n\n` +
+          `*🍽️ ITENS DO PEDIDO*\n${itemsText}\n\n` +
+          `*💰 TOTAL DO PEDIDO*\n` +
+          `• Subtotal: €${subtotal.toFixed(2)}\n` +
+          `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}\n` +
+          `• *Total a pagar: €${total.toFixed(2)}*\n\n` +
+          `*👤 INFORMAÇÕES DO CLIENTE*\n` +
+          `• Nome: ${nome}\n` +
+          `• Contato: ${contato}\n` +
+          `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}\n` +
+          `• Pagamento: ${paymentMethod}\n\n` +
+          (observacoes ? `*📝 OBSERVAÇÕES*\n${observacoes}\n\n` : '') +
+          `_Obrigado pelo seu pedido! Entraremos em contacto em breve para confirmar._`;
+  
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/351933737672?text=${encodedMessage}`, '_blank');
+      };
+  
+      sendOrderToWhatsApp();
+    }
+  }, [step, orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes]);
+  
   useEffect(() => {
     if (step !== 1) {
       setIsCartOpen(false);
     }
   }, [step]);
-
   const addToCart = (item) => {
     const existingItemIndex = cart.findIndex(
       cartItem => cartItem.id === item.id && 
@@ -1451,78 +1568,6 @@ export default function OrderBot() {
   const deliveryFee = entrega ? 4 : 0;
   const total = subtotal + deliveryFee;
 
-  const sendOrder = () => {
-    const now = new Date();
-    const formattedDate = now.toLocaleDateString('pt-PT', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-    const formattedTime = now.toLocaleTimeString('pt-PT', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-    // Formatar os itens do pedido
-    const itemsText = cart.map(item => {
-      let itemText = `${item.quantidade}x *${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
-      if (item.selectedOptions) {
-        if (item.selectedOptions.carnes?.length > 0) {
-          itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
-        }
-        if (item.selectedOptions.acompanhamentos) {
-          itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos}`;
-        }
-        if (item.selectedOptions.salada) {
-          itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
-        }
-        if (item.selectedOptions.bebida) {
-          itemText += `\n  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
-        }
-        if (item.selectedOptions.toppings?.length > 0) {
-          itemText += `\n  🍓 *Toppings:* ${item.selectedOptions.toppings.join(", ")}`;
-        }
-      }
-      return itemText;
-    }).join('\n\n');
-
-    // Formatar o método de pagamento
-    let paymentMethod = '';
-    if (metodoPagamento === 'mbway') {
-      paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})\nNúmero do restaurante: 933 737 672`;
-    } else if (metodoPagamento === 'cartao') {
-      paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
-    } else if (metodoPagamento === 'multibanco') {
-      paymentMethod = '💳 *Multibanco* (Pagamento por referência MB)';
-    } else {
-      paymentMethod = '💵 *Dinheiro* (Com troco)';
-    }
-
-    // Mensagem completa
-    const message = `*📋 NOVO PEDIDO #${orderNumber} - CHURRASCARIA GAÚCHA*\n\n` +
-      `📅 *Data:* ${formattedDate}\n` +
-      `⏰ *Hora:* ${formattedTime}\n\n` +
-      `*🍽️ ITENS DO PEDIDO*\n${itemsText}\n\n` +
-      `*💰 TOTAL DO PEDIDO*\n` +
-      `• Subtotal: €${subtotal.toFixed(2)}\n` +
-      `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}\n` +
-      `• *Total a pagar: €${total.toFixed(2)}*\n\n` +
-      `*👤 INFORMAÇÕES DO CLIENTE*\n` +
-      `• Nome: ${nome}\n` +
-      `• Contato: ${contato}\n` +
-      `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}\n` +
-      `• Pagamento: ${paymentMethod}\n\n` +
-      (observacoes ? `*📝 OBSERVAÇÕES*\n${observacoes}\n\n` : '') +
-      `_Obrigado pelo seu pedido! Entraremos em contacto em breve para confirmar._`;
-
-    // Codificar a mensagem para URL
-    const encodedMessage = encodeURIComponent(message);
-    
-    // Abrir WhatsApp com a mensagem formatada
-    window.open(`https://wa.me/351933737672?text=${encodedMessage}`);
-    setStep(3);
-  };
-
   const startNewOrder = () => {
     setCart([]);
     setNome("");
@@ -1533,6 +1578,8 @@ export default function OrderBot() {
     setMbwayPhone("");
     setObservacoes("");
     setStep(1);
+    setOpenCategory(null);
+    setIsCartOpen(false);
   };
 
   return (
@@ -1549,7 +1596,7 @@ export default function OrderBot() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Menu Section */}
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Cardápio</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Ementa</h2>
               
               {/* Categories */}
               <div className="space-y-8">
@@ -1677,8 +1724,8 @@ export default function OrderBot() {
           <CheckoutForm
             cart={cart}
             total={total}
-            onBack={() => setStep(1)}
-            onSubmit={sendOrder}
+            onBack={resetToMenu}
+            onSubmit={() => setStep(3)}
             nome={nome}
             setNome={setNome}
             endereco={endereco}
@@ -1734,12 +1781,12 @@ export default function OrderBot() {
                       // Se estiver na página do cardápio, apenas fecha o carrinho
                     } else {
                       // Se estiver na página de checkout, volta para o cardápio
-                      setStep(1);
+                      resetToMenu();
                     }
                   }}
                   className="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-medium transition-colors"
                 >
-                  Voltar ao Cardápio
+                  Voltar à Ementa
                 </button>
               </div>
             ) : (
