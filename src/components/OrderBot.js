@@ -1360,15 +1360,17 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-4">Localização</h3>
             <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3190.569347476754!2d-8.53968968431738!3d37.13859997984561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA4JzE5LjAiTiA4wrAzMiczMTQuMCJX!5e0!3m2!1spt-PT!2spt!4v1620000000000!5m2!1spt-PT!2spt" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }}
-                allowFullScreen="" 
-                loading="lazy"
-                className="min-h-[200px]"
-              ></iframe>
+            <iframe 
+            title="Mapa de localização"  // Adicione um título único
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3190.569347476754!2d-8.53968968431738!3d37.13859997984561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA4JzE5LjAiTiA4wrAzMiczMTQuMCJX!5e0!3m2!1spt-PT!2spt!4v1620000000000!5m2!1spt-PT!2spt" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }}
+            allowFullScreen="" 
+            loading="lazy"
+            className="min-h-[200px]"
+            ></iframe>
+
             </div>
           </div>
         </div>
