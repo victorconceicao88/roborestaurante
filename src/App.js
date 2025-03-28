@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import OrderBot from './components/OrderBot';
-import { Bell, X } from 'lucide-react';
+
+
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
