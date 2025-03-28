@@ -19,11 +19,11 @@ const ementa = [
         nome: "Combo Churrasco",
         preco: 12.0,
         imagem: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop",
-        descricao: "Refeição completa com 2 carnes e acompanhamentos",
+        descricao: "Refeição completa com carnes e acompanhamentos selecionados",
         tipo: "churrasco",
         opcoes: {
           carnes: [
-            { id: "c1", nome: "Maminha (Premium)", precoExtra: 1.0 },
+            { id: "c1", nome: "Só Maminha (Premium)", precoExtra: 1.0, soMaminha: true },
             { id: "c2", nome: "Coração de Frango", precoExtra: 0 },
             { id: "c3", nome: "Costelinha Suína", precoExtra: 0 },
             { id: "c4", nome: "Linguiça", precoExtra: 0 },
@@ -39,10 +39,10 @@ const ementa = [
             { id: "s2", nome: "Vinagrete" }
           ],
           bebidas: [
-            { id: "b1", nome: "Coca-Cola", precoExtra: 2.0 },
-            { id: "b2", nome: "Fanta", precoExtra: 2.0 },
-            { id: "b3", nome: "Guaraná", precoExtra: 2.0 },
-            { id: "b4", nome: "Ice Tea", precoExtra: 2.0 }
+            { id: "b1", nome: "Coca-Cola", precoExtra: 2.0, imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop" },
+            { id: "b2", nome: "Fanta", precoExtra: 2.0, imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop" },
+            { id: "b3", nome: "Guaraná", precoExtra: 2.0, imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop" },
+            { id: "b4", nome: "Ice Tea", precoExtra: 2.0, imagem: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop" }
           ]
         }
       }
@@ -102,14 +102,14 @@ const ementa = [
         nome: "Combo Frango Supreme", 
         preco: 10.0, 
         imagem: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop",
-        descricao: "Sanduíche completo de frango + batata frita + 1 bebida à escolha",
+        descricao: "Sanduíche de frango com batata frita e bebida",
         tipo: "combo",
         opcoes: {
           bebidas: [
-            { id: "b1", nome: "Água 500ml", preco: 0 },
-            { id: "b2", nome: "Coca-Cola", preco: 0 },
-            { id: "b3", nome: "Fanta", preco: 0 },
-            { id: "b4", nome: "Ice Tea Pêssego", preco: 0 }
+            { id: "b1", nome: "Coca-Cola Lata", preco: 0, imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop" },
+            { id: "b2", nome: "Fanta Lata", preco: 0, imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop" },
+            { id: "b3", nome: "Guaraná Lata", preco: 0, imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop" },
+            { id: "b4", nome: "Suco de Laranja", preco: 0, imagem: "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=500&auto=format&fit=crop" }
           ]
         }
       },
@@ -118,14 +118,14 @@ const ementa = [
         nome: "Combo X-Tudo", 
         preco: 12.0, 
         imagem: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop",
-        descricao: "Sanduíche completo + batata frita + 1 bebida à escolha",
+        descricao: "Sanduíche completo com batata frita e bebida",
         tipo: "combo",
         opcoes: {
           bebidas: [
-            { id: "b1", nome: "Água 500ml", preco: 0 },
-            { id: "b2", nome: "Coca-Cola", preco: 0 },
-            { id: "b3", nome: "Fanta", preco: 0 },
-            { id: "b4", nome: "Ice Tea Pêssego", preco: 0 }
+            { id: "b1", nome: "Coca-Cola Lata", preco: 0, imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop" },
+            { id: "b2", nome: "Fanta Lata", preco: 0, imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop" },
+            { id: "b3", nome: "Guaraná Lata", preco: 0, imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop" },
+            { id: "b4", nome: "Suco de Laranja", preco: 0, imagem: "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=500&auto=format&fit=crop" }
           ]
         }
       }
@@ -213,7 +213,7 @@ const ementa = [
     id: 5,
     nome: "Bebidas",
     tipo: "categoria",
-    imagem: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
     subcategorias: [
       {
         nome: "Águas",
@@ -221,72 +221,102 @@ const ementa = [
           { 
             id: 5011, 
             nome: "Água com gás Castelo (pequena)", 
-            preco: 1.5, 
-            imagem: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=500&auto=format&fit=crop",
+            preco: 1.5,
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
             descricao: "Garrafa pequena de água mineral com gás" 
           },
           { 
             id: 5012, 
             nome: "Água com gás Pedras (pequena)", 
-            preco: 1.5, 
-            imagem: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=500&auto=format&fit=crop",
+            preco: 1.5,
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
             descricao: "Garrafa pequena de água mineral com gás" 
           },
           { 
             id: 5013, 
             nome: "Água sem gás 500ml", 
-            preco: 1.0, 
-            imagem: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=500&auto=format&fit=crop",
+            preco: 1.0,
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
             descricao: "Garrafa de água mineral sem gás" 
           }
         ]
       },
       {
-        nome: "Refrigerantes (lata)",
+        nome: "Refrigerantes",
         itens: [
           { 
             id: 5021, 
-            nome: "7UP", 
-            preco: 2.0, 
+            nome: "7UP (lata)", 
+            preco: 2.0,
             imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
             descricao: "Lata de refrigerante 7UP" 
           },
           { 
             id: 5022, 
-            nome: "Coca-Cola", 
-            preco: 2.0, 
+            nome: "Coca-Cola (lata)", 
+            preco: 2.0,
             imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
             descricao: "Lata de refrigerante Coca-Cola" 
           },
           { 
             id: 5023, 
-            nome: "Coca-Cola Zero", 
-            preco: 2.0, 
+            nome: "Coca-Cola Zero (lata)", 
+            preco: 2.0,
             imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
             descricao: "Lata de refrigerante Coca-Cola Zero" 
           },
           { 
             id: 5024, 
-            nome: "Fanta Laranja", 
-            preco: 2.0, 
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
+            nome: "Fanta Laranja (lata)", 
+            preco: 2.0,
+            imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop",
             descricao: "Lata de refrigerante Fanta Laranja" 
           },
           { 
             id: 5025, 
-            nome: "Guaraná", 
-            preco: 2.0, 
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
+            nome: "Guaraná (lata)", 
+            preco: 2.0,
+            imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop",
             descricao: "Lata de refrigerante Guaraná" 
           },
           { 
             id: 5026, 
-            nome: "Ice Tea de Manga", 
-            preco: 2.0, 
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
+            nome: "Ice Tea de Manga (lata)", 
+            preco: 2.0,
+            imagem: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop",
             descricao: "Lata de Ice Tea sabor manga" 
           }
         ]
+      }
+    ]
+  },
+  {
+    id: 6,
+    nome: "Sobremesas",
+    tipo: "categoria",
+    imagem: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500&auto=format&fit=crop",
+    itens: [
+      { 
+        id: 601, 
+        nome: "Açai na Tigela", 
+        preco: 3.5, 
+        imagem: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500&auto=format&fit=crop",
+        descricao: "Açai cremoso acompanhado com granola, banana, leite em pó e morango",
+        opcoes: {
+          toppings: [
+            { id: "t1", nome: "Granola" },
+            { id: "t2", nome: "Banana" },
+            { id: "t3", nome: "Leite Ninho" },
+            { id: "t4", nome: "Morango" }
+          ]
+        }
+      },
+      { 
+        id: 602, 
+        nome: "Pudim Caseiro", 
+        preco: 3.0, 
+        imagem: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop",
+        descricao: "Pudim tradicional caseiro com calda de caramelo" 
       }
     ]
   }
@@ -305,7 +335,7 @@ const Navbar = ({ cart, setIsCartOpen }) => {
             </h1>
           </div>
           
-          {/* Cart Button */}
+          {/* Cart Button - mostra em todas as páginas exceto confirmação */}
           <button 
             onClick={() => setIsCartOpen(true)}
             className="relative p-2 text-gray-700 hover:text-gray-900"
@@ -419,7 +449,7 @@ const DeliveryPickupSelector = ({
       {loading && (
         <div className="mt-2 flex items-center text-gray-600">
           <Loader2 className="animate-spin mr-2" size={16} />
-          <span>Obtendo sua localização...</span>
+          <span>A obter a sua localização...</span>
         </div>
       )}
       
@@ -436,7 +466,8 @@ const MenuItem = ({ item, onAdd }) => {
     carnes: [],
     acompanhamentos: "",
     salada: "",
-    bebida: ""
+    bebida: "",
+    toppings: []
   });
   const [addedToCart, setAddedToCart] = useState(false);
   const [validationError, setValidationError] = useState("");
@@ -444,15 +475,52 @@ const MenuItem = ({ item, onAdd }) => {
 
   const handleOptionChange = (type, value) => {
     if (type === "carnes") {
+      const carneSelecionada = item.opcoes?.carnes?.find(c => c.nome === value);
+      
+      // Se já está selecionada, desmarca
+      if (selectedOptions.carnes.includes(value)) {
+        setSelectedOptions({
+          ...selectedOptions,
+          carnes: selectedOptions.carnes.filter(c => c !== value)
+        });
+      } 
+      // Se selecionar "Só Maminha", limpar outras seleções
+      else if (carneSelecionada?.soMaminha) {
+        setSelectedOptions({
+          ...selectedOptions,
+          carnes: [value]
+        });
+      } 
+      // Se já tem "Só Maminha" selecionada, não permite outras seleções
+      else if (selectedOptions.carnes.some(c => {
+        const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
+        return carne?.soMaminha;
+      })) {
+        return;
+      }
+      // Se já tem 2 carnes selecionadas e não está tentando desmarcar, não permite mais seleções
+      else if (selectedOptions.carnes.length >= 2) {
+        return;
+      }
+      // Seleção normal de carnes
+      else {
+        setSelectedOptions({
+          ...selectedOptions,
+          [type]: [...selectedOptions[type], value]
+        });
+      }
+    } 
+    else if (type === "toppings") {
       const newSelection = selectedOptions[type].includes(value)
-        ? selectedOptions[type].filter(c => c !== value)
+        ? selectedOptions[type].filter(t => t !== value)
         : [...selectedOptions[type], value];
       
       setSelectedOptions({
         ...selectedOptions,
         [type]: newSelection
       });
-    } else {
+    }
+    else {
       setSelectedOptions({
         ...selectedOptions,
         [type]: value
@@ -463,8 +531,13 @@ const MenuItem = ({ item, onAdd }) => {
 
   const validateSelections = () => {
     if (item.tipo === "churrasco") {
-      if (selectedOptions.carnes.length !== 2) {
-        setValidationError("Por favor, selecione exatamente 2 carnes");
+      const hasSoMaminha = selectedOptions.carnes.some(c => {
+        const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
+        return carne?.soMaminha;
+      });
+      
+      if (!hasSoMaminha && selectedOptions.carnes.length !== 2) {
+        setValidationError("Por favor, selecione exatamente 2 carnes ou a opção 'Só Maminha'");
         return false;
       }
       if (!selectedOptions.acompanhamentos) {
@@ -506,7 +579,8 @@ const MenuItem = ({ item, onAdd }) => {
       carnes: [],
       acompanhamentos: "",
       salada: "",
-      bebida: ""
+      bebida: "",
+      toppings: []
     });
   };
 
@@ -528,58 +602,77 @@ const MenuItem = ({ item, onAdd }) => {
           </div>
         </div>
 
-        {item.tipo === "churrasco" && (
+        {(item.tipo === "churrasco" || (item.opcoes && (item.opcoes.toppings || item.opcoes.bebidas))) && (
           <button 
             onClick={() => setShowDetails(!showDetails)}
             className="text-green-600 text-sm font-medium mt-2 flex items-center"
           >
             {showDetails ? (
               <>
-                <ChevronUp size={16} className="mr-1" /> Ver menos
+                <ChevronUp size={16} className="mr-1" /> Ocultar opções
               </>
             ) : (
               <>
-                <ChevronDown size={16} className="mr-1" /> Ver mais detalhes
+                <ChevronDown size={16} className="mr-1" /> Personalizar pedido
               </>
             )}
           </button>
         )}
 
-        {showDetails && item.tipo === "churrasco" && (
-          <div className="mt-3 pt-3 border-t border-gray-100">
-            <p className="text-gray-600 mb-4">{item.descricao}</p>
-            
-            {item.opcoes && (
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                {item.opcoes.carnes && (
-                  <div className="mb-4">
-                    <h4 className="font-medium text-gray-700 mb-2">Carnes (selecione 2):</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {item.opcoes.carnes.map((carne) => (
-                        <label 
-                          key={carne.id}
-                          className={`flex items-center p-2 rounded border text-sm ${
-                            selectedOptions.carnes.includes(carne.nome) ? 
-                            'border-green-500 bg-green-50' : 'border-gray-200'
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedOptions.carnes.includes(carne.nome)}
-                            onChange={() => handleOptionChange("carnes", carne.nome)}
-                            className="mr-2"
-                            disabled={
-                              selectedOptions.carnes.length >= 2 && 
-                              !selectedOptions.carnes.includes(carne.nome)
-                            }
-                          />
-                          {carne.nome}
-                          {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                )}
+{showDetails && (
+  <div className="mt-3 pt-3 border-t border-gray-100">
+    {item.opcoes && (
+      <div className="mt-4 pt-4 border-t border-gray-100">
+        {item.opcoes.carnes && (
+          <div className="mb-4">
+            <h4 className="font-medium text-gray-700 mb-2">Carnes:</h4>
+            <div className="grid grid-cols-2 gap-2">
+              {item.opcoes.carnes.map((carne) => {
+                const hasSoMaminha = selectedOptions.carnes.some(c => {
+                  const cOpt = item.opcoes?.carnes?.find(opt => opt.nome === c);
+                  return cOpt?.soMaminha;
+                });
+                
+                const isDisabled = (
+                  // Se já tem 2 carnes selecionadas e esta não está selecionada
+                  (selectedOptions.carnes.length >= 2 && !selectedOptions.carnes.includes(carne.nome)) ||
+                  // OU se já tem "Só Maminha" selecionada e esta não é "Só Maminha"
+                  (hasSoMaminha && !carne.soMaminha)
+                );
+
+                return (
+                  <label 
+                    key={carne.id}
+                    className={`flex items-center p-2 rounded border text-sm ${
+                      selectedOptions.carnes.includes(carne.nome) ? 
+                      'border-green-500 bg-green-50' : 'border-gray-200'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedOptions.carnes.includes(carne.nome)}
+                      onChange={() => handleOptionChange("carnes", carne.nome)}
+                      className="mr-2"
+                      disabled={isDisabled}
+                    />
+                    {carne.nome}
+                    {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
+                  </label>
+                );
+              })}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {selectedOptions.carnes.some(c => {
+                const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
+                return carne?.soMaminha;
+              }) ? (
+                "Selecionou a opção 'Só Maminha'"
+              ) : (
+                "Selecione 2 carnes ou a opção 'Só Maminha'"
+              )}
+            </p>
+          </div>
+        )}
 
                 {item.opcoes.acompanhamentos && (
                   <div className="mb-4">
@@ -635,25 +728,62 @@ const MenuItem = ({ item, onAdd }) => {
 
                 {item.opcoes.bebidas && (
                   <div className="mb-4">
-                    <h4 className="font-medium text-gray-700 mb-2">Bebida (opcional):</h4>
+                    <h4 className="font-medium text-gray-700 mb-2">Bebida {item.tipo === "combo" ? "incluída" : "(opcional)"}:</h4>
                     <div className="grid grid-cols-2 gap-2">
                       {item.opcoes.bebidas.map((bebida) => (
+                        <div key={bebida.id}>
+                          <label 
+                            className={`flex items-center p-2 rounded border text-sm ${
+                              selectedOptions.bebida === bebida.nome ? 
+                              'border-green-500 bg-green-50' : 'border-gray-200'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="bebida"
+                              checked={selectedOptions.bebida === bebida.nome}
+                              onChange={() => handleOptionChange("bebida", bebida.nome)}
+                              className="mr-2"
+                            />
+                            <div className="flex items-center">
+                              {bebida.imagem && (
+                                <img 
+                                  src={bebida.imagem} 
+                                  alt={bebida.nome}
+                                  className="w-8 h-8 rounded-full object-cover mr-2"
+                                />
+                              )}
+                              <div>
+                                {bebida.nome}
+                                {bebida.precoExtra > 0 && ` (+€${bebida.precoExtra.toFixed(2)})`}
+                              </div>
+                            </div>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {item.opcoes.toppings && (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700 mb-2">Toppings (opcional):</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.opcoes.toppings.map((topping) => (
                         <label 
-                          key={bebida.id}
+                          key={topping.id}
                           className={`flex items-center p-2 rounded border text-sm ${
-                            selectedOptions.bebida === bebida.nome ? 
+                            selectedOptions.toppings.includes(topping.nome) ? 
                             'border-green-500 bg-green-50' : 'border-gray-200'
                           }`}
                         >
                           <input
-                            type="radio"
-                            name="bebida"
-                            checked={selectedOptions.bebida === bebida.nome}
-                            onChange={() => handleOptionChange("bebida", bebida.nome)}
+                            type="checkbox"
+                            checked={selectedOptions.toppings.includes(topping.nome)}
+                            onChange={() => handleOptionChange("toppings", topping.nome)}
                             className="mr-2"
                           />
-                          {bebida.nome}
-                          {bebida.precoExtra > 0 && ` (+€${bebida.precoExtra.toFixed(2)})`}
+                          {topping.nome}
                         </label>
                       ))}
                     </div>
@@ -722,6 +852,9 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
                     <p><span className="font-medium">Salada:</span> {item.selectedOptions.salada}</p>
                   )}
                   {item.selectedOptions.bebida && <p><span className="font-medium">Bebida:</span> {item.selectedOptions.bebida}</p>}
+                  {item.selectedOptions.toppings?.length > 0 && (
+                    <p><span className="font-medium">Toppings:</span> {item.selectedOptions.toppings.join(", ")}</p>
+                  )}
                 </div>
               )}
             </div>
@@ -806,7 +939,8 @@ const CheckoutForm = ({
   entrega, 
   setEntrega,
   metodoPagamento,
-  setMetodoPagamento
+  setMetodoPagamento,
+  setIsCartOpen
 }) => {
   const [errors, setErrors] = useState({});
   const [mbwayPhone, setMbwayPhone] = useState('');
@@ -838,12 +972,15 @@ const CheckoutForm = ({
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">Finalizar Pedido</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Finalizar Pedido</h2>
+      </div>
       
       <div className="mb-8 bg-gray-50 p-4 rounded-lg">
         <h3 className="font-semibold text-lg text-gray-700 mb-3 flex items-center">
           <ShoppingCart className="mr-2" /> Resumo do Pedido
         </h3>
+        
         <div className="space-y-3">
           {cart.map((item, index) => (
             <div key={index} className="flex justify-between border-b pb-2">
@@ -862,10 +999,12 @@ const CheckoutForm = ({
             <span>Subtotal:</span>
             <span>€{(total - (entrega ? 4 : 0)).toFixed(2)}</span>
           </div>
-          <div className="flex justify-between">
-            <span>Taxa de Entrega:</span>
-            <span>{entrega ? "€4.00" : "Grátis"}</span>
-          </div>
+          {entrega && (
+            <div className="flex justify-between">
+              <span>Taxa de Entrega:</span>
+              <span>€4.00</span>
+            </div>
+          )}
           <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-200">
             <span>Total:</span>
             <span>€{total.toFixed(2)}</span>
@@ -1068,7 +1207,7 @@ const CheckoutForm = ({
             onClick={onBack}
             className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors"
           >
-            Voltar ao Carrinho
+            Voltar ao Cardápio
           </button>
           <button
             type="submit"
@@ -1143,7 +1282,7 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
             <p className="font-medium mb-1">Atenção:</p>
             <p>
               Caso não receba a confirmação no WhatsApp em 2 minutos, 
-              por favor entre em contato conosco pelo número (93) 373-7672.
+              por favor entre em contato connosco pelo número (93) 373-7672.
             </p>
           </div>
         </div>
@@ -1162,64 +1301,81 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
 // ========== COMPONENTE FOOTER ========== //
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-200 py-8">
+    <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center">
-          <div className="mb-6 text-center">
-            <h3 className="text-lg font-bold text-gray-800 mb-2">Churrascaria Gaúcha</h3>
-            <p className="text-gray-600">O melhor churrasco da região</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Contact Section */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold mb-4">Contactos</h3>
+            <div className="flex items-start">
+              <MapPin className="text-green-400 mr-3 mt-1" size={20} />
+              <div>
+                <p className="font-medium">Endereço</p>
+                <p className="text-gray-300">Estr. de Alvor, São Sebastião</p>
+                <p className="text-gray-300">8500-769 Portimão</p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <Phone className="text-green-400 mr-3" size={20} />
+              <a href="tel:+351933737672" className="hover:text-green-400 transition-colors">
+                (93) 373-7672
+              </a>
+            </div>
+            <div className="flex space-x-4 pt-2">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
+                className="text-white hover:text-green-400 transition-colors">
+                <Instagram size={24} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
+                className="text-white hover:text-green-400 transition-colors">
+                <Facebook size={24} />
+              </a>
+            </div>
           </div>
           
-          <div className="mb-6 w-full max-w-md">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-800 mb-3 flex items-center justify-center">
-                  <Clock className="mr-2" /> Horário
-                </h4>
-                <div className="text-sm text-gray-600 space-y-1">
-                  <p>Segunda: Fechado</p>
-                  <p>Terça a Sábado:</p>
-                  <p>12:00 - 14:45 | 19:00 - 21:30</p>
-                  <p>Domingo: 12:00 - 14:45</p>
-                </div>
+          {/* Hours Section */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">Horário</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between border-b border-gray-700 pb-2">
+                <span className="text-gray-300">Segunda-feira:</span>
+                <span className="font-medium">Fechado</span>
               </div>
-              
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-800 mb-3 flex items-center justify-center">
-                  <MapPin className="mr-2" /> Endereço
-                </h4>
-                <a 
-                  href="https://www.waze.com/ul?ll=37.13860,-8.53750&navigate=yes" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-600 hover:text-green-600"
-                >
-                  Estr. de Alvor, São Sebastião,<br />8500-769 Portimão
-                </a>
+              <div className="flex justify-between border-b border-gray-700 pb-2">
+                <span className="text-gray-300">Terça a Sábado:</span>
+                <span className="font-medium">12:00 - 14:45</span>
               </div>
-              
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-800 mb-3 flex items-center justify-center">
-                  <Phone className="mr-2" /> Contato
-                </h4>
-                <div className="text-sm text-gray-600">
-                  <p>(93) 373-7672</p>
-                  <div className="flex justify-center space-x-4 mt-2">
-                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-600">
-                      <Instagram size={20} />
-                    </a>
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-blue-600">
-                      <Facebook size={20} />
-                    </a>
-                  </div>
-                </div>
+              <div className="flex justify-between border-b border-gray-700 pb-2">
+                <span className="text-gray-300">Terça a Sábado:</span>
+                <span className="font-medium">19:00 - 21:30</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-300">Domingo:</span>
+                <span className="font-medium">12:00 - 14:45</span>
               </div>
             </div>
           </div>
           
-          <div className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Churrascaria Gaúcha. Todos os direitos reservados.
+          {/* Map Section */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">Localização</h3>
+            <div className="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg overflow-hidden">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3190.569347476754!2d-8.53968968431738!3d37.13859997984561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA4JzE5LjAiTiA4wrAzMiczMTQuMCJX!5e0!3m2!1spt-PT!2spt!4v1620000000000!5m2!1spt-PT!2spt" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }}
+                allowFullScreen="" 
+                loading="lazy"
+                className="min-h-[200px]"
+              ></iframe>
+            </div>
           </div>
+        </div>
+        
+        {/* Copyright */}
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+          © {new Date().getFullYear()} Churrascaria Gaúcha. Todos os direitos reservados.
         </div>
       </div>
     </footer>
@@ -1307,28 +1463,31 @@ export default function OrderBot() {
 
     // Formatar os itens do pedido
     const itemsText = cart.map(item => {
-      let itemText = `*${item.quantidade}x ${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
+      let itemText = `${item.quantidade}x *${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
       if (item.selectedOptions) {
         if (item.selectedOptions.carnes?.length > 0) {
-          itemText += `%0A  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
+          itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
         }
         if (item.selectedOptions.acompanhamentos) {
-          itemText += `%0A  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos}`;
+          itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos}`;
         }
         if (item.selectedOptions.salada) {
-          itemText += `%0A  🥗 *Salada:* ${item.selectedOptions.salada}`;
+          itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
         }
         if (item.selectedOptions.bebida) {
-          itemText += `%0A  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
+          itemText += `\n  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
+        }
+        if (item.selectedOptions.toppings?.length > 0) {
+          itemText += `\n  🍓 *Toppings:* ${item.selectedOptions.toppings.join(", ")}`;
         }
       }
       return itemText;
-    }).join('%0A%0A');
+    }).join('\n\n');
 
     // Formatar o método de pagamento
     let paymentMethod = '';
     if (metodoPagamento === 'mbway') {
-      paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})%0ANúmero do restaurante: 933 737 672`;
+      paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})\nNúmero do restaurante: 933 737 672`;
     } else if (metodoPagamento === 'cartao') {
       paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
     } else if (metodoPagamento === 'multibanco') {
@@ -1338,23 +1497,27 @@ export default function OrderBot() {
     }
 
     // Mensagem completa
-    const message = `*📋 PEDIDO #${orderNumber}*%0A*Churrascaria Gaúcha*%0A%0A` +
-      `📅 *Data:* ${formattedDate}%0A` +
-      `⏰ *Hora:* ${formattedTime}%0A%0A` +
-      `*🍽️ ITENS DO PEDIDO*%0A${itemsText}%0A%0A` +
-      `*💰 DETALHES DO PEDIDO*%0A` +
-      `• Subtotal: €${subtotal.toFixed(2)}%0A` +
-      `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}%0A` +
-      `• *Total: €${total.toFixed(2)}*%0A%0A` +
-      `*👤 INFORMAÇÕES DO CLIENTE*%0A` +
-      `• Nome: ${nome}%0A` +
-      `• Contato: ${contato}%0A` +
-      `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}%0A` +
-      `• Pagamento: ${paymentMethod}%0A%0A` +
-      (observacoes ? `*📝 OBSERVAÇÕES*%0A${observacoes}%0A%0A` : '') +
-      `_Obrigado pelo seu pedido! Entraremos em contato em breve para confirmar._`;
+    const message = `*📋 NOVO PEDIDO #${orderNumber} - CHURRASCARIA GAÚCHA*\n\n` +
+      `📅 *Data:* ${formattedDate}\n` +
+      `⏰ *Hora:* ${formattedTime}\n\n` +
+      `*🍽️ ITENS DO PEDIDO*\n${itemsText}\n\n` +
+      `*💰 TOTAL DO PEDIDO*\n` +
+      `• Subtotal: €${subtotal.toFixed(2)}\n` +
+      `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}\n` +
+      `• *Total a pagar: €${total.toFixed(2)}*\n\n` +
+      `*👤 INFORMAÇÕES DO CLIENTE*\n` +
+      `• Nome: ${nome}\n` +
+      `• Contato: ${contato}\n` +
+      `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}\n` +
+      `• Pagamento: ${paymentMethod}\n\n` +
+      (observacoes ? `*📝 OBSERVAÇÕES*\n${observacoes}\n\n` : '') +
+      `_Obrigado pelo seu pedido! Entraremos em contacto em breve para confirmar._`;
 
-    window.open(`https://wa.me/351933737672?text=${encodeURIComponent(message)}`);
+    // Codificar a mensagem para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Abrir WhatsApp com a mensagem formatada
+    window.open(`https://wa.me/351933737672?text=${encodedMessage}`);
     setStep(3);
   };
 
@@ -1373,7 +1536,10 @@ export default function OrderBot() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar profissional */}
-      <Navbar cart={cart} setIsCartOpen={setIsCartOpen} />
+      <Navbar 
+        cart={cart} 
+        setIsCartOpen={setIsCartOpen}
+      />
       
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 pb-24">
@@ -1408,11 +1574,11 @@ export default function OrderBot() {
 
                     {openCategory === category.id && (
                       <div className="px-5 pb-5">
-                        {/* Subcategories for drinks */}
+                        {/* Subcategories for drinks and others */}
                         {category.subcategorias ? (
                           category.subcategorias.map((subcat) => (
                             <div key={subcat.nome} className="mb-6">
-                              <h4 className="font-medium text-gray-700 mb-3 text-sm uppercase tracking-wider">
+                              <h4 className="font-medium text-gray-700 text-sm uppercase tracking-wider mb-3">
                                 {subcat.nome}
                               </h4>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1454,7 +1620,7 @@ export default function OrderBot() {
                 {cart.length === 0 ? (
                   <div className="text-center py-8">
                     <ShoppingCart size={48} className="mx-auto text-gray-300 mb-4" />
-                    <p className="text-gray-500">Seu carrinho está vazio</p>
+                    <p className="text-gray-500">O seu carrinho está vazio</p>
                     <p className="text-gray-400 text-sm mt-2">Adicione itens para continuar</p>
                   </div>
                 ) : (
@@ -1477,10 +1643,12 @@ export default function OrderBot() {
                         <span>Subtotal:</span>
                         <span>€{subtotal.toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between mb-1">
-                        <span>Taxa de Entrega:</span>
-                        <span>{entrega ? "€4.00" : "Grátis"}</span>
-                      </div>
+                      {entrega && (
+                        <div className="flex justify-between mb-1">
+                          <span>Taxa de Entrega:</span>
+                          <span>€4.00</span>
+                        </div>
+                      )}
                       <div className="flex justify-between font-bold text-lg mt-3 pt-2 border-t border-gray-200">
                         <span>Total:</span>
                         <span>€{total.toFixed(2)}</span>
@@ -1519,6 +1687,7 @@ export default function OrderBot() {
             setEntrega={setEntrega}
             metodoPagamento={metodoPagamento}
             setMetodoPagamento={setMetodoPagamento}
+            setIsCartOpen={setIsCartOpen}
           />
         )}
 
@@ -1531,7 +1700,7 @@ export default function OrderBot() {
       </main>
 
       {/* Mobile Cart Drawer */}
-      {isCartOpen && step === 1 && (
+      {isCartOpen && (
         <>
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
@@ -1554,10 +1723,18 @@ export default function OrderBot() {
             {cart.length === 0 ? (
               <div className="text-center py-8">
                 <ShoppingCart size={48} className="mx-auto text-gray-300 mb-4" />
-                <p className="text-gray-500">Seu carrinho está vazio</p>
+                <p className="text-gray-500">O seu carrinho está vazio</p>
                 <p className="text-gray-400 text-sm mt-2">Adicione itens para continuar</p>
                 <button
-                  onClick={() => setIsCartOpen(false)}
+                  onClick={() => {
+                    setIsCartOpen(false);
+                    if (step === 1) {
+                      // Se estiver na página do cardápio, apenas fecha o carrinho
+                    } else {
+                      // Se estiver na página de checkout, volta para o cardápio
+                      setStep(1);
+                    }
+                  }}
                   className="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-medium transition-colors"
                 >
                   Voltar ao Cardápio
@@ -1583,25 +1760,36 @@ export default function OrderBot() {
                     <span>Subtotal:</span>
                     <span>€{subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between mb-1">
-                    <span>Taxa de Entrega:</span>
-                    <span>{entrega ? "€4.00" : "Grátis"}</span>
-                  </div>
+                  {entrega && (
+                    <div className="flex justify-between mb-1">
+                      <span>Taxa de Entrega:</span>
+                      <span>€4.00</span>
+                    </div>
+                  )}
                   <div className="flex justify-between font-bold text-lg mt-3 pt-2 border-t border-gray-200">
                     <span>Total:</span>
                     <span>€{total.toFixed(2)}</span>
                   </div>
                 </div>
 
-                <button
-                  onClick={() => {
-                    setStep(2);
-                    setIsCartOpen(false);
-                  }}
-                  className="fixed bottom-4 left-4 right-4 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium shadow-md"
-                >
-                  Finalizar Pedido
-                </button>
+                {step === 1 ? (
+                  <button
+                    onClick={() => {
+                      setStep(2);
+                      setIsCartOpen(false);
+                    }}
+                    className="fixed bottom-4 left-4 right-4 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium shadow-md"
+                  >
+                    Finalizar Pedido
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setIsCartOpen(false)}
+                    className="fixed bottom-4 left-4 right-4 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium shadow-md"
+                  >
+                    Voltar para Finalização
+                  </button>
+                )}
               </div>
             )}
           </div>
