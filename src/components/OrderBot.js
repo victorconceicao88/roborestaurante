@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
   ShoppingCart, X, Check, MapPin, Phone, User,
-  CreditCard, Clock, Info, Smartphone, Loader2
+  CreditCard, Clock, Info, Smartphone, Loader2, 
+  Instagram, Facebook, Calendar, AlertCircle
 } from 'lucide-react';
-
-// Restante do código permanece exatamente igual...
-
 
 // ========== DADOS DA EMENTA ========== //
 const ementa = [
@@ -294,67 +292,8 @@ const ementa = [
   }
 ];
 
-// ========== COMPONENTE PROMO BANNER ========== //
-const PromoBanner = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  
-  useEffect(() => {
-    // Verifica se é sábado
-    const today = new Date();
-    if (today.getDay() === 6) { // 6 = sábado
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 1000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, []);
-  
-  if (!isVisible) return null;
-  
-  return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-green-600 to-green-700 text-white p-4 z-40 animate-slide-up">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="bg-white text-green-700 rounded-full p-2 mr-3">
-            <Info size={20} />
-          </div>
-          <div>
-            <h3 className="font-bold">Promoção Especial de Sábado!</h3>
-            <p className="text-sm">Feijoada Completa por apenas €12.00</p>
-          </div>
-        </div>
-        <button 
-          onClick={() => setIsVisible(false)}
-          className="text-white hover:text-green-100"
-        >
-          <X size={20} />
-        </button>
-      </div>
-    </div>
-  );
-};
-
 // ========== COMPONENTE NAVBAR ========== //
 const Navbar = ({ cart, setIsCartOpen }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  const scrollToSection = (sectionId) => {
-    setIsMenuOpen(false);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 100,
-        behavior: 'smooth'
-      });
-    } else if (sectionId === 'inicio') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
-  };
-  
   return (
     <header className="bg-white shadow-sm sticky top-0 z-40">
       <div className="container mx-auto px-4">
@@ -366,64 +305,10 @@ const Navbar = ({ cart, setIsCartOpen }) => {
             </h1>
           </div>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
-            <button 
-              onClick={() => scrollToSection('inicio')}
-              className="text-gray-700 hover:text-green-600 transition-colors"
-            >
-              Início
-            </button>
-            <button 
-              onClick={() => scrollToSection('cardapio')}
-              className="text-gray-700 hover:text-green-600 transition-colors"
-            >
-              Cardápio
-            </button>
-            <button 
-              onClick={() => scrollToSection('bebidas')}
-              className="text-gray-700 hover:text-green-600 transition-colors"
-            >
-              Bebidas
-            </button>
-            <button 
-              onClick={() => scrollToSection('promocoes')}
-              className="text-gray-700 hover:text-green-600 transition-colors"
-            >
-              Promoções
-            </button>
-          </nav>
-          
-          {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-4 md:hidden">
-            <button 
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-gray-700 hover:text-gray-900"
-            >
-              <ShoppingCart size={24} />
-              {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cart.reduce((sum, item) => sum + item.quantidade, 0)}
-                </span>
-              )}
-            </button>
-            
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-700 hover:text-gray-900"
-            >
-              {isMenuOpen ? <X size={24} /> : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
-            </button>
-          </div>
-          
-          {/* Desktop Cart Button */}
+          {/* Cart Button */}
           <button 
             onClick={() => setIsCartOpen(true)}
-            className="hidden md:flex items-center relative p-2 text-gray-700 hover:text-gray-900"
+            className="relative p-2 text-gray-700 hover:text-gray-900"
           >
             <ShoppingCart size={24} />
             {cart.length > 0 && (
@@ -431,41 +316,8 @@ const Navbar = ({ cart, setIsCartOpen }) => {
                 {cart.reduce((sum, item) => sum + item.quantidade, 0)}
               </span>
             )}
-            <span className="ml-2 hidden lg:inline">Carrinho</span>
           </button>
         </div>
-        
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white py-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-3">
-              <button 
-                onClick={() => scrollToSection('inicio')}
-                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
-              >
-                Início
-              </button>
-              <button 
-                onClick={() => scrollToSection('cardapio')}
-                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
-              >
-                Cardápio
-              </button>
-              <button 
-                onClick={() => scrollToSection('bebidas')}
-                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
-              >
-                Bebidas
-              </button>
-              <button 
-                onClick={() => scrollToSection('promocoes')}
-                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
-              >
-                Promoções
-              </button>
-            </nav>
-          </div>
-        )}
       </div>
     </header>
   );
@@ -588,6 +440,7 @@ const MenuItem = ({ item, onAdd }) => {
   });
   const [addedToCart, setAddedToCart] = useState(false);
   const [validationError, setValidationError] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleOptionChange = (type, value) => {
     if (type === "carnes") {
@@ -670,120 +523,142 @@ const MenuItem = ({ item, onAdd }) => {
         <div className="flex justify-between items-start">
           <div className="flex-1">
             <h3 className="font-bold text-xl text-gray-800 mb-1">{item.nome}</h3>
-            <p className="text-gray-600 text-sm mb-3">{item.descricao}</p>
+            <p className="text-gray-600 text-sm mb-3 line-clamp-2">{item.descricao}</p>
             <p className="text-green-600 font-bold text-lg">€{item.preco.toFixed(2)}</p>
           </div>
         </div>
 
-        {item.opcoes && (
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            {item.opcoes.carnes && (
-              <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Carnes (selecione 2):</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {item.opcoes.carnes.map((carne) => (
-                    <label 
-                      key={carne.id}
-                      className={`flex items-center p-2 rounded border text-sm ${
-                        selectedOptions.carnes.includes(carne.nome) ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedOptions.carnes.includes(carne.nome)}
-                        onChange={() => handleOptionChange("carnes", carne.nome)}
-                        className="mr-2"
-                        disabled={
-                          selectedOptions.carnes.length >= 2 && 
-                          !selectedOptions.carnes.includes(carne.nome)
-                        }
-                      />
-                      {carne.nome}
-                      {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
-                    </label>
-                  ))}
-                </div>
-              </div>
+        {item.tipo === "churrasco" && (
+          <button 
+            onClick={() => setShowDetails(!showDetails)}
+            className="text-green-600 text-sm font-medium mt-2 flex items-center"
+          >
+            {showDetails ? (
+              <>
+                <ChevronUp size={16} className="mr-1" /> Ver menos
+              </>
+            ) : (
+              <>
+                <ChevronDown size={16} className="mr-1" /> Ver mais detalhes
+              </>
             )}
+          </button>
+        )}
 
-            {item.opcoes.acompanhamentos && (
-              <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Acompanhamentos (selecione 1):</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {item.opcoes.acompanhamentos.map((acomp) => (
-                    <label 
-                      key={acomp.id}
-                      className={`flex items-center p-2 rounded border text-sm ${
-                        selectedOptions.acompanhamentos === acomp.nome ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="acompanhamentos"
-                        checked={selectedOptions.acompanhamentos === acomp.nome}
-                        onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
-                        className="mr-2"
-                      />
-                      {acomp.nome}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
+        {showDetails && item.tipo === "churrasco" && (
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <p className="text-gray-600 mb-4">{item.descricao}</p>
+            
+            {item.opcoes && (
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                {item.opcoes.carnes && (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700 mb-2">Carnes (selecione 2):</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.opcoes.carnes.map((carne) => (
+                        <label 
+                          key={carne.id}
+                          className={`flex items-center p-2 rounded border text-sm ${
+                            selectedOptions.carnes.includes(carne.nome) ? 
+                            'border-green-500 bg-green-50' : 'border-gray-200'
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedOptions.carnes.includes(carne.nome)}
+                            onChange={() => handleOptionChange("carnes", carne.nome)}
+                            className="mr-2"
+                            disabled={
+                              selectedOptions.carnes.length >= 2 && 
+                              !selectedOptions.carnes.includes(carne.nome)
+                            }
+                          />
+                          {carne.nome}
+                          {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-            {item.opcoes.saladas && (
-              <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Salada (selecione 1):</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {item.opcoes.saladas.map((salada) => (
-                    <label 
-                      key={salada.id}
-                      className={`flex items-center p-2 rounded border text-sm ${
-                        selectedOptions.salada === salada.nome ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="salada"
-                        checked={selectedOptions.salada === salada.nome}
-                        onChange={() => handleOptionChange("salada", salada.nome)}
-                        className="mr-2"
-                      />
-                      {salada.nome}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
+                {item.opcoes.acompanhamentos && (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700 mb-2">Acompanhamentos (selecione 1):</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.opcoes.acompanhamentos.map((acomp) => (
+                        <label 
+                          key={acomp.id}
+                          className={`flex items-center p-2 rounded border text-sm ${
+                            selectedOptions.acompanhamentos === acomp.nome ? 
+                            'border-green-500 bg-green-50' : 'border-gray-200'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="acompanhamentos"
+                            checked={selectedOptions.acompanhamentos === acomp.nome}
+                            onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
+                            className="mr-2"
+                          />
+                          {acomp.nome}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-            {item.opcoes.bebidas && (
-              <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Bebida {item.tipo === "combo" ? "(obrigatória)" : "(opcional)"}:</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {item.opcoes.bebidas.map((bebida) => (
-                    <label 
-                      key={bebida.id}
-                      className={`flex items-center p-2 rounded border text-sm ${
-                        selectedOptions.bebida === bebida.nome ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="bebida"
-                        checked={selectedOptions.bebida === bebida.nome}
-                        onChange={() => handleOptionChange("bebida", bebida.nome)}
-                        className="mr-2"
-                        required={item.tipo === "combo"}
-                      />
-                      {bebida.nome}
-                      {bebida.precoExtra > 0 && ` (+€${bebida.precoExtra.toFixed(2)})`}
-                    </label>
-                  ))}
-                </div>
+                {item.opcoes.saladas && (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700 mb-2">Salada (selecione 1):</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.opcoes.saladas.map((salada) => (
+                        <label 
+                          key={salada.id}
+                          className={`flex items-center p-2 rounded border text-sm ${
+                            selectedOptions.salada === salada.nome ? 
+                            'border-green-500 bg-green-50' : 'border-gray-200'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="salada"
+                            checked={selectedOptions.salada === salada.nome}
+                            onChange={() => handleOptionChange("salada", salada.nome)}
+                            className="mr-2"
+                          />
+                          {salada.nome}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {item.opcoes.bebidas && (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700 mb-2">Bebida (opcional):</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.opcoes.bebidas.map((bebida) => (
+                        <label 
+                          key={bebida.id}
+                          className={`flex items-center p-2 rounded border text-sm ${
+                            selectedOptions.bebida === bebida.nome ? 
+                            'border-green-500 bg-green-50' : 'border-gray-200'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="bebida"
+                            checked={selectedOptions.bebida === bebida.nome}
+                            onChange={() => handleOptionChange("bebida", bebida.nome)}
+                            className="mr-2"
+                          />
+                          {bebida.nome}
+                          {bebida.precoExtra > 0 && ` (+€${bebida.precoExtra.toFixed(2)})`}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -887,6 +762,35 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
   );
 };
 
+// ========== COMPONENTE MBWAY PAYMENT ========== //
+const MbwayPayment = ({ phone, setPhone, errors, setErrors }) => {
+  return (
+    <div className="mt-4">
+      <label className="block text-gray-700 mb-1">Número de Telemóvel MBWay</label>
+      <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+        <span className="px-3 py-2 bg-gray-100 text-gray-700">+351</span>
+        <input
+          type="tel"
+          value={phone}
+          onChange={(e) => {
+            setPhone(e.target.value);
+            if (errors.mbwayPhone) {
+              setErrors({...errors, mbwayPhone: ''});
+            }
+          }}
+          placeholder="9XXXXXXXX"
+          className="flex-1 p-2 border-0 focus:ring-0"
+        />
+      </div>
+      {errors.mbwayPhone && <p className="text-red-500 text-sm mt-1">{errors.mbwayPhone}</p>}
+      <div className="mt-2 bg-blue-50 p-3 rounded-md text-sm text-blue-700">
+        <p>Será enviado um pedido de pagamento para o número indicado.</p>
+        <p className="font-medium mt-1">Número do restaurante: 933 737 672</p>
+      </div>
+    </div>
+  );
+};
+
 // ========== COMPONENTE CHECKOUT FORM ========== //
 const CheckoutForm = ({ 
   cart, 
@@ -905,6 +809,8 @@ const CheckoutForm = ({
   setMetodoPagamento
 }) => {
   const [errors, setErrors] = useState({});
+  const [mbwayPhone, setMbwayPhone] = useState('');
+  const [observacoes, setObservacoes] = useState('');
 
   const validateForm = () => {
     const newErrors = {};
@@ -912,6 +818,12 @@ const CheckoutForm = ({
     if (!contato.trim()) newErrors.contato = "Por favor, insira um contato";
     if (entrega && !endereco.trim()) newErrors.endereco = "Por favor, insira o endereço";
     if (!metodoPagamento) newErrors.metodoPagamento = "Por favor, selecione o método de pagamento";
+    
+    if (metodoPagamento === 'mbway' && !mbwayPhone.trim()) {
+      newErrors.mbwayPhone = "Por favor, insira o número MBWay";
+    } else if (metodoPagamento === 'mbway' && !/^9[0-9]{8}$/.test(mbwayPhone)) {
+      newErrors.mbwayPhone = "Por favor, insira um número válido (9 dígitos)";
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -1019,6 +931,20 @@ const CheckoutForm = ({
               {errors.endereco && <p className="text-red-500 text-sm mt-1">{errors.endereco}</p>}
             </div>
           )}
+
+          <div className="mt-4">
+            <label className="block text-gray-700 mb-1 flex items-center">
+              <Info size={16} className="mr-2" />
+              Observações (opcional)
+            </label>
+            <textarea
+              value={observacoes}
+              onChange={(e) => setObservacoes(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Alguma observação sobre o pedido?"
+              rows={2}
+            />
+          </div>
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg">
@@ -1111,6 +1037,15 @@ const CheckoutForm = ({
               </div>
             </div>
             {errors.metodoPagamento && <p className="text-red-500 text-sm mt-2">{errors.metodoPagamento}</p>}
+
+            {metodoPagamento === 'mbway' && (
+              <MbwayPayment 
+                phone={mbwayPhone} 
+                setPhone={setMbwayPhone} 
+                errors={errors} 
+                setErrors={setErrors} 
+              />
+            )}
           </div>
         </div>
 
@@ -1149,6 +1084,17 @@ const CheckoutForm = ({
 
 // ========== COMPONENTE CONFIRMATION ========== //
 const Confirmation = ({ orderNumber, onNewOrder }) => {
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString('pt-PT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  const formattedTime = now.toLocaleTimeString('pt-PT', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-8 text-center border border-gray-200 max-w-md mx-auto">
       <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
@@ -1160,6 +1106,15 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
       <p className="text-3xl font-bold text-green-600 mb-6">#{orderNumber}</p>
       
       <div className="bg-blue-50 p-5 rounded-lg text-left mb-6">
+        <div className="flex items-start mb-4">
+          <Calendar size={20} className="text-blue-600 mr-3 mt-0.5" />
+          <div>
+            <h3 className="font-medium text-blue-800 mb-1">Data e Hora</h3>
+            <p className="text-blue-700 text-sm">
+              {formattedDate} às {formattedTime}
+            </p>
+          </div>
+        </div>
         <div className="flex items-start mb-4">
           <Clock size={20} className="text-blue-600 mr-3 mt-0.5" />
           <div>
@@ -1182,10 +1137,16 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
       </div>
       
       <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100 text-sm text-yellow-800 mb-6">
-        <p>
-          <span className="font-medium">Atenção:</span> Caso não receba a confirmação no WhatsApp em 2 minutos, 
-          por favor entre em contato conosco pelo número (93) 373-7672.
-        </p>
+        <div className="flex items-start">
+          <AlertCircle size={20} className="text-yellow-600 mr-3 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-medium mb-1">Atenção:</p>
+            <p>
+              Caso não receba a confirmação no WhatsApp em 2 minutos, 
+              por favor entre em contato conosco pelo número (93) 373-7672.
+            </p>
+          </div>
+        </div>
       </div>
       
       <button
@@ -1195,6 +1156,73 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
         Fazer Novo Pedido
       </button>
     </div>
+  );
+};
+
+// ========== COMPONENTE FOOTER ========== //
+const Footer = () => {
+  return (
+    <footer className="bg-white border-t border-gray-200 py-8">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center">
+          <div className="mb-6 text-center">
+            <h3 className="text-lg font-bold text-gray-800 mb-2">Churrascaria Gaúcha</h3>
+            <p className="text-gray-600">O melhor churrasco da região</p>
+          </div>
+          
+          <div className="mb-6 w-full max-w-md">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <h4 className="font-semibold text-gray-800 mb-3 flex items-center justify-center">
+                  <Clock className="mr-2" /> Horário
+                </h4>
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p>Segunda: Fechado</p>
+                  <p>Terça a Sábado:</p>
+                  <p>12:00 - 14:45 | 19:00 - 21:30</p>
+                  <p>Domingo: 12:00 - 14:45</p>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <h4 className="font-semibold text-gray-800 mb-3 flex items-center justify-center">
+                  <MapPin className="mr-2" /> Endereço
+                </h4>
+                <a 
+                  href="https://www.waze.com/ul?ll=37.13860,-8.53750&navigate=yes" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-600 hover:text-green-600"
+                >
+                  Estr. de Alvor, São Sebastião,<br />8500-769 Portimão
+                </a>
+              </div>
+              
+              <div className="text-center">
+                <h4 className="font-semibold text-gray-800 mb-3 flex items-center justify-center">
+                  <Phone className="mr-2" /> Contato
+                </h4>
+                <div className="text-sm text-gray-600">
+                  <p>(93) 373-7672</p>
+                  <div className="flex justify-center space-x-4 mt-2">
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-600">
+                      <Instagram size={20} />
+                    </a>
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-blue-600">
+                      <Facebook size={20} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-xs text-gray-500">
+            © {new Date().getFullYear()} Churrascaria Gaúcha. Todos os direitos reservados.
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 
@@ -1209,6 +1237,8 @@ export default function OrderBot() {
   const [contato, setContato] = useState("");
   const [entrega, setEntrega] = useState(false);
   const [metodoPagamento, setMetodoPagamento] = useState("");
+  const [mbwayPhone, setMbwayPhone] = useState("");
+  const [observacoes, setObservacoes] = useState("");
   const [orderNumber, setOrderNumber] = useState(null);
 
   useEffect(() => {
@@ -1264,40 +1294,67 @@ export default function OrderBot() {
   const total = subtotal + deliveryFee;
 
   const sendOrder = () => {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    const formattedTime = now.toLocaleTimeString('pt-PT', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    // Formatar os itens do pedido
     const itemsText = cart.map(item => {
-      let itemText = `${item.quantidade}x ${item.nome} - €${(item.precoFinal || item.preco).toFixed(2)}`;
+      let itemText = `*${item.quantidade}x ${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
       if (item.selectedOptions) {
         if (item.selectedOptions.carnes?.length > 0) {
-          itemText += `%0A  • Carnes: ${item.selectedOptions.carnes.join(", ")}`;
+          itemText += `%0A  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
         }
         if (item.selectedOptions.acompanhamentos) {
-          itemText += `%0A  • Acomp: ${item.selectedOptions.acompanhamentos}`;
+          itemText += `%0A  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos}`;
         }
         if (item.selectedOptions.salada) {
-          itemText += `%0A  • Salada: ${item.selectedOptions.salada}`;
+          itemText += `%0A  🥗 *Salada:* ${item.selectedOptions.salada}`;
         }
         if (item.selectedOptions.bebida) {
-          itemText += `%0A  • Bebida: ${item.selectedOptions.bebida}`;
+          itemText += `%0A  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
         }
       }
       return itemText;
-    }).join('%0A');
+    }).join('%0A%0A');
 
-    const message = `*PEDIDO #${orderNumber}*%0A%0A` +
-      `*ITENS:*%0A${itemsText}%0A%0A` +
-      `*DETALHES DO PEDIDO*%0A` +
+    // Formatar o método de pagamento
+    let paymentMethod = '';
+    if (metodoPagamento === 'mbway') {
+      paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})%0ANúmero do restaurante: 933 737 672`;
+    } else if (metodoPagamento === 'cartao') {
+      paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
+    } else if (metodoPagamento === 'multibanco') {
+      paymentMethod = '💳 *Multibanco* (Pagamento por referência MB)';
+    } else {
+      paymentMethod = '💵 *Dinheiro* (Com troco)';
+    }
+
+    // Mensagem completa
+    const message = `*📋 PEDIDO #${orderNumber}*%0A*Churrascaria Gaúcha*%0A%0A` +
+      `📅 *Data:* ${formattedDate}%0A` +
+      `⏰ *Hora:* ${formattedTime}%0A%0A` +
+      `*🍽️ ITENS DO PEDIDO*%0A${itemsText}%0A%0A` +
+      `*💰 DETALHES DO PEDIDO*%0A` +
       `• Subtotal: €${subtotal.toFixed(2)}%0A` +
       `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}%0A` +
       `• *Total: €${total.toFixed(2)}*%0A%0A` +
-      `*INFORMAÇÕES DO CLIENTE*%0A` +
+      `*👤 INFORMAÇÕES DO CLIENTE*%0A` +
       `• Nome: ${nome}%0A` +
       `• Contato: ${contato}%0A` +
-      `• Tipo: ${entrega ? `Entrega (${endereco})` : "Retirada no local"}%0A` +
-      `• Pagamento: ${metodoPagamento === 'mbway' ? 'MBWay' : 
-                     metodoPagamento === 'cartao' ? 'Cartão' : 
-                     metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}`;
+      `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}%0A` +
+      `• Pagamento: ${paymentMethod}%0A%0A` +
+      (observacoes ? `*📝 OBSERVAÇÕES*%0A${observacoes}%0A%0A` : '') +
+      `_Obrigado pelo seu pedido! Entraremos em contato em breve para confirmar._`;
 
-    window.open(`https://wa.me/351933737672?text=${message}`);
+    window.open(`https://wa.me/351933737672?text=${encodeURIComponent(message)}`);
     setStep(3);
   };
 
@@ -1308,6 +1365,8 @@ export default function OrderBot() {
     setContato("");
     setEntrega(false);
     setMetodoPagamento("");
+    setMbwayPhone("");
+    setObservacoes("");
     setStep(1);
   };
 
@@ -1316,16 +1375,13 @@ export default function OrderBot() {
       {/* Navbar profissional */}
       <Navbar cart={cart} setIsCartOpen={setIsCartOpen} />
       
-      {/* Banner de promoção animado */}
-      <PromoBanner />
-      
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 pb-24">
         {step === 1 && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Menu Section */}
             <div className="lg:col-span-2">
-              <h2 id="cardapio" className="text-2xl font-bold text-gray-800 mb-6">Cardápio</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Cardápio</h2>
               
               {/* Categories */}
               <div className="space-y-8">
@@ -1500,6 +1556,12 @@ export default function OrderBot() {
                 <ShoppingCart size={48} className="mx-auto text-gray-300 mb-4" />
                 <p className="text-gray-500">Seu carrinho está vazio</p>
                 <p className="text-gray-400 text-sm mt-2">Adicione itens para continuar</p>
+                <button
+                  onClick={() => setIsCartOpen(false)}
+                  className="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-medium transition-colors"
+                >
+                  Voltar ao Cardápio
+                </button>
               </div>
             ) : (
               <div className="pb-32">
@@ -1561,23 +1623,9 @@ export default function OrderBot() {
           </button>
         </div>
       )}
+
+      {/* Footer */}
+      {step !== 3 && <Footer />}
     </div>
   );
 }
-
-// Adicionando a animação do banner promocional
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slide-up {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  .animate-slide-up {
-    animation: slide-up 0.5s ease-out forwards;
-  }
-`;
-document.head.appendChild(style);
