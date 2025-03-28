@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
   ShoppingCart, X, Check, MapPin, Phone, User,
-  CreditCard, Clock, Info, Smartphone, ArrowRight, Loader2
+  CreditCard, Clock, Info, Smartphone, Loader2
 } from 'lucide-react';
+
+// Restante do código permanece exatamente igual...
 
 // ========== DADOS DA EMENTA ========== //
 const ementa = [
