@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
   ShoppingCart, X, Check, MapPin, Phone, User,
-  CreditCard, Clock, Info, Smartphone
+  CreditCard, Clock, Info, Smartphone, ArrowRight, Loader2
 } from 'lucide-react';
 
-// Dados da ementa atualizados
+// ========== DADOS DA EMENTA ========== //
 const ementa = [
   {
     id: 1,
-    nome: "🥩 Churrascos Premium",
+    nome: "Churrascos Premium",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop",
     itens: [
@@ -31,8 +31,17 @@ const ementa = [
           acompanhamentos: [
             { id: "a1", nome: "Arroz Branco" },
             { id: "a2", nome: "Feijão Tropeiro" },
-            { id: "a3", nome: "Farofa Crocante" },
-            { id: "a4", nome: "Vinagrete Fresco" }
+            { id: "a3", nome: "Farofa Crocante" }
+          ],
+          saladas: [
+            { id: "s1", nome: "Salada Mista" },
+            { id: "s2", nome: "Vinagrete" }
+          ],
+          bebidas: [
+            { id: "b1", nome: "Coca-Cola", precoExtra: 2.0 },
+            { id: "b2", nome: "Fanta", precoExtra: 2.0 },
+            { id: "b3", nome: "Guaraná", precoExtra: 2.0 },
+            { id: "b4", nome: "Ice Tea", precoExtra: 2.0 }
           ]
         }
       }
@@ -40,7 +49,7 @@ const ementa = [
   },
   {
     id: 2,
-    nome: "🥪 Sanduíches",
+    nome: "Sanduíches",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
     itens: [
@@ -83,7 +92,7 @@ const ementa = [
   },
   {
     id: 3,
-    nome: "🍱 Combos Especiais",
+    nome: "Combos Especiais",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop",
     itens: [
@@ -123,7 +132,7 @@ const ementa = [
   },
   {
     id: 4,
-    nome: "🍽️ Porções",
+    nome: "Porções",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500&auto=format&fit=crop",
     itens: [
@@ -201,12 +210,12 @@ const ementa = [
   },
   {
     id: 5,
-    nome: "🥤 Bebidas",
+    nome: "Bebidas",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=500&auto=format&fit=crop",
     subcategorias: [
       {
-        nome: "💧 Águas",
+        nome: "Águas",
         itens: [
           { 
             id: 5011, 
@@ -232,7 +241,7 @@ const ementa = [
         ]
       },
       {
-        nome: "🥤 Refrigerantes (lata)",
+        nome: "Refrigerantes (lata)",
         itens: [
           { 
             id: 5021, 
@@ -282,22 +291,310 @@ const ementa = [
   }
 ];
 
+// ========== COMPONENTE PROMO BANNER ========== //
+const PromoBanner = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    // Verifica se é sábado
+    const today = new Date();
+    if (today.getDay() === 6) { // 6 = sábado
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
+  
+  if (!isVisible) return null;
+  
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-green-600 to-green-700 text-white p-4 z-40 animate-slide-up">
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="flex items-center">
+          <div className="bg-white text-green-700 rounded-full p-2 mr-3">
+            <Info size={20} />
+          </div>
+          <div>
+            <h3 className="font-bold">Promoção Especial de Sábado!</h3>
+            <p className="text-sm">Feijoada Completa por apenas €12.00</p>
+          </div>
+        </div>
+        <button 
+          onClick={() => setIsVisible(false)}
+          className="text-white hover:text-green-100"
+        >
+          <X size={20} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ========== COMPONENTE NAVBAR ========== //
+const Navbar = ({ cart, setIsCartOpen }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  const scrollToSection = (sectionId) => {
+    setIsMenuOpen(false);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop - 100,
+        behavior: 'smooth'
+      });
+    } else if (sectionId === 'inicio') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
+  
+  return (
+    <header className="bg-white shadow-sm sticky top-0 z-40">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="text-xl font-bold text-gray-800">
+              <span className="text-green-600">Churrascaria</span> Gaúcha
+            </h1>
+          </div>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-6">
+            <button 
+              onClick={() => scrollToSection('inicio')}
+              className="text-gray-700 hover:text-green-600 transition-colors"
+            >
+              Início
+            </button>
+            <button 
+              onClick={() => scrollToSection('cardapio')}
+              className="text-gray-700 hover:text-green-600 transition-colors"
+            >
+              Cardápio
+            </button>
+            <button 
+              onClick={() => scrollToSection('bebidas')}
+              className="text-gray-700 hover:text-green-600 transition-colors"
+            >
+              Bebidas
+            </button>
+            <button 
+              onClick={() => scrollToSection('promocoes')}
+              className="text-gray-700 hover:text-green-600 transition-colors"
+            >
+              Promoções
+            </button>
+          </nav>
+          
+          {/* Mobile Menu Button */}
+          <div className="flex items-center space-x-4 md:hidden">
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 text-gray-700 hover:text-gray-900"
+            >
+              <ShoppingCart size={24} />
+              {cart.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cart.reduce((sum, item) => sum + item.quantidade, 0)}
+                </span>
+              )}
+            </button>
+            
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-gray-700 hover:text-gray-900"
+            >
+              {isMenuOpen ? <X size={24} /> : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
+          
+          {/* Desktop Cart Button */}
+          <button 
+            onClick={() => setIsCartOpen(true)}
+            className="hidden md:flex items-center relative p-2 text-gray-700 hover:text-gray-900"
+          >
+            <ShoppingCart size={24} />
+            {cart.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cart.reduce((sum, item) => sum + item.quantidade, 0)}
+              </span>
+            )}
+            <span className="ml-2 hidden lg:inline">Carrinho</span>
+          </button>
+        </div>
+        
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white py-4 border-t border-gray-200">
+            <nav className="flex flex-col space-y-3">
+              <button 
+                onClick={() => scrollToSection('inicio')}
+                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
+              >
+                Início
+              </button>
+              <button 
+                onClick={() => scrollToSection('cardapio')}
+                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
+              >
+                Cardápio
+              </button>
+              <button 
+                onClick={() => scrollToSection('bebidas')}
+                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
+              >
+                Bebidas
+              </button>
+              <button 
+                onClick={() => scrollToSection('promocoes')}
+                className="text-gray-700 hover:text-green-600 px-4 py-2 text-left"
+              >
+                Promoções
+              </button>
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
+// ========== COMPONENTE DELIVERY PICKUP SELECTOR ========== //
+const DeliveryPickupSelector = ({ 
+  entrega, 
+  setEntrega, 
+  setEndereco 
+}) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const getCurrentLocation = () => {
+    setLoading(true);
+    setError(null);
+    
+    if (!navigator.geolocation) {
+      setError("Geolocalização não é suportada pelo seu navegador");
+      setLoading(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await response.json();
+          
+          if (data.address) {
+            const { road, house_number, suburb, city, postcode } = data.address;
+            const addressParts = [
+              road,
+              house_number ? `, ${house_number}` : '',
+              suburb ? `, ${suburb}` : '',
+              city ? `, ${city}` : '',
+              postcode ? `, ${postcode}` : ''
+            ].filter(Boolean).join('');
+            
+            setEndereco(addressParts);
+          } else {
+            setError("Não foi possível obter o endereço. Por favor, preencha manualmente.");
+          }
+        } catch (err) {
+          setError("Erro ao obter endereço. Por favor, preencha manualmente.");
+        } finally {
+          setLoading(false);
+        }
+      },
+      (err) => {
+        setError("Por favor, permita o acesso à localização ou preencha manualmente.");
+        setLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      }
+    );
+  };
+
+  const handleDeliverySelection = (delivery) => {
+    setEntrega(delivery);
+    if (delivery) {
+      getCurrentLocation();
+    }
+  };
+
+  return (
+    <div className="mb-4">
+      <label className="block text-gray-700 mb-2">Tipo de Entrega</label>
+      <div className="flex space-x-4">
+        <button
+          type="button"
+          onClick={() => handleDeliverySelection(false)}
+          className={`flex-1 py-3 px-4 rounded-md border-2 ${!entrega ? 
+            'border-green-500 bg-green-50 text-green-700' : 
+            'border-gray-300 text-gray-700'}`}
+        >
+          <div className="font-medium">Retirada no Local</div>
+          <div className="text-sm mt-1">Sem custo adicional</div>
+        </button>
+        <button
+          type="button"
+          onClick={() => handleDeliverySelection(true)}
+          className={`flex-1 py-3 px-4 rounded-md border-2 ${entrega ? 
+            'border-green-500 bg-green-50 text-green-700' : 
+            'border-gray-300 text-gray-700'}`}
+        >
+          <div className="font-medium">Entrega</div>
+          <div className="text-sm mt-1">Taxa: €4.00</div>
+        </button>
+      </div>
+      
+      {loading && (
+        <div className="mt-2 flex items-center text-gray-600">
+          <Loader2 className="animate-spin mr-2" size={16} />
+          <span>Obtendo sua localização...</span>
+        </div>
+      )}
+      
+      {error && (
+        <div className="mt-2 text-red-500 text-sm">{error}</div>
+      )}
+    </div>
+  );
+};
+
+// ========== COMPONENTE MENU ITEM ========== //
 const MenuItem = ({ item, onAdd }) => {
   const [selectedOptions, setSelectedOptions] = useState({
     carnes: [],
-    acompanhamentos: [],
+    acompanhamentos: "",
+    salada: "",
     bebida: ""
   });
+  const [addedToCart, setAddedToCart] = useState(false);
+  const [validationError, setValidationError] = useState("");
 
   const handleOptionChange = (type, value) => {
-    if (type === "carnes" || type === "acompanhamentos") {
+    if (type === "carnes") {
       const newSelection = selectedOptions[type].includes(value)
         ? selectedOptions[type].filter(c => c !== value)
         : [...selectedOptions[type], value];
       
       setSelectedOptions({
         ...selectedOptions,
-        [type]: newSelection.length <= (type === "carnes" ? 2 : 4) ? newSelection : selectedOptions[type]
+        [type]: newSelection
       });
     } else {
       setSelectedOptions({
@@ -305,21 +602,56 @@ const MenuItem = ({ item, onAdd }) => {
         [type]: value
       });
     }
+    setValidationError("");
   };
 
-  const handleAddWithOptions = () => {
+  const validateSelections = () => {
+    if (item.tipo === "churrasco") {
+      if (selectedOptions.carnes.length !== 2) {
+        setValidationError("Por favor, selecione exatamente 2 carnes");
+        return false;
+      }
+      if (!selectedOptions.acompanhamentos) {
+        setValidationError("Por favor, selecione 1 acompanhamento");
+        return false;
+      }
+      if (!selectedOptions.salada) {
+        setValidationError("Por favor, selecione 1 salada");
+        return false;
+      }
+    } else if (item.tipo === "combo" && item.opcoes?.bebidas && !selectedOptions.bebida) {
+      setValidationError("Por favor, selecione uma bebida");
+      return false;
+    }
+    return true;
+  };
+
+  const handleAddToCart = () => {
+    if (!validateSelections()) return;
+
     const itemWithOptions = {
       ...item,
-      selectedOptions,
+      selectedOptions: {...selectedOptions},
       precoFinal: item.preco + 
         selectedOptions.carnes.reduce((sum, c) => {
-          const carne = item.opcoes.carnes.find(opt => opt.nome === c);
+          const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
           return sum + (carne?.precoExtra || 0);
         }, 0) + 
         (selectedOptions.bebida ? 
-          (item.opcoes?.bebidas?.find(b => b.nome === selectedOptions.bebida)?.preco || 0) : 0)
+          (item.opcoes?.bebidas?.find(b => b.nome === selectedOptions.bebida)?.precoExtra || 0) : 0)
     };
+    
     onAdd(itemWithOptions);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
+    
+    // Reset selections after adding to cart
+    setSelectedOptions({
+      carnes: [],
+      acompanhamentos: "",
+      salada: "",
+      bebida: ""
+    });
   };
 
   return (
@@ -344,20 +676,25 @@ const MenuItem = ({ item, onAdd }) => {
           <div className="mt-4 pt-4 border-t border-gray-100">
             {item.opcoes.carnes && (
               <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Carnes (escolha até 2):</h4>
+                <h4 className="font-medium text-gray-700 mb-2">Carnes (selecione 2):</h4>
                 <div className="grid grid-cols-2 gap-2">
                   {item.opcoes.carnes.map((carne) => (
                     <label 
                       key={carne.id}
-                      className={`flex items-center p-2 rounded border text-sm ${selectedOptions.carnes.includes(carne.nome) ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'}`}
+                      className={`flex items-center p-2 rounded border text-sm ${
+                        selectedOptions.carnes.includes(carne.nome) ? 
+                        'border-green-500 bg-green-50' : 'border-gray-200'
+                      }`}
                     >
                       <input
                         type="checkbox"
                         checked={selectedOptions.carnes.includes(carne.nome)}
                         onChange={() => handleOptionChange("carnes", carne.nome)}
                         className="mr-2"
-                        disabled={selectedOptions.carnes.length >= 2 && !selectedOptions.carnes.includes(carne.nome)}
+                        disabled={
+                          selectedOptions.carnes.length >= 2 && 
+                          !selectedOptions.carnes.includes(carne.nome)
+                        }
                       />
                       {carne.nome}
                       {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
@@ -369,17 +706,20 @@ const MenuItem = ({ item, onAdd }) => {
 
             {item.opcoes.acompanhamentos && (
               <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Acompanhamentos:</h4>
+                <h4 className="font-medium text-gray-700 mb-2">Acompanhamentos (selecione 1):</h4>
                 <div className="grid grid-cols-2 gap-2">
                   {item.opcoes.acompanhamentos.map((acomp) => (
                     <label 
                       key={acomp.id}
-                      className={`flex items-center p-2 rounded border text-sm ${selectedOptions.acompanhamentos.includes(acomp.nome) ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'}`}
+                      className={`flex items-center p-2 rounded border text-sm ${
+                        selectedOptions.acompanhamentos === acomp.nome ? 
+                        'border-green-500 bg-green-50' : 'border-gray-200'
+                      }`}
                     >
                       <input
-                        type="checkbox"
-                        checked={selectedOptions.acompanhamentos.includes(acomp.nome)}
+                        type="radio"
+                        name="acompanhamentos"
+                        checked={selectedOptions.acompanhamentos === acomp.nome}
                         onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
                         className="mr-2"
                       />
@@ -390,15 +730,43 @@ const MenuItem = ({ item, onAdd }) => {
               </div>
             )}
 
+            {item.opcoes.saladas && (
+              <div className="mb-4">
+                <h4 className="font-medium text-gray-700 mb-2">Salada (selecione 1):</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {item.opcoes.saladas.map((salada) => (
+                    <label 
+                      key={salada.id}
+                      className={`flex items-center p-2 rounded border text-sm ${
+                        selectedOptions.salada === salada.nome ? 
+                        'border-green-500 bg-green-50' : 'border-gray-200'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="salada"
+                        checked={selectedOptions.salada === salada.nome}
+                        onChange={() => handleOptionChange("salada", salada.nome)}
+                        className="mr-2"
+                      />
+                      {salada.nome}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {item.opcoes.bebidas && (
               <div className="mb-4">
-                <h4 className="font-medium text-gray-700 mb-2">Bebida:</h4>
+                <h4 className="font-medium text-gray-700 mb-2">Bebida {item.tipo === "combo" ? "(obrigatória)" : "(opcional)"}:</h4>
                 <div className="grid grid-cols-2 gap-2">
                   {item.opcoes.bebidas.map((bebida) => (
                     <label 
                       key={bebida.id}
-                      className={`flex items-center p-2 rounded border text-sm ${selectedOptions.bebida === bebida.nome ? 
-                        'border-green-500 bg-green-50' : 'border-gray-200'}`}
+                      className={`flex items-center p-2 rounded border text-sm ${
+                        selectedOptions.bebida === bebida.nome ? 
+                        'border-green-500 bg-green-50' : 'border-gray-200'
+                      }`}
                     >
                       <input
                         type="radio"
@@ -406,9 +774,10 @@ const MenuItem = ({ item, onAdd }) => {
                         checked={selectedOptions.bebida === bebida.nome}
                         onChange={() => handleOptionChange("bebida", bebida.nome)}
                         className="mr-2"
+                        required={item.tipo === "combo"}
                       />
                       {bebida.nome}
-                      {bebida.preco > 0 && ` (+€${bebida.preco.toFixed(2)})`}
+                      {bebida.precoExtra > 0 && ` (+€${bebida.precoExtra.toFixed(2)})`}
                     </label>
                   ))}
                 </div>
@@ -418,16 +787,35 @@ const MenuItem = ({ item, onAdd }) => {
         )}
 
         <button
-          onClick={item.opcoes ? handleAddWithOptions : () => onAdd(item)}
-          className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-md font-medium transition-colors shadow-md"
+          onClick={item.opcoes ? handleAddToCart : () => {
+            onAdd(item);
+            setAddedToCart(true);
+            setTimeout(() => setAddedToCart(false), 2000);
+          }}
+          className={`mt-4 w-full ${
+            addedToCart ? 'bg-green-500' : 'bg-green-600 hover:bg-green-700'
+          } text-white py-3 px-4 rounded-md font-medium transition-colors shadow-md flex items-center justify-center`}
         >
-          Adicionar ao Carrinho
+          {addedToCart ? (
+            <>
+              <Check className="mr-2" /> Adicionado!
+            </>
+          ) : (
+            <>
+              <Plus className="mr-2" /> Adicionar ao Carrinho
+            </>
+          )}
         </button>
+        
+        {validationError && (
+          <p className="text-red-500 text-sm mt-2 text-center">{validationError}</p>
+        )}
       </div>
     </div>
   );
 };
 
+// ========== COMPONENTE CART ITEM ========== //
 const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 mb-3 border border-gray-200">
@@ -449,8 +837,11 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
                   {item.selectedOptions.carnes?.length > 0 && (
                     <p><span className="font-medium">Carnes:</span> {item.selectedOptions.carnes.join(", ")}</p>
                   )}
-                  {item.selectedOptions.acompanhamentos?.length > 0 && (
-                    <p><span className="font-medium">Acomp:</span> {item.selectedOptions.acompanhamentos.join(", ")}</p>
+                  {item.selectedOptions.acompanhamentos && (
+                    <p><span className="font-medium">Acomp:</span> {item.selectedOptions.acompanhamentos}</p>
+                  )}
+                  {item.selectedOptions.salada && (
+                    <p><span className="font-medium">Salada:</span> {item.selectedOptions.salada}</p>
                   )}
                   {item.selectedOptions.bebida && <p><span className="font-medium">Bebida:</span> {item.selectedOptions.bebida}</p>}
                 </div>
@@ -493,6 +884,7 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
   );
 };
 
+// ========== COMPONENTE CHECKOUT FORM ========== //
 const CheckoutForm = ({ 
   cart, 
   total, 
@@ -559,7 +951,7 @@ const CheckoutForm = ({
             <span>Taxa de Entrega:</span>
             <span>{entrega ? "€4.00" : "Grátis"}</span>
           </div>
-          <div className="flex justify-between font-bold text-lg pt-2">
+          <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-200">
             <span>Total:</span>
             <span>€{total.toFixed(2)}</span>
           </div>
@@ -570,31 +962,11 @@ const CheckoutForm = ({
         <div className="bg-gray-50 p-4 rounded-lg">
           <h3 className="font-semibold text-lg text-gray-700 mb-3">Informações de Entrega</h3>
           
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Tipo de Entrega</label>
-            <div className="flex space-x-4">
-              <button
-                type="button"
-                onClick={() => setEntrega(false)}
-                className={`flex-1 py-3 px-4 rounded-md border-2 ${!entrega ? 
-                  'border-green-500 bg-green-50 text-green-700' : 
-                  'border-gray-300 text-gray-700'}`}
-              >
-                <div className="font-medium">Retirada no Local</div>
-                <div className="text-sm mt-1">Sem custo adicional</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => setEntrega(true)}
-                className={`flex-1 py-3 px-4 rounded-md border-2 ${entrega ? 
-                  'border-green-500 bg-green-50 text-green-700' : 
-                  'border-gray-300 text-gray-700'}`}
-              >
-                <div className="font-medium">Entrega</div>
-                <div className="text-sm mt-1">Taxa: €4.00</div>
-              </button>
-            </div>
-          </div>
+          <DeliveryPickupSelector 
+            entrega={entrega} 
+            setEntrega={setEntrega} 
+            setEndereco={setEndereco}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -647,55 +1019,93 @@ const CheckoutForm = ({
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-lg text-gray-700 mb-3">Pagamento</h3>
+          <h3 className="font-semibold text-lg text-gray-700 mb-3">Método de Pagamento</h3>
           
-          <div>
-            <label className="block text-gray-700 mb-2">Método de Pagamento</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div 
+                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                  metodoPagamento === 'dinheiro' 
+                    ? 'border-green-500 bg-green-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
                 onClick={() => setMetodoPagamento('dinheiro')}
-                className={`p-3 rounded-md border-2 flex flex-col items-center ${metodoPagamento === 'dinheiro' ? 
-                  'border-green-500 bg-green-50 text-green-700' : 
-                  'border-gray-300 text-gray-700'}`}
               >
-                <CreditCard size={20} className="mb-1" />
-                <span className="text-sm font-medium">Dinheiro</span>
-                <span className="text-xs mt-1">Troco para?</span>
-              </button>
-              <button
-                type="button"
+                <div className="flex items-start">
+                  <div className={`p-2 rounded-full mr-3 ${
+                    metodoPagamento === 'dinheiro' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    <CreditCard size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800">Dinheiro</h4>
+                    <p className="text-sm text-gray-600">Pagamento na entrega com troco</p>
+                  </div>
+                </div>
+              </div>
+
+              <div 
+                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                  metodoPagamento === 'mbway' 
+                    ? 'border-green-500 bg-green-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
                 onClick={() => setMetodoPagamento('mbway')}
-                className={`p-3 rounded-md border-2 flex flex-col items-center ${metodoPagamento === 'mbway' ? 
-                  'border-green-500 bg-green-50 text-green-700' : 
-                  'border-gray-300 text-gray-700'}`}
               >
-                <Smartphone size={20} className="mb-1" />
-                <span className="text-sm font-medium">MBWay</span>
-                <span className="text-xs mt-1">Pagamento via app</span>
-              </button>
-              <button
-                type="button"
+                <div className="flex items-start">
+                  <div className={`p-2 rounded-full mr-3 ${
+                    metodoPagamento === 'mbway' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    <Smartphone size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800">MBWay</h4>
+                    <p className="text-sm text-gray-600">Pagamento instantâneo via app</p>
+                  </div>
+                </div>
+              </div>
+
+              <div 
+                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                  metodoPagamento === 'cartao' 
+                    ? 'border-green-500 bg-green-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
                 onClick={() => setMetodoPagamento('cartao')}
-                className={`p-3 rounded-md border-2 flex flex-col items-center ${metodoPagamento === 'cartao' ? 
-                  'border-green-500 bg-green-50 text-green-700' : 
-                  'border-gray-300 text-gray-700'}`}
               >
-                <CreditCard size={20} className="mb-1" />
-                <span className="text-sm font-medium">Cartão</span>
-                <span className="text-xs mt-1">Débito/Crédito</span>
-              </button>
-              <button
-                type="button"
+                <div className="flex items-start">
+                  <div className={`p-2 rounded-full mr-3 ${
+                    metodoPagamento === 'cartao' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    <CreditCard size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800">Cartão</h4>
+                    <p className="text-sm text-gray-600">Débito ou crédito na entrega</p>
+                  </div>
+                </div>
+              </div>
+
+              <div 
+                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                  metodoPagamento === 'multibanco' 
+                    ? 'border-green-500 bg-green-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
                 onClick={() => setMetodoPagamento('multibanco')}
-                className={`p-3 rounded-md border-2 flex flex-col items-center ${metodoPagamento === 'multibanco' ? 
-                  'border-green-500 bg-green-50 text-green-700' : 
-                  'border-gray-300 text-gray-700'}`}
               >
-                <CreditCard size={20} className="mb-1" />
-                <span className="text-sm font-medium">Multibanco</span>
-                <span className="text-xs mt-1">Referência MB</span>
-              </button>
+                <div className="flex items-start">
+                  <div className={`p-2 rounded-full mr-3 ${
+                    metodoPagamento === 'multibanco' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    <CreditCard size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800">Multibanco</h4>
+                    <p className="text-sm text-gray-600">Pagamento por referência MB</p>
+                  </div>
+                </div>
+              </div>
             </div>
             {errors.metodoPagamento && <p className="text-red-500 text-sm mt-2">{errors.metodoPagamento}</p>}
           </div>
@@ -734,6 +1144,7 @@ const CheckoutForm = ({
   );
 };
 
+// ========== COMPONENTE CONFIRMATION ========== //
 const Confirmation = ({ orderNumber, onNewOrder }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg p-8 text-center border border-gray-200 max-w-md mx-auto">
@@ -745,7 +1156,7 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
       <p className="text-gray-600 mb-1">Número do pedido:</p>
       <p className="text-3xl font-bold text-green-600 mb-6">#{orderNumber}</p>
       
-      <div className="bg-blue-50 p-5 rounded-lg text-left mb-6 border border-blue-100">
+      <div className="bg-blue-50 p-5 rounded-lg text-left mb-6">
         <div className="flex items-start mb-4">
           <Clock size={20} className="text-blue-600 mr-3 mt-0.5" />
           <div>
@@ -784,6 +1195,7 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
   );
 };
 
+// ========== COMPONENTE PRINCIPAL (ORDERBOT) ========== //
 export default function OrderBot() {
   const [cart, setCart] = useState([]);
   const [step, setStep] = useState(1);
@@ -797,7 +1209,10 @@ export default function OrderBot() {
   const [orderNumber, setOrderNumber] = useState(null);
 
   useEffect(() => {
-    setOrderNumber(Math.floor(10000 + Math.random() * 90000));
+    // Gera número do pedido quando chegar na confirmação
+    if (step === 3) {
+      setOrderNumber(Math.floor(10000 + Math.random() * 90000));
+    }
   }, [step]);
 
   useEffect(() => {
@@ -846,15 +1261,17 @@ export default function OrderBot() {
   const total = subtotal + deliveryFee;
 
   const sendOrder = () => {
-    // Format items for WhatsApp message
     const itemsText = cart.map(item => {
       let itemText = `${item.quantidade}x ${item.nome} - €${(item.precoFinal || item.preco).toFixed(2)}`;
       if (item.selectedOptions) {
         if (item.selectedOptions.carnes?.length > 0) {
           itemText += `%0A  • Carnes: ${item.selectedOptions.carnes.join(", ")}`;
         }
-        if (item.selectedOptions.acompanhamentos?.length > 0) {
-          itemText += `%0A  • Acomp: ${item.selectedOptions.acompanhamentos.join(", ")}`;
+        if (item.selectedOptions.acompanhamentos) {
+          itemText += `%0A  • Acomp: ${item.selectedOptions.acompanhamentos}`;
+        }
+        if (item.selectedOptions.salada) {
+          itemText += `%0A  • Salada: ${item.selectedOptions.salada}`;
         }
         if (item.selectedOptions.bebida) {
           itemText += `%0A  • Bebida: ${item.selectedOptions.bebida}`;
@@ -893,31 +1310,19 @@ export default function OrderBot() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-gray-800">🍖 Churrascaria Gaúcha</h1>
-          <button 
-            onClick={() => setIsCartOpen(!isCartOpen)}
-            className="relative p-2 text-gray-700 hover:text-gray-900"
-          >
-            <ShoppingCart size={24} />
-            {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {cart.reduce((sum, item) => sum + item.quantidade, 0)}
-              </span>
-            )}
-          </button>
-        </div>
-      </header>
-
+      {/* Navbar profissional */}
+      <Navbar cart={cart} setIsCartOpen={setIsCartOpen} />
+      
+      {/* Banner de promoção animado */}
+      <PromoBanner />
+      
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 pb-24">
         {step === 1 && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Menu Section */}
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Cardápio</h2>
+              <h2 id="cardapio" className="text-2xl font-bold text-gray-800 mb-6">Cardápio</h2>
               
               {/* Categories */}
               <div className="space-y-8">
@@ -998,7 +1403,7 @@ export default function OrderBot() {
                     <div className="max-h-[400px] overflow-y-auto pr-2">
                       {cart.map((item, index) => (
                         <CartItem
-                          key={`${item.id}-${JSON.stringify(item.selectedOptions)}-${index}`}
+                          key={`${item.id}-${index}`}
                           item={item}
                           index={index}
                           onRemove={removeFromCart}
@@ -1074,7 +1479,7 @@ export default function OrderBot() {
             onClick={() => setIsCartOpen(false)}
           />
           
-          <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-xl z-30 p-4 overflow-y-auto">
+          <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-xl z-30 p-4 overflow-y-auto transform transition-transform duration-300 ease-out">
             <div className="flex justify-between items-center mb-4 pb-4 border-b">
               <h2 className="text-xl font-bold text-gray-800 flex items-center">
                 <ShoppingCart className="mr-2" /> Seu Pedido
@@ -1098,7 +1503,7 @@ export default function OrderBot() {
                 <div className="max-h-[60vh] overflow-y-auto pr-2">
                   {cart.map((item, index) => (
                     <CartItem
-                      key={`${item.id}-${JSON.stringify(item.selectedOptions)}-${index}`}
+                      key={`${item.id}-${index}`}
                       item={item}
                       index={index}
                       onRemove={removeFromCart}
@@ -1122,6 +1527,16 @@ export default function OrderBot() {
                     <span>€{total.toFixed(2)}</span>
                   </div>
                 </div>
+
+                <button
+                  onClick={() => {
+                    setStep(2);
+                    setIsCartOpen(false);
+                  }}
+                  className="fixed bottom-4 left-4 right-4 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium shadow-md"
+                >
+                  Finalizar Pedido
+                </button>
               </div>
             )}
           </div>
@@ -1129,7 +1544,7 @@ export default function OrderBot() {
       )}
 
       {/* Mobile Checkout Button */}
-      {step === 1 && cart.length > 0 && (
+      {step === 1 && cart.length > 0 && !isCartOpen && (
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-10">
           <button
             onClick={() => {
@@ -1146,3 +1561,20 @@ export default function OrderBot() {
     </div>
   );
 }
+
+// Adicionando a animação do banner promocional
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+  }
+`;
+document.head.appendChild(style);

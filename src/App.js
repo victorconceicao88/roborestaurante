@@ -1,12 +1,34 @@
-import React from 'react';
-import './App.css';
-import OrderBot from './components/OrderBot';  // Adicione esta linha
+import { useState, useEffect } from 'react';
+import OrderBot from './components/OrderBot';
+import { Bell, X } from 'lucide-react';
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Keyboard shortcut (Ctrl + Alt + A) to toggle admin panel
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.altKey && e.key === 'a') {
+        setIsAdmin(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold text-center my-8">Bem-vindo ao Restaurante</h1>
+      {/* Renderiza o OrderBot e passa isAdmin como prop se necessário */}
       <OrderBot />
+      
+      {/* Exemplo de como você poderia usar o estado isAdmin */}
+      {isAdmin && (
+        <div className="admin-panel">
+          {/* Conteúdo do painel admin */}
+          Painel Administrativo
+        </div>
+      )}
     </div>
   );
 }
