@@ -335,7 +335,6 @@ const Navbar = ({ cart, setIsCartOpen }) => {
               alt="Cozinha da Vivi" 
               className="h-14 w-14 object-cover rounded-full border-2 border-[#FFB400]"
             />
-            <span className="ml-3 text-xl font-bold text-[#FFB400]">Churrascaria Gaúcha</span>
           </div>
           
           {/* Botão do carrinho */}
