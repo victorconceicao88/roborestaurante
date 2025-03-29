@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
@@ -325,34 +326,39 @@ const ementa = [
 // ========== COMPONENTE NAVBAR ========== //
 const Navbar = ({ cart, setIsCartOpen }) => {
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-40">
+    <header className="bg-[#FFF1E8] sticky top-0 z-40">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
+        <div className="flex justify-between items-center h-24">
+          {/* Logo sem borda e com fundo combinando */}
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-gray-800">
-              <span className="text-green-600">Churrascaria</span> Gaúcha
-            </h1>
+            <img 
+              src="imagens/vivi.jpg" 
+              alt="Cozinha da Vivi" 
+              className="h-20 w-20 object-cover rounded-full"
+              style={{ backgroundColor: '#FFF1E8' }}
+            />
           </div>
           
-          {/* Cart Button - mostra em todas as páginas exceto confirmação */}
-          <button 
-            onClick={() => setIsCartOpen(true)}
-            className="relative p-2 text-gray-700 hover:text-gray-900"
-          >
-            <ShoppingCart size={24} />
-            {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {cart.reduce((sum, item) => sum + item.quantidade, 0)}
-              </span>
-            )}
-          </button>
+          {/* Botão do carrinho minimalista */}
+          <div className="flex items-center">
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="p-2 text-gray-700 hover:text-gray-900 transition-colors relative"
+              aria-label="Carrinho de compras"
+            >
+              <ShoppingCart size={26} />
+              {cart.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cart.reduce((sum, item) => sum + item.quantidade, 0)}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </header>
   );
 };
-
 // ========== COMPONENTE DELIVERY PICKUP SELECTOR ========== //
 const DeliveryPickupSelector = ({ 
   entrega, 
