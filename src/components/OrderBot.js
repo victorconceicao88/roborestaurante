@@ -10,13 +10,13 @@ import {
 const ementa = [
   {
     id: 1,
-    nome: "Churrascos Premium",
+    nome: "Churrasco",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop",
     itens: [
       {
         id: 101,
-        nome: "Combo Churrasco",
+        nome: "Churrasco Misto",
         preco: 12.0,
         imagem: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop",
         descricao: "Refeição completa com carnes e acompanhamentos selecionados",
@@ -32,7 +32,10 @@ const ementa = [
           acompanhamentos: [
             { id: "a1", nome: "Arroz Branco" },
             { id: "a2", nome: "Feijão Tropeiro" },
-            { id: "a3", nome: "Farofa Crocante" }
+            { id: "a3", nome: "Farofa Crocante" },
+            { id: "a4", nome: "Batata Frita", tipo: "extra" },
+            { id: "a5", nome: "Banana Frita", tipo: "extra" },
+            { id: "a6", nome: "Mandioca Frita", tipo: "extra" }
           ],
           saladas: [
             { id: "s1", nome: "Salada Mista" },
@@ -45,12 +48,102 @@ const ementa = [
             { id: "b4", nome: "Ice Tea", precoExtra: 2.0, imagem: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop" }
           ]
         }
+      },
+      { 
+        id: 102,
+        nome: "Maminha",
+        preco: 13.0,
+        imagem: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop",
+        descricao: "Maminha suculenta grelhada na brasa",
+        tipo: "churrasco",
+        opcoes: {
+          acompanhamentos: [
+            { id: "a1", nome: "Arroz" },
+            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
+            { id: "a3", nome: "Vinagrete" },
+            { id: "a4", nome: "Batata Frita" },
+            { id: "a5", nome: "Banana Frita" },
+            { id: "a6", nome: "Mandioca Frita" }
+          ]
+        }
+      },
+      { 
+        id: 103,
+        nome: "Linguiça Toscana",
+        preco: 12.0,
+        imagem: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&auto=format&fit=crop",
+        descricao: "Linguiça toscana artesanal grelhada",
+        tipo: "churrasco",
+        opcoes: {
+          acompanhamentos: [
+            { id: "a1", nome: "Arroz" },
+            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
+            { id: "a3", nome: "Vinagrete" },
+            { id: "a4", nome: "Batata Frita" },
+            { id: "a5", nome: "Banana Frita" },
+            { id: "a6", nome: "Mandioca Frita" }
+          ]
+        }
+      },
+      { 
+        id: 104,
+        nome: "Costelinha de Porco",
+        preco: 12.0,
+        imagem: "https://images.unsplash.com/photo-1606851094291-6efae152fa87?w=500&auto=format&fit=crop",
+        descricao: "Costelinha de porco assada lentamente",
+        tipo: "churrasco",
+        opcoes: {
+          acompanhamentos: [
+            { id: "a1", nome: "Arroz" },
+            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
+            { id: "a3", nome: "Vinagrete" },
+            { id: "a4", nome: "Batata Frita" },
+            { id: "a5", nome: "Banana Frita" },
+            { id: "a6", nome: "Mandioca Frita" }
+          ]
+        }
+      },
+      { 
+        id: 105,
+        nome: "Peito de Frango Grelhado",
+        preco: 12.0,
+        imagem: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&auto=format&fit=crop",
+        descricao: "Peito de frango temperado e grelhado",
+        tipo: "churrasco",
+        opcoes: {
+          acompanhamentos: [
+            { id: "a1", nome: "Arroz" },
+            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
+            { id: "a3", nome: "Vinagrete" },
+            { id: "a4", nome: "Batata Frita" },
+            { id: "a5", nome: "Banana Frita" },
+            { id: "a6", nome: "Mandioca Frita" }
+          ]
+        }
+      },
+      { 
+        id: 106,
+        nome: "Coraçãozinho de Galinha",
+        preco: 12.0,
+        imagem: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&auto=format&fit=crop",
+        descricao: "Coração de galinha grelhado no espeto",
+        tipo: "churrasco",
+        opcoes: {
+          acompanhamentos: [
+            { id: "a1", nome: "Arroz" },
+            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
+            { id: "a3", nome: "Vinagrete" },
+            { id: "a4", nome: "Batata Frita" },
+            { id: "a5", nome: "Banana Frita" },
+            { id: "a6", nome: "Mandioca Frita" }
+          ]
+        }
       }
     ]
   },
   {
     id: 2,
-    nome: "Sanduíches",
+    nome: "Burguers",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
     itens: [
@@ -205,7 +298,21 @@ const ementa = [
         nome: "Torresmo", 
         preco: 6.0, 
         imagem: "https://images.unsplash.com/photo-1606851094291-6efae152fa87?w=500&auto=format&fit=crop",
-        descricao: "Porção de torresmo crocante" 
+        descricao: "Porção de torresmo crocante (feito com barriga de porco, receita tradicional brasileira)" 
+      },
+      { 
+        id: 411, 
+        nome: "Mandioca Frita", 
+        preco: 6.0, 
+        imagem: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop",
+        descricao: "Porção de mandioca frita crocante" 
+      },
+      { 
+        id: 412, 
+        nome: "Batata Frita", 
+        preco: 3.0, 
+        imagem: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop",
+        descricao: "Porção de batata frita crocante" 
       }
     ]
   },
@@ -298,8 +405,8 @@ const ementa = [
     itens: [
       { 
         id: 601, 
-        nome: "Açai na Tigela", 
-        preco: 3.5, 
+        nome: "Açai Pequeno", 
+        preco: 6.0, 
         imagem: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500&auto=format&fit=crop",
         descricao: "Açai cremoso acompanhado com granola, banana, leite em pó e morango",
         opcoes: {
@@ -313,10 +420,53 @@ const ementa = [
       },
       { 
         id: 602, 
+        nome: "Açai Grande", 
+        preco: 10.0, 
+        imagem: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500&auto=format&fit=crop",
+        descricao: "Açai cremoso acompanhado com granola, banana, leite em pó e morango",
+        opcoes: {
+          toppings: [
+            { id: "t1", nome: "Granola" },
+            { id: "t2", nome: "Banana" },
+            { id: "t3", nome: "Leite Ninho" },
+            { id: "t4", nome: "Morango" }
+          ]
+        }
+      },
+      { 
+        id: 603, 
         nome: "Pudim Caseiro", 
         preco: 3.0, 
         imagem: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop",
         descricao: "Pudim tradicional caseiro com calda de caramelo" 
+      },
+      { 
+        id: 604, 
+        nome: "Mousse de Chocolate", 
+        preco: 3.0, 
+        imagem: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop",
+        descricao: "Mousse cremoso de chocolate" 
+      },
+      { 
+        id: 605, 
+        nome: "Mousse de Maracujá", 
+        preco: 3.0, 
+        imagem: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop",
+        descricao: "Mousse refrescante de maracujá" 
+      },
+      { 
+        id: 606, 
+        nome: "Gelado", 
+        preco: 3.0, 
+        imagem: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop",
+        descricao: "Bola de sorvete (consultar sabores disponíveis)" 
+      },
+      { 
+        id: 607, 
+        nome: "Petit Gateau", 
+        preco: 4.0, 
+        imagem: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop",
+        descricao: "Deliciosa sobremesa com recheio de chocolate quente que derrete na boca, acompanhada de sorvete de baunilha" 
       }
     ]
   }
@@ -325,7 +475,7 @@ const ementa = [
 // ========== COMPONENTE NAVBAR ========== //
 const Navbar = ({ cart, setIsCartOpen }) => {
   return (
-    <header className="bg-[#3C110A] sticky top-0 z-40 shadow-md">
+    <header className="bg-[#FFF1E8] sticky top-0 z-40 shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -341,12 +491,12 @@ const Navbar = ({ cart, setIsCartOpen }) => {
           <div className="flex items-center">
             <button 
               onClick={() => setIsCartOpen(true)}
-              className="p-2 text-[#FFB400] hover:text-[#FFD700] transition-colors relative"
+              className="p-2 text-[#3C110A] hover:text-[#260B06] transition-colors relative"
               aria-label="Carrinho de compras"
             >
               <ShoppingCart size={24} />
               {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#FFD700] text-[#3C110A] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
+                <span className="absolute -top-1 -right-1 bg-[#FFB400] text-[#3C110A] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
                   {cart.reduce((sum, item) => sum + item.quantidade, 0)}
                 </span>
               )}
@@ -469,7 +619,7 @@ const DeliveryPickupSelector = ({
 const MenuItem = ({ item, onAdd }) => {
   const [selectedOptions, setSelectedOptions] = useState({
     carnes: [],
-    acompanhamentos: "",
+    acompanhamentos: [],
     salada: "",
     bebida: "",
     toppings: []
@@ -478,7 +628,7 @@ const MenuItem = ({ item, onAdd }) => {
   const [validationError, setValidationError] = useState("");
   const [showDetails, setShowDetails] = useState(false);
 
-  const handleOptionChange = (type, value) => {
+  const handleOptionChange = (type, value, isExtra = false) => {
     if (type === "carnes") {
       const carneSelecionada = item.opcoes?.carnes?.find(c => c.nome === value);
       
@@ -510,6 +660,16 @@ const MenuItem = ({ item, onAdd }) => {
         });
       }
     } 
+    else if (type === "acompanhamentos") {
+      const newSelection = selectedOptions[type].includes(value)
+        ? selectedOptions[type].filter(t => t !== value)
+        : [...selectedOptions[type], value];
+      
+      setSelectedOptions({
+        ...selectedOptions,
+        [type]: newSelection
+      });
+    }
     else if (type === "toppings") {
       const newSelection = selectedOptions[type].includes(value)
         ? selectedOptions[type].filter(t => t !== value)
@@ -540,10 +700,23 @@ const MenuItem = ({ item, onAdd }) => {
         setValidationError("Por favor, selecione exatamente 2 carnes ou a opção 'Só Maminha'");
         return false;
       }
-      if (!selectedOptions.acompanhamentos) {
-        setValidationError("Por favor, selecione 1 acompanhamento");
-        return false;
+      
+      // Validação especial para Churrasco Misto
+      if (item.id === 101) {
+        const hasExtra = selectedOptions.acompanhamentos.some(a => {
+          const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
+          return acomp?.tipo === "extra";
+        });
+        
+        if (hasExtra && selectedOptions.acompanhamentos.filter(a => {
+          const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
+          return acomp?.tipo === "extra";
+        }).length > 1) {
+          setValidationError("Por favor, selecione apenas uma opção extra (Batata Frita, Banana Frita ou Mandioca Frita)");
+          return false;
+        }
       }
+      
       if (!selectedOptions.salada) {
         setValidationError("Por favor, selecione 1 salada");
         return false;
@@ -576,7 +749,7 @@ const MenuItem = ({ item, onAdd }) => {
     
     setSelectedOptions({
       carnes: [],
-      acompanhamentos: "",
+      acompanhamentos: [],
       salada: "",
       bebida: "",
       toppings: []
@@ -677,27 +850,42 @@ const MenuItem = ({ item, onAdd }) => {
 
                 {item.opcoes.acompanhamentos && (
                   <div>
-                    <h4 className="font-medium text-[#260B06] mb-2">Acompanhamentos (selecione 1):</h4>
+                    <h4 className="font-medium text-[#260B06] mb-2">
+                      {item.id === 101 ? "Acompanhamentos (selecione 1 extra):" : "Acompanhamentos (selecione os que desejar):"}
+                    </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {item.opcoes.acompanhamentos.map((acomp) => (
-                        <label 
-                          key={acomp.id}
-                          className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
-                            selectedOptions.acompanhamentos === acomp.nome ? 
-                            'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
-                            'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="acompanhamentos"
-                            checked={selectedOptions.acompanhamentos === acomp.nome}
-                            onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
-                            className="mr-2"
-                          />
-                          {acomp.nome}
-                        </label>
-                      ))}
+                      {item.opcoes.acompanhamentos.map((acomp) => {
+                        const isExtra = acomp.tipo === "extra";
+                        const isSelected = selectedOptions.acompanhamentos.includes(acomp.nome);
+                        
+                        // Para Churrasco Misto, apenas permitir selecionar 1 extra
+                        const isDisabled = item.id === 101 && isExtra && 
+                          selectedOptions.acompanhamentos.some(a => {
+                            const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
+                            return acomp?.tipo === "extra";
+                          }) && !isSelected;
+
+                        return (
+                          <label 
+                            key={acomp.id}
+                            className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
+                              isSelected ? 
+                              'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
+                              'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
+                            } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          >
+                            <input
+                              type={item.id === 101 && isExtra ? "radio" : "checkbox"}
+                              name={item.id === 101 && isExtra ? "extra" : undefined}
+                              checked={isSelected}
+                              onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
+                              className="mr-2"
+                              disabled={isDisabled}
+                            />
+                            {acomp.nome}
+                          </label>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -854,8 +1042,8 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
                   {item.selectedOptions.carnes?.length > 0 && (
                     <p><span className="font-medium">Carnes:</span> {item.selectedOptions.carnes.join(", ")}</p>
                   )}
-                  {item.selectedOptions.acompanhamentos && (
-                    <p><span className="font-medium">Acomp:</span> {item.selectedOptions.acompanhamentos}</p>
+                  {item.selectedOptions.acompanhamentos?.length > 0 && (
+                    <p><span className="font-medium">Acomp:</span> {item.selectedOptions.acompanhamentos.join(", ")}</p>
                   )}
                   {item.selectedOptions.salada && (
                     <p><span className="font-medium">Salada:</span> {item.selectedOptions.salada}</p>
@@ -1325,22 +1513,22 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#3C110A] text-[#FFB400] py-12">
+    <footer className="bg-[#FFB400] text-[#260B06] py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Hours Section */}
           <div>
             <h3 className="text-xl font-bold mb-4">Horário</h3>
             <div className="space-y-3">
-              <div className="flex justify-between border-b border-[#FFB400] pb-2">
+              <div className="flex justify-between border-b border-[#260B06] pb-2">
                 <span>Segunda-feira:</span>
                 <span className="font-medium">Fechado</span>
               </div>
-              <div className="flex justify-between border-b border-[#FFB400] pb-2">
+              <div className="flex justify-between border-b border-[#260B06] pb-2">
                 <span>Terça a Sábado:</span>
                 <span className="font-medium">12:00 - 14:45</span>
               </div>
-              <div className="flex justify-between border-b border-[#FFB400] pb-2">
+              <div className="flex justify-between border-b border-[#260B06] pb-2">
                 <span>Terça a Sábado:</span>
                 <span className="font-medium">19:00 - 21:30</span>
               </div>
@@ -1355,8 +1543,8 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold mb-4">Contactos</h3>
             <div className="flex items-center">
-              <Phone className="text-[#FFB400] mr-3" size={20} />
-              <a href="tel:+351933737672" className="hover:text-[#FFD700] transition-colors">
+              <Phone className="text-[#260B06] mr-3" size={20} />
+              <a href="tel:+351933737672" className="hover:text-[#3C110A] transition-colors">
                 (93) 373-7672
               </a>
             </div>
@@ -1366,23 +1554,23 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold mb-4">Localização</h3>
             <div 
-              className="flex items-start cursor-pointer hover:text-[#FFD700] transition-colors"
+              className="flex items-start cursor-pointer hover:text-[#3C110A] transition-colors"
               onClick={handleAddressClick}
             >
-              <MapPin className="text-[#FFB400] mr-3 mt-0.5 flex-shrink-0" size={20} />
+              <MapPin className="text-[#260B06] mr-3 mt-0.5 flex-shrink-0" size={20} />
               <div>
                 <p className="hover:underline">Estr. de Alvor, São Sebastião</p>
                 <p className="hover:underline">8500-769 Portimão</p>
               </div>
             </div>
             
-            <div className="flex justify-center space-x-4 pt-2">
+            <div className="flex justify-center space-x-6 pt-4">
               <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
-                className="text-[#FFB400] hover:text-[#FFD700] transition-colors">
+                className="text-[#260B06] hover:text-[#3C110A] transition-colors">
                 <Instagram size={24} />
               </a>
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="text-[#FFB400] hover:text-[#FFD700] transition-colors">
+                className="text-[#260B06] hover:text-[#3C110A] transition-colors">
                 <Facebook size={24} />
               </a>
             </div>
@@ -1390,7 +1578,7 @@ const Footer = () => {
         </div>
         
         {/* Copyright */}
-        <div className="border-t border-[#FFB400] mt-8 pt-8 text-center text-sm">
+        <div className="border-t border-[#260B06] mt-8 pt-8 text-center text-sm">
           © {new Date().getFullYear()} Churrascaria Gaúcha. Todos os direitos reservados.
         </div>
       </div>
@@ -1478,8 +1666,8 @@ export default function OrderBot() {
             if (item.selectedOptions.carnes?.length > 0) {
               itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
             }
-            if (item.selectedOptions.acompanhamentos) {
-              itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos}`;
+            if (item.selectedOptions.acompanhamentos?.length > 0) {
+              itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos.join(", ")}`;
             }
             if (item.selectedOptions.salada) {
               itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
