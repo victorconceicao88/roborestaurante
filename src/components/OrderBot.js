@@ -470,35 +470,55 @@ const SpecialPromoBanner = () => {
   const [showPromoDetails, setShowPromoDetails] = useState(false);
 
   return (
-    <div className="mb-8">
+    <div className="mb-6">
       <div 
-        className="bg-gradient-to-r from-[#3D1106] to-[#FFB501] p-4 rounded-xl shadow-lg cursor-pointer"
+        className="bg-[#FFF1E8] border border-[#3D1106] rounded-lg p-4 cursor-pointer hover:bg-[#FFE5BA]/30 transition-colors"
         onClick={() => setShowPromoDetails(!showPromoDetails)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Star className="text-yellow-300 mr-3 animate-pulse" size={24} />
-            <h3 className="text-white font-bold text-lg">Pratos Especiais da Semana - Apenas €13,00</h3>
+            <div className="bg-[#3D1106] text-[#FFB501] p-2 rounded-full mr-3">
+              <Star size={18} />
+            </div>
+            <div>
+              <h3 className="font-medium text-[#3D1106]">Pratos Especiais da Semana</h3>
+              <p className="text-sm text-[#280B04]">Descubra nossas ofertas especiais</p>
+            </div>
           </div>
-          {showPromoDetails ? <ChevronUp className="text-white" /> : <ChevronDown className="text-white" />}
+          {showPromoDetails ? (
+            <ChevronUp className="text-[#3D1106]" size={20} />
+          ) : (
+            <ChevronDown className="text-[#3D1106]" size={20} />
+          )}
         </div>
       </div>
 
       {showPromoDetails && (
-        <div className="bg-white p-5 rounded-b-xl shadow-md border border-t-0 border-[#3D1106]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-[#FFFBF7] p-4 rounded-lg border border-[#FFB501]">
-              <h4 className="font-bold text-[#3D1106] mb-2">Vaca Atolada</h4>
-              <p className="text-[#280B04]">Tradicional prato brasileiro com carne bovina cozida lentamente com mandioca e temperos especiais.</p>
-              <div className="mt-3 bg-[#3D1106] text-[#FFB501] px-3 py-1 rounded-full text-sm font-medium inline-block">
-                Disponível às Quintas-feiras
+        <div className="bg-white p-4 rounded-lg border border-[#3D1106] mt-2 shadow-sm">
+          <div className="space-y-4">
+            <div className="flex items-start">
+              <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
+                <Calendar size={18} />
+              </div>
+              <div>
+                <h4 className="font-medium text-[#3D1106]">Vaca Atolada - €13,00</h4>
+                <p className="text-sm text-[#280B04]">Tradicional prato brasileiro com carne bovina cozida lentamente com mandioca e temperos especiais.</p>
+                <div className="mt-2 text-xs text-[#3D1106] font-medium">
+                  Disponível às Quintas-feiras
+                </div>
               </div>
             </div>
-            <div className="bg-[#FFFBF7] p-4 rounded-lg border border-[#FFB501]">
-              <h4 className="font-bold text-[#3D1106] mb-2">Feijoada Completa</h4>
-              <p className="text-[#280B04]">O clássico brasileiro com feijão preto, diversas carnes, acompanhamentos e couve refogada.</p>
-              <div className="mt-3 bg-[#3D1106] text-[#FFB501] px-3 py-1 rounded-full text-sm font-medium inline-block">
-                Disponível aos Sábados e Domingos
+            
+            <div className="flex items-start">
+              <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
+                <Calendar size={18} />
+              </div>
+              <div>
+                <h4 className="font-medium text-[#3D1106]">Feijoada Completa - €13,00</h4>
+                <p className="text-sm text-[#280B04]">O clássico brasileiro com feijão preto, diversas carnes, acompanhamentos e couve refogada.</p>
+                <div className="mt-2 text-xs text-[#3D1106] font-medium">
+                  Disponível aos Sábados e Domingos
+                </div>
               </div>
             </div>
           </div>
@@ -1923,16 +1943,16 @@ export default function OrderBot() {
 
             {/* Cart Sidebar (Desktop) */}
             <div className="hidden lg:block">
-              <div className="bg-[#280B04] rounded-xl shadow-md p-5 sticky top-24 border border-[#3D1106]">
-                <h2 className="text-xl font-bold text-[#FFF1E4] mb-4 flex items-center">
+              <div className="bg-[#FFFBF7] rounded-xl shadow-md p-5 sticky top-24 border border-[#3D1106]">
+                <h2 className="text-xl font-bold text-[#3D1106] mb-4 flex items-center">
                   <ShoppingCart className="mr-2" /> Seu Pedido
                 </h2>
                 
                 {cart.length === 0 ? (
                   <div className="text-center py-8">
                     <ShoppingCart size={48} className="mx-auto text-[#6B7280] mb-4" />
-                    <p className="text-[#FFF1E4]">O seu carrinho está vazio</p>
-                    <p className="text-[#FFF1E4] text-sm mt-2">Adicione itens para continuar</p>
+                    <p className="text-[#3D1106]">O seu carrinho está vazio</p>
+                    <p className="text-[#3D1106] text-sm mt-2">Adicione itens para continuar</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
