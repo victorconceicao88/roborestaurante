@@ -3,7 +3,7 @@ import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
   ShoppingCart, X, Check, MapPin, Phone, User,
   CreditCard, Clock, Info, Smartphone, Loader2, 
-  Instagram, Facebook, Calendar, AlertCircle
+  Instagram, Facebook, Calendar, AlertCircle, Star
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -169,38 +169,38 @@ const ementa = [
     itens: [
       { 
         id: 201, 
+        nome: "X-Salada", 
+        preco: 6.5, 
+        imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
+        descricao: "Pão de hambúrguer, bife de hambúrguer, fiambre, queijo, salada, batata palha e milho." 
+      },
+      { 
+        id: 202, 
         nome: "X-Bacon", 
         preco: 8.0, 
         imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
         descricao: "Pão, hambúrguer, bacon, queijo, fiambre, ovo, alface, tomate, milho e batata palha." 
       },
       { 
-        id: 202, 
+        id: 203, 
         nome: "X-Special", 
         preco: 7.0, 
         imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
         descricao: "Pão, hambúrguer, queijo, fiambre, ovo, alface, tomate, milho e batata palha." 
       },
       { 
-        id: 203, 
+        id: 204, 
+        nome: "X-Tudo", 
+        preco: 9.0, 
+        imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
+        descricao: "Pão de hambúrguer, bife de hambúrguer, bacon, ovo, fiambre, queijo, salada, batata palha, milho e salsicha." 
+      },
+      { 
+        id: 205, 
         nome: "X-Frango", 
         preco: 8.0, 
         imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
         descricao: "Pão, filé de frango, queijo, fiambre, ovo, alface, tomate, milho e batata palha." 
-      },
-      { 
-        id: 204, 
-        nome: "X-Frango Tudo", 
-        preco: 9.0, 
-        imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
-        descricao: "Pão, filé de frango, bacon, salsicha, queijo, fiambre, ovo, alface, tomate, milho e batata palha." 
-      },
-      { 
-        id: 205, 
-        nome: "X-Simples", 
-        preco: 6.5, 
-        imagem: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop",
-        descricao: "Pão, hambúrguer, queijo, fiambre, alface, tomate, milho e batata palha." 
       }
     ]
   },
@@ -343,66 +343,48 @@ const ementa = [
     imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
     subcategorias: [
       {
-        nome: "Águas",
-        itens: [
-          { 
-            id: 5011, 
-            nome: "Água com gás Castelo (pequena)", 
-            preco: 1.5,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
-          },
-          { 
-            id: 5012, 
-            nome: "Água com gás Pedras (pequena)", 
-            preco: 1.5,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
-          },
-          { 
-            id: 5013, 
-            nome: "Água sem gás 500ml", 
-            preco: 1.0,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
-          }
-        ]
-      },
-      {
         nome: "Refrigerantes",
         itens: [
           { 
             id: 5021, 
-            nome: "7UP (lata)", 
-            preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
-          },
-          { 
-            id: 5022, 
             nome: "Coca-Cola (lata)", 
             preco: 2.0,
             imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
-            id: 5023, 
+            id: 5022, 
             nome: "Coca-Cola Zero (lata)", 
             preco: 2.0,
             imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
-            id: 5024, 
-            nome: "Fanta Laranja (lata)", 
-            preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop"
-          },
-          { 
-            id: 5025, 
+            id: 5023, 
             nome: "Guaraná (lata)", 
             preco: 2.0,
             imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop"
           },
           { 
-            id: 5026, 
-            nome: "Ice Tea de Manga (lata)", 
+            id: 5024, 
+            nome: "Guaraná Zero (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop"
+            imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop"
+          },
+          { 
+            id: 5025, 
+            nome: "Fanta Laranja (lata)", 
+            preco: 2.0,
+            imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop"
+          }
+        ]
+      },
+      {
+        nome: "Águas",
+        itens: [
+          { 
+            id: 5011, 
+            nome: "Água sem gás 500ml", 
+            preco: 1.0,
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           }
         ]
       }
@@ -483,6 +465,49 @@ const ementa = [
   }
 ];
 
+// ========== COMPONENTE SPECIAL PROMO BANNER ========== //
+const SpecialPromoBanner = () => {
+  const [showPromoDetails, setShowPromoDetails] = useState(false);
+
+  return (
+    <div className="mb-8">
+      <div 
+        className="bg-gradient-to-r from-[#3D1106] to-[#FFB501] p-4 rounded-xl shadow-lg cursor-pointer"
+        onClick={() => setShowPromoDetails(!showPromoDetails)}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Star className="text-yellow-300 mr-3 animate-pulse" size={24} />
+            <h3 className="text-white font-bold text-lg">Pratos Especiais da Semana - Apenas €13,00</h3>
+          </div>
+          {showPromoDetails ? <ChevronUp className="text-white" /> : <ChevronDown className="text-white" />}
+        </div>
+      </div>
+
+      {showPromoDetails && (
+        <div className="bg-white p-5 rounded-b-xl shadow-md border border-t-0 border-[#3D1106]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-[#FFFBF7] p-4 rounded-lg border border-[#FFB501]">
+              <h4 className="font-bold text-[#3D1106] mb-2">Vaca Atolada</h4>
+              <p className="text-[#280B04]">Tradicional prato brasileiro com carne bovina cozida lentamente com mandioca e temperos especiais.</p>
+              <div className="mt-3 bg-[#3D1106] text-[#FFB501] px-3 py-1 rounded-full text-sm font-medium inline-block">
+                Disponível às Quintas-feiras
+              </div>
+            </div>
+            <div className="bg-[#FFFBF7] p-4 rounded-lg border border-[#FFB501]">
+              <h4 className="font-bold text-[#3D1106] mb-2">Feijoada Completa</h4>
+              <p className="text-[#280B04]">O clássico brasileiro com feijão preto, diversas carnes, acompanhamentos e couve refogada.</p>
+              <div className="mt-3 bg-[#3D1106] text-[#FFB501] px-3 py-1 rounded-full text-sm font-medium inline-block">
+                Disponível aos Sábados e Domingos
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ========== COMPONENTE NAVBAR ========== //
 const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
   return (
@@ -495,7 +520,7 @@ const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
               <img 
                 src="imagens/vivi.jpg" 
                 alt="Cozinha da Vivi" 
-                className="h-16 w-16 object-cover rounded-full  border-[#3D1106]"
+                className="h-16 w-16 object-cover rounded-full border-[#3D1106]"
               />
             </button>
           </div>
@@ -1834,12 +1859,14 @@ export default function OrderBot() {
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-[#280B04] mb-6">Ementa</h2>
               
+              <SpecialPromoBanner />
+              
               <div className="space-y-8">
                 {ementa.map((category) => (
                   <div key={category.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-[#3D1106]">
                     <button
                       onClick={() => setOpenCategory(openCategory === category.id ? null : category.id)}
-                      className="w-full flex justify-between items-center p-5 hover:bg-[#FEDA86]/10 transition-colors"
+                      className="w-full flex justify-between items-center p-5 hover:bg-[#]/10 transition-colors"
                     >
                       <div className="flex items-center">
                         {category.imagem && (
@@ -1995,12 +2022,10 @@ export default function OrderBot() {
           
           <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#FFFBF7] shadow-xl z-30 p-4 overflow-y-auto transform transition-transform duration-300 ease-out">
             <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#3D1106]">
-              <h2 className="text-xl font-bold text-[#FFF1E4] flex items-center">
-                <ShoppingCart className="mr-2" /> Seu Pedido
-              </h2>
+              <h2 className="text-xl font-bold text-[#280B04]">Seu Pedido</h2>
               <button 
                 onClick={() => setIsCartOpen(false)}
-                className="text-[#FFF1E4] hover:text-[#FFB501] transition-colors"
+                className="text-[#280B04] hover:text-[#3D1106] transition-colors"
               >
                 <X size={24} />
               </button>
@@ -2009,8 +2034,8 @@ export default function OrderBot() {
             {cart.length === 0 ? (
               <div className="text-center py-8">
                 <ShoppingCart size={48} className="mx-auto text-[#6B7280] mb-4" />
-                <p className="text-[#FFF1E4]">O seu carrinho está vazio</p>
-                <p className="text-[#FFF1E4] text-sm mt-2">Adicione itens para continuar</p>
+                <p className="text-[#280B04]">O seu carrinho está vazio</p>
+                <p className="text-[#280B04] text-sm mt-2">Adicione itens para continuar</p>
                 <button
                   onClick={() => {
                     setIsCartOpen(false);
@@ -2039,17 +2064,17 @@ export default function OrderBot() {
                 </div>
 
                 <div className="border-t border-[#3D1106] pt-4 mt-4">
-                  <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
+                  <div className="flex justify-between mb-1 text-[#280B04] text-sm">
                     <span>Subtotal:</span>
                     <span>€{subtotal.toFixed(2)}</span>
                   </div>
                   {entrega && (
-                    <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
+                    <div className="flex justify-between mb-1 text-[#280B04] text-sm">
                       <span>Taxa de Entrega:</span>
                       <span>€4.00</span>
                     </div>
                   )}
-                  <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#3D1106] text-[#FFF1E4]">
+                  <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#3D1106] text-[#280B04]">
                     <span>Total:</span>
                     <span>€{total.toFixed(2)}</span>
                   </div>
