@@ -31,7 +31,7 @@ const ementa = [
           ],
           acompanhamentos: [
             { id: "a1", nome: "Arroz Branco" },
-            { id: "a2", nome: "Feijão Tropeiro" },
+            { id: "a2", nome: "Feijão (Caldo)" },
             { id: "a3", nome: "Farofa Crocante" },
             { id: "a4", nome: "Batata Frita", tipo: "extra" },
             { id: "a5", nome: "Banana Frita", tipo: "extra" },
@@ -59,11 +59,15 @@ const ementa = [
         opcoes: {
           acompanhamentos: [
             { id: "a1", nome: "Arroz" },
-            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
-            { id: "a3", nome: "Vinagrete" },
-            { id: "a4", nome: "Batata Frita" },
-            { id: "a5", nome: "Banana Frita" },
-            { id: "a6", nome: "Mandioca Frita" }
+            { id: "a2", nome: "Feijão (Caldo)" },
+            { id: "a3", nome: "Farofa Crocante" },
+            { id: "a4", nome: "Batata Frita", tipo: "extra" },
+            { id: "a5", nome: "Banana Frita", tipo: "extra" },
+            { id: "a6", nome: "Mandioca Frita", tipo: "extra" }
+          ],
+          saladas: [
+            { id: "s1", nome: "Salada Mista" },
+            { id: "s2", nome: "Vinagrete" }
           ]
         }
       },
@@ -77,11 +81,15 @@ const ementa = [
         opcoes: {
           acompanhamentos: [
             { id: "a1", nome: "Arroz" },
-            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
-            { id: "a3", nome: "Vinagrete" },
-            { id: "a4", nome: "Batata Frita" },
-            { id: "a5", nome: "Banana Frita" },
-            { id: "a6", nome: "Mandioca Frita" }
+            { id: "a2", nome: "Feijão (Caldo)" },
+            { id: "a3", nome: "Farofa Crocante" },
+            { id: "a4", nome: "Batata Frita", tipo: "extra" },
+            { id: "a5", nome: "Banana Frita", tipo: "extra" },
+            { id: "a6", nome: "Mandioca Frita", tipo: "extra" }
+          ],
+          saladas: [
+            { id: "s1", nome: "Salada Mista" },
+            { id: "s2", nome: "Vinagrete" }
           ]
         }
       },
@@ -95,11 +103,15 @@ const ementa = [
         opcoes: {
           acompanhamentos: [
             { id: "a1", nome: "Arroz" },
-            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
-            { id: "a3", nome: "Vinagrete" },
-            { id: "a4", nome: "Batata Frita" },
-            { id: "a5", nome: "Banana Frita" },
-            { id: "a6", nome: "Mandioca Frita" }
+            { id: "a2", nome: "Feijão (Caldo)" },
+            { id: "a3", nome: "Farofa Crocante" },
+            { id: "a4", nome: "Batata Frita", tipo: "extra" },
+            { id: "a5", nome: "Banana Frita", tipo: "extra" },
+            { id: "a6", nome: "Mandioca Frita", tipo: "extra" }
+          ],
+          saladas: [
+            { id: "s1", nome: "Salada Mista" },
+            { id: "s2", nome: "Vinagrete" }
           ]
         }
       },
@@ -113,11 +125,15 @@ const ementa = [
         opcoes: {
           acompanhamentos: [
             { id: "a1", nome: "Arroz" },
-            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
-            { id: "a3", nome: "Vinagrete" },
-            { id: "a4", nome: "Batata Frita" },
-            { id: "a5", nome: "Banana Frita" },
-            { id: "a6", nome: "Mandioca Frita" }
+            { id: "a2", nome: "Feijão (Caldo)" },
+            { id: "a3", nome: "Farofa Crocante" },
+            { id: "a4", nome: "Batata Frita", tipo: "extra" },
+            { id: "a5", nome: "Banana Frita", tipo: "extra" },
+            { id: "a6", nome: "Mandioca Frita", tipo: "extra" }
+          ],
+          saladas: [
+            { id: "s1", nome: "Salada Mista" },
+            { id: "s2", nome: "Vinagrete" }
           ]
         }
       },
@@ -131,11 +147,15 @@ const ementa = [
         opcoes: {
           acompanhamentos: [
             { id: "a1", nome: "Arroz" },
-            { id: "a2", nome: "Salada Mista (Alface, Tomate, Cebola, Pepino)" },
-            { id: "a3", nome: "Vinagrete" },
-            { id: "a4", nome: "Batata Frita" },
-            { id: "a5", nome: "Banana Frita" },
-            { id: "a6", nome: "Mandioca Frita" }
+            { id: "a2", nome: "Feijão (Caldo)" },
+            { id: "a3", nome: "Farofa Crocante" },
+            { id: "a4", nome: "Batata Frita", tipo: "extra" },
+            { id: "a5", nome: "Banana Frita", tipo: "extra" },
+            { id: "a6", nome: "Mandioca Frita", tipo: "extra" }
+          ],
+          saladas: [
+            { id: "s1", nome: "Salada Mista" },
+            { id: "s2", nome: "Vinagrete" }
           ]
         }
       }
@@ -329,22 +349,19 @@ const ementa = [
             id: 5011, 
             nome: "Água com gás Castelo (pequena)", 
             preco: 1.5,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
-            descricao: "Garrafa pequena de água mineral com gás" 
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
             id: 5012, 
             nome: "Água com gás Pedras (pequena)", 
             preco: 1.5,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
-            descricao: "Garrafa pequena de água mineral com gás" 
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
             id: 5013, 
             nome: "Água sem gás 500ml", 
             preco: 1.0,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
-            descricao: "Garrafa de água mineral sem gás" 
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           }
         ]
       },
@@ -355,43 +372,37 @@ const ementa = [
             id: 5021, 
             nome: "7UP (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
-            descricao: "Lata de refrigerante 7UP" 
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
             id: 5022, 
             nome: "Coca-Cola (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
-            descricao: "Lata de refrigerante Coca-Cola" 
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
             id: 5023, 
             nome: "Coca-Cola Zero (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop",
-            descricao: "Lata de refrigerante Coca-Cola Zero" 
+            imagem: "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500&auto=format&fit=crop"
           },
           { 
             id: 5024, 
             nome: "Fanta Laranja (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop",
-            descricao: "Lata de refrigerante Fanta Laranja" 
+            imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format&fit=crop"
           },
           { 
             id: 5025, 
             nome: "Guaraná (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop",
-            descricao: "Lata de refrigerante Guaraná" 
+            imagem: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500&auto=format&fit=crop"
           },
           { 
             id: 5026, 
             nome: "Ice Tea de Manga (lata)", 
             preco: 2.0,
-            imagem: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop",
-            descricao: "Lata de Ice Tea sabor manga" 
+            imagem: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop"
           }
         ]
       }
@@ -473,30 +484,32 @@ const ementa = [
 ];
 
 // ========== COMPONENTE NAVBAR ========== //
-const Navbar = ({ cart, setIsCartOpen }) => {
+const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
   return (
     <header className="bg-[#FFF1E8] sticky top-0 z-40 shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <img 
-              src="imagens/vivi.jpg" 
-              alt="Cozinha da Vivi" 
-              className="h-14 w-14 object-cover rounded-full border-2 border-[#FFB400]"
-            />
+            <button onClick={resetToMenu} className="focus:outline-none">
+              <img 
+                src="imagens/vivi.jpg" 
+                alt="Cozinha da Vivi" 
+                className="h-16 w-16 object-cover rounded-full  border-[#3D1106]"
+              />
+            </button>
           </div>
           
           {/* Botão do carrinho */}
           <div className="flex items-center">
             <button 
               onClick={() => setIsCartOpen(true)}
-              className="p-2 text-[#3C110A] hover:text-[#260B06] transition-colors relative"
+              className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
               aria-label="Carrinho de compras"
             >
               <ShoppingCart size={24} />
               {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#FFB400] text-[#3C110A] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
+                <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
                   {cart.reduce((sum, item) => sum + item.quantidade, 0)}
                 </span>
               )}
@@ -577,14 +590,14 @@ const DeliveryPickupSelector = ({
 
   return (
     <div className="mb-6">
-      <label className="block text-[#260B06] mb-3 font-medium">Tipo de Entrega</label>
+      <label className="block text-[#280B04] mb-3 font-medium">Tipo de Entrega</label>
       <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
         <button
           type="button"
           onClick={() => handleDeliverySelection(false)}
           className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${!entrega ? 
-            'border-[#3C110A] bg-[#FFB400] text-[#260B06] shadow-md' : 
-            'border-gray-300 text-[#260B06] hover:border-[#3C110A]'}`}
+            'border-[#3D1106] bg-[#FFB501] text-[#280B04] shadow-md' : 
+            'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'}`}
         >
           <div className="font-semibold">Retirada no Local</div>
           <div className="text-sm mt-1">Sem custo adicional</div>
@@ -593,8 +606,8 @@ const DeliveryPickupSelector = ({
           type="button"
           onClick={() => handleDeliverySelection(true)}
           className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${entrega ? 
-            'border-[#3C110A] bg-[#FFB400] text-[#260B06] shadow-md' : 
-            'border-gray-300 text-[#260B06] hover:border-[#3C110A]'}`}
+            'border-[#3D1106] bg-[#FFB501] text-[#280B04] shadow-md' : 
+            'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'}`}
         >
           <div className="font-semibold">Entrega</div>
           <div className="text-sm mt-1">Taxa: €4.00</div>
@@ -602,8 +615,8 @@ const DeliveryPickupSelector = ({
       </div>
       
       {loading && (
-        <div className="mt-3 flex items-center text-[#260B06] bg-[#FFF1E8] p-2 rounded-lg">
-          <Loader2 className="animate-spin mr-2 text-[#3C110A]" size={16} />
+        <div className="mt-3 flex items-center text-[#280B04] bg-[#FFF1E8] p-2 rounded-lg">
+          <Loader2 className="animate-spin mr-2 text-[#3D1106]" size={16} />
           <span className="text-sm">A obter a sua localização...</span>
         </div>
       )}
@@ -627,6 +640,7 @@ const MenuItem = ({ item, onAdd }) => {
   const [addedToCart, setAddedToCart] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [showDetails, setShowDetails] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
   const handleOptionChange = (type, value, isExtra = false) => {
     if (type === "carnes") {
@@ -650,7 +664,7 @@ const MenuItem = ({ item, onAdd }) => {
       })) {
         return;
       }
-      else if (selectedOptions.carnes.length >= 2) {
+      else if (item.id === 101 && selectedOptions.carnes.length >= 2) {
         return;
       }
       else {
@@ -661,14 +675,30 @@ const MenuItem = ({ item, onAdd }) => {
       }
     } 
     else if (type === "acompanhamentos") {
-      const newSelection = selectedOptions[type].includes(value)
-        ? selectedOptions[type].filter(t => t !== value)
-        : [...selectedOptions[type], value];
+      const isExtra = item.opcoes?.acompanhamentos?.find(a => a.nome === value)?.tipo === "extra";
       
-      setSelectedOptions({
-        ...selectedOptions,
-        [type]: newSelection
-      });
+      if (isExtra) {
+        // Se for um extra, substitui qualquer extra existente
+        const newAcompanhamentos = selectedOptions.acompanhamentos.filter(a => {
+          const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
+          return acomp?.tipo !== "extra";
+        });
+        
+        setSelectedOptions({
+          ...selectedOptions,
+          acompanhamentos: [...newAcompanhamentos, value]
+        });
+      } else {
+        // Se não for extra, adiciona/remove normalmente
+        const newSelection = selectedOptions[type].includes(value)
+          ? selectedOptions[type].filter(t => t !== value)
+          : [...selectedOptions[type], value];
+        
+        setSelectedOptions({
+          ...selectedOptions,
+          [type]: newSelection
+        });
+      }
     }
     else if (type === "toppings") {
       const newSelection = selectedOptions[type].includes(value)
@@ -690,7 +720,8 @@ const MenuItem = ({ item, onAdd }) => {
   };
 
   const validateSelections = () => {
-    if (item.tipo === "churrasco") {
+    // Validação especial apenas para Churrasco Misto
+    if (item.id === 101) {
       const hasSoMaminha = selectedOptions.carnes.some(c => {
         const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
         return carne?.soMaminha;
@@ -700,31 +731,20 @@ const MenuItem = ({ item, onAdd }) => {
         setValidationError("Por favor, selecione exatamente 2 carnes ou a opção 'Só Maminha'");
         return false;
       }
-      
-      // Validação especial para Churrasco Misto
-      if (item.id === 101) {
-        const hasExtra = selectedOptions.acompanhamentos.some(a => {
-          const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
-          return acomp?.tipo === "extra";
-        });
-        
-        if (hasExtra && selectedOptions.acompanhamentos.filter(a => {
-          const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
-          return acomp?.tipo === "extra";
-        }).length > 1) {
-          setValidationError("Por favor, selecione apenas uma opção extra (Batata Frita, Banana Frita ou Mandioca Frita)");
-          return false;
-        }
-      }
-      
-      if (!selectedOptions.salada) {
-        setValidationError("Por favor, selecione 1 salada");
-        return false;
-      }
-    } else if (item.tipo === "combo" && item.opcoes?.bebidas && !selectedOptions.bebida) {
+    }
+    
+    // Validação para salada em itens de churrasco
+    if (item.tipo === "churrasco" && !selectedOptions.salada) {
+      setValidationError("Por favor, selecione 1 salada");
+      return false;
+    }
+    
+    // Validação para bebida em combos
+    if (item.tipo === "combo" && item.opcoes?.bebidas && !selectedOptions.bebida) {
       setValidationError("Por favor, selecione uma bebida");
       return false;
     }
+    
     return true;
   };
 
@@ -757,7 +777,7 @@ const MenuItem = ({ item, onAdd }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6 border border-[#E5E7EB] hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6 border border-[#3D1106] hover:shadow-md transition-shadow">
       {/* Imagem */}
       <div className="relative h-48 w-full overflow-hidden">
         <img 
@@ -771,16 +791,34 @@ const MenuItem = ({ item, onAdd }) => {
       <div className="p-5">
         <div className="flex justify-between items-start mb-3">
           <div>
-            <h3 className="font-bold text-lg text-[#260B06]">{item.nome}</h3>
-            <p className="text-[#6B7280] text-sm mt-1 line-clamp-2">{item.descricao}</p>
+            <h3 className="font-bold text-lg text-[#280B04]">{item.nome}</h3>
+            {item.descricao && (
+              <button 
+                onClick={() => setShowDescription(!showDescription)}
+                className="text-[#3D1106] text-sm mt-1 flex items-center hover:text-[#280B04] transition-colors"
+              >
+                {showDescription ? (
+                  <>
+                    <ChevronUp size={16} className="mr-1" /> Ocultar ingredientes
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown size={16} className="mr-1" /> Ver ingredientes
+                  </>
+                )}
+              </button>
+            )}
+            {showDescription && (
+              <p className="text-[#6B7280] text-sm mt-1">{item.descricao}</p>
+            )}
           </div>
-          <p className="text-[#3C110A] font-bold text-lg whitespace-nowrap ml-2">€{item.preco.toFixed(2)}</p>
+          <p className="text-[#3D1106] font-bold text-lg whitespace-nowrap ml-2">€{item.preco.toFixed(2)}</p>
         </div>
 
         {(item.tipo === "churrasco" || (item.opcoes && (item.opcoes.toppings || item.opcoes.bebidas))) && (
           <button 
             onClick={() => setShowDetails(!showDetails)}
-            className="text-[#3C110A] text-sm font-medium mt-2 flex items-center hover:text-[#260B06] transition-colors"
+            className="text-[#3D1106] text-sm font-medium mt-2 flex items-center hover:text-[#280B04] transition-colors"
           >
             {showDetails ? (
               <>
@@ -800,7 +838,7 @@ const MenuItem = ({ item, onAdd }) => {
               <div className="space-y-4">
                 {item.opcoes.carnes && (
                   <div>
-                    <h4 className="font-medium text-[#260B06] mb-2">Carnes:</h4>
+                    <h4 className="font-medium text-[#280B04] mb-2">Carnes:</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {item.opcoes.carnes.map((carne) => {
                         const hasSoMaminha = selectedOptions.carnes.some(c => {
@@ -809,7 +847,7 @@ const MenuItem = ({ item, onAdd }) => {
                         });
                         
                         const isDisabled = (
-                          (selectedOptions.carnes.length >= 2 && !selectedOptions.carnes.includes(carne.nome)) ||
+                          (item.id === 101 && selectedOptions.carnes.length >= 2 && !selectedOptions.carnes.includes(carne.nome)) ||
                           (hasSoMaminha && !carne.soMaminha)
                         );
 
@@ -818,8 +856,8 @@ const MenuItem = ({ item, onAdd }) => {
                             key={carne.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.carnes.includes(carne.nome) ? 
-                              'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
-                              'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
+                              'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
+                              'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
@@ -835,31 +873,33 @@ const MenuItem = ({ item, onAdd }) => {
                         );
                       })}
                     </div>
-                    <p className="text-xs text-[#6B7280] mt-2">
-                      {selectedOptions.carnes.some(c => {
-                        const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
-                        return carne?.soMaminha;
-                      }) ? (
-                        "Selecionou a opção 'Só Maminha'"
-                      ) : (
-                        "Selecione 2 carnes ou a opção 'Só Maminha'"
-                      )}
-                    </p>
+                    {item.id === 101 && (
+                      <p className="text-xs text-[#6B7280] mt-2">
+                        {selectedOptions.carnes.some(c => {
+                          const carne = item.opcoes?.carnes?.find(opt => opt.nome === c);
+                          return carne?.soMaminha;
+                        }) ? (
+                          "Selecionou a opção 'Só Maminha'"
+                        ) : (
+                          "Selecione 2 carnes ou a opção 'Só Maminha'"
+                        )}
+                      </p>
+                    )}
                   </div>
                 )}
 
                 {item.opcoes.acompanhamentos && (
                   <div>
-                    <h4 className="font-medium text-[#260B06] mb-2">
-                      {item.id === 101 ? "Acompanhamentos (selecione 1 extra):" : "Acompanhamentos (selecione os que desejar):"}
+                    <h4 className="font-medium text-[#280B04] mb-2">
+                      {item.tipo === "churrasco" ? "Acompanhamentos (escolha seu extra):" : "Acompanhamentos:"}
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {item.opcoes.acompanhamentos.map((acomp) => {
                         const isExtra = acomp.tipo === "extra";
                         const isSelected = selectedOptions.acompanhamentos.includes(acomp.nome);
                         
-                        // Para Churrasco Misto, apenas permitir selecionar 1 extra
-                        const isDisabled = item.id === 101 && isExtra && 
+                        // Para itens de churrasco, apenas permitir selecionar 1 extra
+                        const isDisabled = item.tipo === "churrasco" && isExtra && 
                           selectedOptions.acompanhamentos.some(a => {
                             const acomp = item.opcoes?.acompanhamentos?.find(opt => opt.nome === a);
                             return acomp?.tipo === "extra";
@@ -870,13 +910,13 @@ const MenuItem = ({ item, onAdd }) => {
                             key={acomp.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               isSelected ? 
-                              'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
-                              'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
+                              'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
+                              'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
-                              type={item.id === 101 && isExtra ? "radio" : "checkbox"}
-                              name={item.id === 101 && isExtra ? "extra" : undefined}
+                              type={item.tipo === "churrasco" && isExtra ? "radio" : "checkbox"}
+                              name={item.tipo === "churrasco" && isExtra ? "extra" : undefined}
                               checked={isSelected}
                               onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
                               className="mr-2"
@@ -892,15 +932,15 @@ const MenuItem = ({ item, onAdd }) => {
 
                 {item.opcoes.saladas && (
                   <div>
-                    <h4 className="font-medium text-[#260B06] mb-2">Salada (selecione 1):</h4>
+                    <h4 className="font-medium text-[#280B04] mb-2">Salada (selecione 1):</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {item.opcoes.saladas.map((salada) => (
                         <label 
                           key={salada.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.salada === salada.nome ? 
-                            'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
-                            'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
+                            'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
+                            'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
                           }`}
                         >
                           <input
@@ -919,15 +959,15 @@ const MenuItem = ({ item, onAdd }) => {
 
                 {item.opcoes.bebidas && (
                   <div>
-                    <h4 className="font-medium text-[#260B06] mb-2">Bebida {item.tipo === "combo" ? "incluída" : "(opcional)"}:</h4>
+                    <h4 className="font-medium text-[#280B04] mb-2">Bebida {item.tipo === "combo" ? "incluída" : "(opcional)"}:</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {item.opcoes.bebidas.map((bebida) => (
                         <div key={bebida.id}>
                           <label 
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.bebida === bebida.nome ? 
-                              'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
-                              'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
+                              'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
+                              'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
                             }`}
                           >
                             <input
@@ -960,15 +1000,15 @@ const MenuItem = ({ item, onAdd }) => {
 
                 {item.opcoes.toppings && (
                   <div>
-                    <h4 className="font-medium text-[#260B06] mb-2">Toppings (opcional):</h4>
+                    <h4 className="font-medium text-[#280B04] mb-2">Toppings (opcional):</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {item.opcoes.toppings.map((topping) => (
                         <label 
                           key={topping.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.toppings.includes(topping.nome) ? 
-                            'border-[#3C110A] bg-[#FFB400]/20 text-[#260B06]' : 
-                            'border-[#E5E7EB] text-[#260B06] hover:border-[#3C110A]'
+                            'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
+                            'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
                           }`}
                         >
                           <input
@@ -997,7 +1037,7 @@ const MenuItem = ({ item, onAdd }) => {
           className={`mt-4 w-full py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center ${
             addedToCart ? 
               'bg-green-600 text-white' : 
-              'bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] shadow-md'
+              'bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] shadow-md'
           }`}
         >
           {addedToCart ? (
@@ -1022,7 +1062,7 @@ const MenuItem = ({ item, onAdd }) => {
 // ========== COMPONENTE CART ITEM ========== //
 const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-3 border border-[#E5E7EB] hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-lg shadow-sm p-4 mb-3 mt-4 border border-[#3D1106] hover:shadow-md transition-shadow">
       <div className="flex">
         <div className="w-20 h-20 rounded-md overflow-hidden mr-4 flex-shrink-0">
           <img 
@@ -1035,7 +1075,7 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
         <div className="flex-1">
           <div className="flex justify-between items-start">
             <div className="flex-1">
-              <h3 className="font-bold text-base text-[#260B06]">{item.nome}</h3>
+              <h3 className="font-bold text-base text-[#280B04]">{item.nome}</h3>
               
               {item.selectedOptions && (
                 <div className="mt-1 text-xs text-[#6B7280]">
@@ -1057,22 +1097,22 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
             </div>
 
             <div className="flex flex-col items-end">
-              <p className="text-[#3C110A] font-bold text-base">
+              <p className="text-[#3D1106] font-bold text-base">
                 €{(item.precoFinal || item.preco).toFixed(2)}
               </p>
               <div className="flex items-center space-x-2 mt-2">
                 <button
                   onClick={() => onDecrease(index)}
-                  className="bg-[#FFB400] hover:bg-[#FFD700] text-[#260B06] p-1 rounded-full transition-colors"
+                  className="bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] p-1 rounded-full transition-colors"
                 >
                   <Minus size={14} />
                 </button>
                 
-                <span className="text-[#260B06] w-6 text-center text-sm">{item.quantidade}</span>
+                <span className="text-[#280B04] w-6 text-center text-sm">{item.quantidade}</span>
                 
                 <button
                   onClick={() => onIncrease(index)}
-                  className="bg-[#FFB400] hover:bg-[#FFD700] text-[#260B06] p-1 rounded-full transition-colors"
+                  className="bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] p-1 rounded-full transition-colors"
                 >
                   <Plus size={14} />
                 </button>
@@ -1096,9 +1136,9 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
 const MbwayPayment = ({ phone, setPhone, errors, setErrors }) => {
   return (
     <div className="mt-6">
-      <label className="block text-[#260B06] mb-2 font-medium">Número de Telemóvel MBWay</label>
-      <div className="flex items-center border border-[#E5E7EB] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#3C110A] focus-within:border-transparent">
-        <span className="px-4 py-3 bg-[#FFB400] text-[#260B06] font-medium">+351</span>
+      <label className="block text-[#280B04] mb-2 font-medium">Número de Telemóvel MBWay</label>
+      <div className="flex items-center border border-[#E5E7EB] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#3D1106] focus-within:border-transparent">
+        <span className="px-4 py-3 bg-[#FFB501] text-[#280B04] font-medium">+351</span>
         <input
           type="tel"
           value={phone}
@@ -1168,42 +1208,42 @@ const CheckoutForm = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto border border-[#E5E7EB]">
+    <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto border border-[#3D1106]">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-[#260B06]">Finalizar Pedido</h2>
+        <h2 className="text-2xl font-bold text-[#280B04]">Finalizar Pedido</h2>
       </div>
       
-      <div className="mb-8 bg-[#FFF1E8] p-5 rounded-lg border border-[#FFB400]">
-        <h3 className="font-semibold text-lg text-[#260B06] mb-4 flex items-center">
+      <div className="mb-8 bg-[#FFFBF7] p-5 rounded-lg border border-[#FFB501]">
+        <h3 className="font-semibold text-lg text-[#280B04] mb-4 flex items-center">
           <ShoppingCart className="mr-2" /> Resumo do Pedido
         </h3>
         
         <div className="space-y-3">
           {cart.map((item, index) => (
-            <div key={index} className="flex justify-between border-b border-[#FFB400] pb-3">
-              <span className="text-[#260B06] text-sm">
+            <div key={index} className="flex justify-between border-b border-[#FFB501] pb-3">
+              <span className="text-[#280B04] text-sm">
                 {item.quantidade}x {item.nome}
                 {item.selectedOptions?.bebida && ` + ${item.selectedOptions.bebida}`}
               </span>
-              <span className="font-medium text-[#260B06] text-sm">
+              <span className="font-medium text-[#280B04] text-sm">
                 €{(item.precoFinal || item.preco * item.quantidade).toFixed(2)}
               </span>
             </div>
           ))}
         </div>
         
-        <div className="border-t border-[#FFB400] mt-4 pt-4 space-y-2">
-          <div className="flex justify-between text-[#260B06] text-sm">
+        <div className="border-t border-[#FFB501] mt-4 pt-4 space-y-2">
+          <div className="flex justify-between text-[#280B04] text-sm">
             <span>Subtotal:</span>
             <span>€{(total - (entrega ? 4 : 0)).toFixed(2)}</span>
           </div>
           {entrega && (
-            <div className="flex justify-between text-[#260B06] text-sm">
+            <div className="flex justify-between text-[#280B04] text-sm">
               <span>Taxa de Entrega:</span>
               <span>€4.00</span>
             </div>
           )}
-          <div className="flex justify-between font-bold text-lg pt-3 border-t border-[#FFB400] text-[#260B06]">
+          <div className="flex justify-between font-bold text-lg pt-3 border-t border-[#FFB501] text-[#280B04]">
             <span>Total:</span>
             <span>€{total.toFixed(2)}</span>
           </div>
@@ -1211,8 +1251,8 @@ const CheckoutForm = ({
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-[#FFF1E8] p-5 rounded-lg border border-[#FFB400]">
-          <h3 className="font-semibold text-lg text-[#260B06] mb-4">Informações de Entrega</h3>
+        <div className="bg-[#FFFBF7] p-5 rounded-lg border border-[#FFB501]">
+          <h3 className="font-semibold text-lg text-[#280B04] mb-4">Informações de Entrega</h3>
           
           <DeliveryPickupSelector 
             entrega={entrega} 
@@ -1222,7 +1262,7 @@ const CheckoutForm = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[#260B06] mb-2 font-medium flex items-center">
+              <label className="block text-[#280B04] mb-2 font-medium flex items-center">
                 <User size={16} className="mr-2" />
                 Nome Completo
               </label>
@@ -1230,7 +1270,7 @@ const CheckoutForm = ({
                 type="text"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3C110A] focus:border-transparent ${
+                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent ${
                   errors.nome ? 'border-red-500' : 'border-[#E5E7EB]'
                 }`}
                 placeholder="Seu nome completo"
@@ -1239,7 +1279,7 @@ const CheckoutForm = ({
             </div>
 
             <div>
-              <label className="block text-[#260B06] mb-2 font-medium flex items-center">
+              <label className="block text-[#280B04] mb-2 font-medium flex items-center">
                 <Phone size={16} className="mr-2" />
                 Contato (WhatsApp)
               </label>
@@ -1247,7 +1287,7 @@ const CheckoutForm = ({
                 type="tel"
                 value={contato}
                 onChange={(e) => setContato(e.target.value)}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3C110A] focus:border-transparent ${
+                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent ${
                   errors.contato ? 'border-red-500' : 'border-[#E5E7EB]'
                 }`}
                 placeholder="Seu número de telefone"
@@ -1258,7 +1298,7 @@ const CheckoutForm = ({
 
           {entrega && (
             <div className="mt-4">
-              <label className="block text-[#260B06] mb-2 font-medium flex items-center">
+              <label className="block text-[#280B04] mb-2 font-medium flex items-center">
                 <MapPin size={16} className="mr-2" />
                 Endereço de Entrega
               </label>
@@ -1266,7 +1306,7 @@ const CheckoutForm = ({
                 type="text"
                 value={endereco}
                 onChange={(e) => setEndereco(e.target.value)}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3C110A] focus:border-transparent ${
+                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent ${
                   errors.endereco ? 'border-red-500' : 'border-[#E5E7EB]'
                 }`}
                 placeholder="Rua, número, bairro, complemento"
@@ -1276,41 +1316,41 @@ const CheckoutForm = ({
           )}
 
           <div className="mt-4">
-            <label className="block text-[#260B06] mb-2 font-medium flex items-center">
+            <label className="block text-[#280B04] mb-2 font-medium flex items-center">
               <Info size={16} className="mr-2" />
               Observações (opcional)
             </label>
             <textarea
               value={observacoes}
               onChange={(e) => setObservacoes(e.target.value)}
-              className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3C110A] focus:border-transparent"
+              className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent"
               placeholder="Alguma observação sobre o pedido?"
               rows={3}
             />
           </div>
         </div>
 
-        <div className="bg-[#FFF1E8] p-5 rounded-lg border border-[#FFB400]">
-          <h3 className="font-semibold text-lg text-[#260B06] mb-4">Método de Pagamento</h3>
+        <div className="bg-[#FFFBF7] p-5 rounded-lg border border-[#FFB501]">
+          <h3 className="font-semibold text-lg text-[#280B04] mb-4">Método de Pagamento</h3>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'dinheiro' 
-                    ? 'border-[#3C110A] bg-[#FFB400]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3C110A]'
+                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
+                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
                 }`}
                 onClick={() => setMetodoPagamento('dinheiro')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'dinheiro' ? 'bg-[#3C110A] text-[#FFB400]' : 'bg-[#FFF1E8] text-[#260B06]'
+                    metodoPagamento === 'dinheiro' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <CreditCard size={20} />
                   </div>
                   <div>
-                    <h4 className="font-medium text-[#260B06]">Dinheiro</h4>
+                    <h4 className="font-medium text-[#280B04]">Dinheiro</h4>
                     <p className="text-sm text-[#6B7280]">Pagamento na entrega com troco</p>
                   </div>
                 </div>
@@ -1319,19 +1359,19 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'mbway' 
-                    ? 'border-[#3C110A] bg-[#FFB400]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3C110A]'
+                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
+                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
                 }`}
                 onClick={() => setMetodoPagamento('mbway')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'mbway' ? 'bg-[#3C110A] text-[#FFB400]' : 'bg-[#FFF1E8] text-[#260B06]'
+                    metodoPagamento === 'mbway' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <Smartphone size={20} />
                   </div>
                   <div>
-                    <h4 className="font-medium text-[#260B06]">MBWay</h4>
+                    <h4 className="font-medium text-[#280B04]">MBWay</h4>
                     <p className="text-sm text-[#6B7280]">Pagamento instantâneo via app</p>
                   </div>
                 </div>
@@ -1340,19 +1380,19 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'cartao' 
-                    ? 'border-[#3C110A] bg-[#FFB400]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3C110A]'
+                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
+                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
                 }`}
                 onClick={() => setMetodoPagamento('cartao')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'cartao' ? 'bg-[#3C110A] text-[#FFB400]' : 'bg-[#FFF1E8] text-[#260B06]'
+                    metodoPagamento === 'cartao' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <CreditCard size={20} />
                   </div>
                   <div>
-                    <h4 className="font-medium text-[#260B06]">Cartão</h4>
+                    <h4 className="font-medium text-[#280B04]">Cartão</h4>
                     <p className="text-sm text-[#6B7280]">Débito ou crédito na entrega</p>
                   </div>
                 </div>
@@ -1361,19 +1401,19 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'multibanco' 
-                    ? 'border-[#3C110A] bg-[#FFB400]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3C110A]'
+                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
+                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
                 }`}
                 onClick={() => setMetodoPagamento('multibanco')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'multibanco' ? 'bg-[#3C110A] text-[#FFB400]' : 'bg-[#FFF1E8] text-[#260B06]'
+                    metodoPagamento === 'multibanco' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <CreditCard size={20} />
                   </div>
                   <div>
-                    <h4 className="font-medium text-[#260B06]">Multibanco</h4>
+                    <h4 className="font-medium text-[#280B04]">Multibanco</h4>
                     <p className="text-sm text-[#6B7280]">Pagamento por referência MB</p>
                   </div>
                 </div>
@@ -1412,13 +1452,13 @@ const CheckoutForm = ({
           <button
             type="button"
             onClick={onBack}
-            className="flex-1 bg-[#FFB400] hover:bg-[#FFD700] text-[#260B06] py-3 px-4 rounded-lg font-medium transition-colors shadow-sm"
+            className="flex-1 bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] py-3 px-4 rounded-lg font-medium transition-colors shadow-sm"
           >
             Voltar à Ementa
           </button>
           <button
             type="submit"
-            className="flex-1 bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] py-3 px-4 rounded-lg font-medium transition-colors shadow-md"
+            className="flex-1 bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-3 px-4 rounded-lg font-medium transition-colors shadow-md"
           >
             Confirmar Pedido
           </button>
@@ -1442,14 +1482,14 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
   });
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 text-center max-w-md mx-auto border border-[#E5E7EB]">
+    <div className="bg-white rounded-xl shadow-lg p-8 text-center max-w-md mx-auto border border-[#3D1106]">
       <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
         <Check size={32} className="text-green-600" />
       </div>
       
-      <h2 className="text-2xl font-bold text-[#260B06] mb-2">Pedido Confirmado!</h2>
-      <p className="text-[#260B06] mb-1">Número do pedido:</p>
-      <p className="text-3xl font-bold text-[#3C110A] mb-6">#{orderNumber}</p>
+      <h2 className="text-2xl font-bold text-[#280B04] mb-2">Pedido Confirmado!</h2>
+      <p className="text-[#280B04] mb-1">Número do pedido:</p>
+      <p className="text-3xl font-bold text-[#3D1106] mb-6">#{orderNumber}</p>
       
       <div className="bg-blue-50 p-5 rounded-lg text-left mb-6">
         <div className="flex items-start mb-4">
@@ -1497,7 +1537,7 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
       
       <button
         onClick={onNewOrder}
-        className="w-full bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] py-3 px-4 rounded-lg font-medium transition-colors shadow-md"
+        className="w-full bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-3 px-4 rounded-lg font-medium transition-colors shadow-md"
       >
         Fazer Novo Pedido
       </button>
@@ -1507,28 +1547,28 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
 
 const Footer = () => {
   const handleAddressClick = () => {
-    const address = "Estr. de Alvor, São Sebastião, 8500-769 Portimão";
+    const address = "Cozinha da Vivi, Estr. de Alvor, São Sebastião, 8500-769 Portimão";
     const encodedAddress = encodeURIComponent(address);
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
   };
 
   return (
-    <footer className="bg-[#FFB400] text-[#260B06] py-12">
+    <footer className="bg-[#FFB501] text-[#3D1106] py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Hours Section */}
           <div>
             <h3 className="text-xl font-bold mb-4">Horário</h3>
             <div className="space-y-3">
-              <div className="flex justify-between border-b border-[#260B06] pb-2">
+              <div className="flex justify-between border-b border-[#3D1106] pb-2">
                 <span>Segunda-feira:</span>
                 <span className="font-medium">Fechado</span>
               </div>
-              <div className="flex justify-between border-b border-[#260B06] pb-2">
+              <div className="flex justify-between border-b border-[#3D1106] pb-2">
                 <span>Terça a Sábado:</span>
                 <span className="font-medium">12:00 - 14:45</span>
               </div>
-              <div className="flex justify-between border-b border-[#260B06] pb-2">
+              <div className="flex justify-between border-b border-[#3D1106] pb-2">
                 <span>Terça a Sábado:</span>
                 <span className="font-medium">19:00 - 21:30</span>
               </div>
@@ -1543,8 +1583,8 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold mb-4">Contactos</h3>
             <div className="flex items-center">
-              <Phone className="text-[#260B06] mr-3" size={20} />
-              <a href="tel:+351933737672" className="hover:text-[#3C110A] transition-colors">
+              <Phone className="text-[#3D1106] mr-3" size={20} />
+              <a href="tel:+351933737672" className="hover:text-[#280B04] transition-colors">
                 (93) 373-7672
               </a>
             </div>
@@ -1554,23 +1594,23 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold mb-4">Localização</h3>
             <div 
-              className="flex items-start cursor-pointer hover:text-[#3C110A] transition-colors"
+              className="flex items-start cursor-pointer hover:text-[#280B04] transition-colors"
               onClick={handleAddressClick}
             >
-              <MapPin className="text-[#260B06] mr-3 mt-0.5 flex-shrink-0" size={20} />
+              <MapPin className="text-[#3D1106] mr-3 mt-0.5 flex-shrink-0" size={20} />
               <div>
-                <p className="hover:underline">Estr. de Alvor, São Sebastião</p>
+                <p className="hover:underline">Cozinha da Vivi, Estr. de Alvor, São Sebastião</p>
                 <p className="hover:underline">8500-769 Portimão</p>
               </div>
             </div>
             
             <div className="flex justify-center space-x-6 pt-4">
               <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
-                className="text-[#260B06] hover:text-[#3C110A] transition-colors">
+                className="text-[#3D1106] hover:text-[#280B04] transition-colors">
                 <Instagram size={24} />
               </a>
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="text-[#260B06] hover:text-[#3C110A] transition-colors">
+                className="text-[#3D1106] hover:text-[#280B04] transition-colors">
                 <Facebook size={24} />
               </a>
             </div>
@@ -1578,7 +1618,7 @@ const Footer = () => {
         </div>
         
         {/* Copyright */}
-        <div className="border-t border-[#260B06] mt-8 pt-8 text-center text-sm">
+        <div className="border-t border-[#3D1106] mt-8 pt-8 text-center text-sm">
           © {new Date().getFullYear()} Churrascaria Gaúcha. Todos os direitos reservados.
         </div>
       </div>
@@ -1784,6 +1824,7 @@ export default function OrderBot() {
       <Navbar 
         cart={cart} 
         setIsCartOpen={setIsCartOpen}
+        resetToMenu={resetToMenu}
       />
       
       <main className="container mx-auto px-4 py-6 pb-24">
@@ -1791,14 +1832,14 @@ export default function OrderBot() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Menu Section */}
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-[#260B06] mb-6">Ementa</h2>
+              <h2 className="text-2xl font-bold text-[#280B04] mb-6">Ementa</h2>
               
               <div className="space-y-8">
                 {ementa.map((category) => (
-                  <div key={category.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-[#E5E7EB]">
+                  <div key={category.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-[#3D1106]">
                     <button
                       onClick={() => setOpenCategory(openCategory === category.id ? null : category.id)}
-                      className="w-full flex justify-between items-center p-5 hover:bg-[#FFB400]/10 transition-colors"
+                      className="w-full flex justify-between items-center p-5 hover:bg-[#FEDA86]/10 transition-colors"
                     >
                       <div className="flex items-center">
                         {category.imagem && (
@@ -1811,7 +1852,7 @@ export default function OrderBot() {
                             />
                           </div>
                         )}
-                        <h3 className="text-lg font-semibold text-[#260B06]">{category.nome}</h3>
+                        <h3 className="text-lg font-semibold text-[#280B04]">{category.nome}</h3>
                       </div>
                       {openCategory === category.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                     </button>
@@ -1821,7 +1862,7 @@ export default function OrderBot() {
                         {category.subcategorias ? (
                           category.subcategorias.map((subcat) => (
                             <div key={subcat.nome} className="mb-6">
-                              <h4 className="font-medium text-[#260B06] text-sm uppercase tracking-wider mb-3">
+                              <h4 className="font-medium text-[#280B04] text-sm uppercase tracking-wider mb-3">
                                 {subcat.nome}
                               </h4>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1855,16 +1896,16 @@ export default function OrderBot() {
 
             {/* Cart Sidebar (Desktop) */}
             <div className="hidden lg:block">
-              <div className="bg-white rounded-xl shadow-md p-5 sticky top-24 border border-[#E5E7EB]">
-                <h2 className="text-xl font-bold text-[#260B06] mb-4 flex items-center">
+              <div className="bg-[#280B04] rounded-xl shadow-md p-5 sticky top-24 border border-[#3D1106]">
+                <h2 className="text-xl font-bold text-[#FFF1E4] mb-4 flex items-center">
                   <ShoppingCart className="mr-2" /> Seu Pedido
                 </h2>
                 
                 {cart.length === 0 ? (
                   <div className="text-center py-8">
                     <ShoppingCart size={48} className="mx-auto text-[#6B7280] mb-4" />
-                    <p className="text-[#6B7280]">O seu carrinho está vazio</p>
-                    <p className="text-[#6B7280] text-sm mt-2">Adicione itens para continuar</p>
+                    <p className="text-[#FFF1E4]">O seu carrinho está vazio</p>
+                    <p className="text-[#FFF1E4] text-sm mt-2">Adicione itens para continuar</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -1881,18 +1922,18 @@ export default function OrderBot() {
                       ))}
                     </div>
 
-                    <div className="border-t border-[#E5E7EB] pt-4">
-                      <div className="flex justify-between mb-1 text-[#260B06] text-sm">
+                    <div className="border-t border-[#3D1106] pt-4">
+                      <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
                         <span>Subtotal:</span>
                         <span>€{subtotal.toFixed(2)}</span>
                       </div>
                       {entrega && (
-                        <div className="flex justify-between mb-1 text-[#260B06] text-sm">
+                        <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
                           <span>Taxa de Entrega:</span>
                           <span>€4.00</span>
                         </div>
                       )}
-                      <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#E5E7EB] text-[#260B06]">
+                      <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#3D1106] text-[#FFF1E4]">
                         <span>Total:</span>
                         <span>€{total.toFixed(2)}</span>
                       </div>
@@ -1904,7 +1945,7 @@ export default function OrderBot() {
                       className={`w-full py-3 px-4 rounded-lg font-medium mt-4 transition-colors ${
                         cart.length === 0 ? 
                         'bg-gray-200 text-gray-500 cursor-not-allowed' : 
-                        'bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] shadow-md'
+                        'bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] shadow-md'
                       }`}
                     >
                       Finalizar Pedido
@@ -1952,14 +1993,14 @@ export default function OrderBot() {
             onClick={() => setIsCartOpen(false)}
           />
           
-          <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-xl z-30 p-4 overflow-y-auto transform transition-transform duration-300 ease-out">
-            <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#E5E7EB]">
-              <h2 className="text-xl font-bold text-[#260B06] flex items-center">
+          <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#FFFBF7] shadow-xl z-30 p-4 overflow-y-auto transform transition-transform duration-300 ease-out">
+            <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#3D1106]">
+              <h2 className="text-xl font-bold text-[#FFF1E4] flex items-center">
                 <ShoppingCart className="mr-2" /> Seu Pedido
               </h2>
               <button 
                 onClick={() => setIsCartOpen(false)}
-                className="text-[#6B7280] hover:text-[#260B06] transition-colors"
+                className="text-[#FFF1E4] hover:text-[#FFB501] transition-colors"
               >
                 <X size={24} />
               </button>
@@ -1968,8 +2009,8 @@ export default function OrderBot() {
             {cart.length === 0 ? (
               <div className="text-center py-8">
                 <ShoppingCart size={48} className="mx-auto text-[#6B7280] mb-4" />
-                <p className="text-[#6B7280]">O seu carrinho está vazio</p>
-                <p className="text-[#6B7280] text-sm mt-2">Adicione itens para continuar</p>
+                <p className="text-[#FFF1E4]">O seu carrinho está vazio</p>
+                <p className="text-[#FFF1E4] text-sm mt-2">Adicione itens para continuar</p>
                 <button
                   onClick={() => {
                     setIsCartOpen(false);
@@ -1977,7 +2018,7 @@ export default function OrderBot() {
                       resetToMenu();
                     }
                   }}
-                  className="mt-4 bg-[#FFB400] hover:bg-[#FFD700] text-[#260B06] py-2 px-4 rounded-lg font-medium transition-colors shadow-sm"
+                  className="mt-4 bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] py-2 px-4 rounded-lg font-medium transition-colors shadow-sm"
                 >
                   Voltar à Ementa
                 </button>
@@ -1997,18 +2038,18 @@ export default function OrderBot() {
                   ))}
                 </div>
 
-                <div className="border-t border-[#E5E7EB] pt-4 mt-4">
-                  <div className="flex justify-between mb-1 text-[#260B06] text-sm">
+                <div className="border-t border-[#3D1106] pt-4 mt-4">
+                  <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
                     <span>Subtotal:</span>
                     <span>€{subtotal.toFixed(2)}</span>
                   </div>
                   {entrega && (
-                    <div className="flex justify-between mb-1 text-[#260B06] text-sm">
+                    <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
                       <span>Taxa de Entrega:</span>
                       <span>€4.00</span>
                     </div>
                   )}
-                  <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#E5E7EB] text-[#260B06]">
+                  <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#3D1106] text-[#FFF1E4]">
                     <span>Total:</span>
                     <span>€{total.toFixed(2)}</span>
                   </div>
@@ -2020,14 +2061,14 @@ export default function OrderBot() {
                       setStep(2);
                       setIsCartOpen(false);
                     }}
-                    className="fixed bottom-4 left-4 right-4 bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] py-3 rounded-lg font-medium shadow-md"
+                    className="fixed bottom-4 left-4 right-4 bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] py-3 rounded-lg font-medium shadow-md"
                   >
                     Finalizar Pedido
                   </button>
                 ) : (
                   <button
                     onClick={() => setIsCartOpen(false)}
-                    className="fixed bottom-4 left-4 right-4 bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] py-3 rounded-lg font-medium shadow-md"
+                    className="fixed bottom-4 left-4 right-4 bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] py-3 rounded-lg font-medium shadow-md"
                   >
                     Voltar para Finalização
                   </button>
@@ -2040,13 +2081,13 @@ export default function OrderBot() {
 
       {/* Mobile Checkout Button */}
       {step === 1 && cart.length > 0 && !isCartOpen && (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E5E7EB] p-4 shadow-lg z-10">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#3D1106] p-4 shadow-lg z-10">
           <button
             onClick={() => {
               setStep(2);
               setIsCartOpen(false);
             }}
-            className="w-full bg-[#3C110A] hover:bg-[#260B06] text-[#FFB400] py-3 rounded-lg font-medium shadow-md flex justify-between items-center px-6"
+            className="w-full bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04] py-3 rounded-lg font-medium shadow-md flex justify-between items-center px-6"
           >
             <span>Finalizar Pedido</span>
             <span>€{total.toFixed(2)}</span>
