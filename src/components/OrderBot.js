@@ -1707,6 +1707,7 @@ export default function OrderBot() {
   const [mbwayPhone, setMbwayPhone] = useState(() => loadFromLocalStorage('mbwayPhone', ""));
   const [observacoes, setObservacoes] = useState(() => loadFromLocalStorage('observacoes', ""));
   const [orderNumber, setOrderNumber] = useState(null);
+  const [orderSubmitted, setOrderSubmitted] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -1920,109 +1921,115 @@ export default function OrderBot() {
     printWindow.document.close();
   };
 
-  useEffect(() => {
-    if (step === 3) {
-      const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
-      setOrderNumber(newOrderNumber);
-      
-      // Imprimir o pedido
-      printOrder(
-        newOrderNumber,
-        cart,
-        nome,
-        contato,
-        endereco,
-        entrega,
-        metodoPagamento,
-        mbwayPhone,
-        observacoes
-      );
-      
-      localStorage.removeItem('cart');
-      localStorage.removeItem('step');
-      localStorage.removeItem('nome');
-      localStorage.removeItem('endereco');
-      localStorage.removeItem('contato');
-      localStorage.removeItem('entrega');
-      localStorage.removeItem('metodoPagamento');
-      localStorage.removeItem('mbwayPhone');
-      localStorage.removeItem('observacoes');
-    }
-  }, [step, orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes]);
-  
-  useEffect(() => {
-    if (step === 3 && orderNumber) {
-      const sendOrderToWhatsApp = () => {
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString('pt-PT', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric'
-        });
-        const formattedTime = now.toLocaleTimeString('pt-PT', {
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-  
-        const itemsText = cart.map(item => {
-          let itemText = `${item.quantidade}x *${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
-          if (item.selectedOptions) {
-            if (item.selectedOptions.carnes?.length > 0) {
-              itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
-            }
-            if (item.selectedOptions.acompanhamentos?.length > 0) {
-              itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos.join(", ")}`;
-            }
-            if (item.selectedOptions.salada) {
-              itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
-            }
-            if (item.selectedOptions.bebida) {
-              itemText += `\n  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
-            }
-            if (item.selectedOptions.toppings?.length > 0) {
-              itemText += `\n  🍓 *Toppings:* ${item.selectedOptions.toppings.join(", ")}`;
-            }
-          }
-          return itemText;
-        }).join('\n\n');
-  
-        let paymentMethod = '';
-        if (metodoPagamento === 'mbway') {
-          paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})\nNúmero do restaurante: 933 737 672`;
-        } else if (metodoPagamento === 'cartao') {
-          paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
-        } else if (metodoPagamento === 'multibanco') {
-          paymentMethod = '💳 *Multibanco* (Pagamento por referência MB)';
-        } else {
-          paymentMethod = '💵 *Dinheiro* (Com troco)';
+  const sendOrderToWhatsApp = (orderNumber) => {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    const formattedTime = now.toLocaleTimeString('pt-PT', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    const itemsText = cart.map(item => {
+      let itemText = `${item.quantidade}x *${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
+      if (item.selectedOptions) {
+        if (item.selectedOptions.carnes?.length > 0) {
+          itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
         }
-  
-        const subtotal = cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0);
-        const total = subtotal + (entrega ? 4 : 0);
-  
-        const message = `*🍖 NOVO PEDIDO #${orderNumber} - CHURRASCARIA GAÚCHA* 🍖\n\n` +
-          `📅 *Data:* ${formattedDate}\n` +
-          `⏰ *Hora:* ${formattedTime}\n\n` +
-          `*🍽️ ITENS DO PEDIDO*\n${itemsText}\n\n` +
-          `*💰 TOTAL DO PEDIDO*\n` +
-          `• Subtotal: €${subtotal.toFixed(2)}\n` +
-          `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}\n` +
-          `• *Total a pagar: €${total.toFixed(2)}*\n\n` +
-          `*👤 INFORMAÇÕES DO CLIENTE*\n` +
-          `• Nome: ${nome}\n` +
-          `• Contato: ${contato}\n` +
-          `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}\n` +
-          `• Pagamento: ${paymentMethod}\n\n` +
-          (observacoes ? `*📝 OBSERVAÇÕES*\n${observacoes}\n\n` : '') +
-          `_Obrigado pelo seu pedido! Entraremos em contacto em breve para confirmar._`;
-  
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/351933737672?text=${encodedMessage}`, '_blank');
-      };
-  
-      sendOrderToWhatsApp();
+        if (item.selectedOptions.acompanhamentos?.length > 0) {
+          itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos.join(", ")}`;
+        }
+        if (item.selectedOptions.salada) {
+          itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
+        }
+        if (item.selectedOptions.bebida) {
+          itemText += `\n  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
+        }
+        if (item.selectedOptions.toppings?.length > 0) {
+          itemText += `\n  🍓 *Toppings:* ${item.selectedOptions.toppings.join(", ")}`;
+        }
+      }
+      return itemText;
+    }).join('\n\n');
+
+    let paymentMethod = '';
+    if (metodoPagamento === 'mbway') {
+      paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})\nNúmero do restaurante: 933 737 672`;
+    } else if (metodoPagamento === 'cartao') {
+      paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
+    } else if (metodoPagamento === 'multibanco') {
+      paymentMethod = '💳 *Multibanco* (Pagamento por referência MB)';
+    } else {
+      paymentMethod = '💵 *Dinheiro* (Com troco)';
     }
-  }, [step, orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes]);
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0);
+    const total = subtotal + (entrega ? 4 : 0);
+
+    const message = `*🍖 NOVO PEDIDO #${orderNumber} - CHURRASCARIA GAÚCHA* 🍖\n\n` +
+      `📅 *Data:* ${formattedDate}\n` +
+      `⏰ *Hora:* ${formattedTime}\n\n` +
+      `*🍽️ ITENS DO PEDIDO*\n${itemsText}\n\n` +
+      `*💰 TOTAL DO PEDIDO*\n` +
+      `• Subtotal: €${subtotal.toFixed(2)}\n` +
+      `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}\n` +
+      `• *Total a pagar: €${total.toFixed(2)}*\n\n` +
+      `*👤 INFORMAÇÕES DO CLIENTE*\n` +
+      `• Nome: ${nome}\n` +
+      `• Contato: ${contato}\n` +
+      `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}\n` +
+      `• Pagamento: ${paymentMethod}\n\n` +
+      (observacoes ? `*📝 OBSERVAÇÕES*\n${observacoes}\n\n` : '') +
+      `_Obrigado pelo seu pedido! Entraremos em contacto em breve para confirmar._`;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/351933737672?text=${encodedMessage}`, '_blank');
+  };
+
+  const handleSubmitOrder = () => {
+    const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
+    setOrderNumber(newOrderNumber);
+    setOrderSubmitted(true);
+    
+    // Imprimir o pedido
+    printOrder(
+      newOrderNumber,
+      cart,
+      nome,
+      contato,
+      endereco,
+      entrega,
+      metodoPagamento,
+      mbwayPhone,
+      observacoes
+    );
+    
+    // Enviar para o WhatsApp
+    sendOrderToWhatsApp(newOrderNumber);
+    
+    // Limpar localStorage
+    localStorage.removeItem('cart');
+    localStorage.removeItem('step');
+    localStorage.removeItem('nome');
+    localStorage.removeItem('endereco');
+    localStorage.removeItem('contato');
+    localStorage.removeItem('entrega');
+    localStorage.removeItem('metodoPagamento');
+    localStorage.removeItem('mbwayPhone');
+    localStorage.removeItem('observacoes');
+    
+    setStep(3);
+  };
+  
+  useEffect(() => {
+    if (orderSubmitted && orderNumber) {
+      // A impressão e envio para WhatsApp já foram tratados em handleSubmitOrder
+      setOrderSubmitted(false);
+    }
+  }, [orderSubmitted, orderNumber]);
   
   useEffect(() => {
     if (step !== 1) {
@@ -2081,6 +2088,8 @@ export default function OrderBot() {
     setStep(1);
     setOpenCategory(null);
     setIsCartOpen(false);
+    setOrderNumber(null);
+    setOrderSubmitted(false);
   };
 
   return (
@@ -2228,7 +2237,7 @@ export default function OrderBot() {
             cart={cart}
             total={total}
             onBack={resetToMenu}
-            onSubmit={() => setStep(3)}
+            onSubmit={handleSubmitOrder}
             nome={nome}
             setNome={setNome}
             endereco={endereco}
