@@ -466,7 +466,6 @@ const ementa = [
 ];
 
 // ========== COMPONENTE SPECIAL PROMO BANNER ========== //
-// ========== COMPONENTE SPECIAL PROMO BANNER ========== //
 const SpecialPromoBanner = () => {
   const [showPromoDetails, setShowPromoDetails] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -834,7 +833,7 @@ const MenuItem = ({ item, onAdd }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6 border border-[#3D1106] hover:shadow-md transition-shadow">
+    <div className="bg-[#FFF1E8] rounded-xl shadow-sm overflow-hidden mb-6 border border-[#3D1106] hover:shadow-md transition-shadow">
       {/* Imagem */}
       <div className="relative h-48 w-full overflow-hidden">
         <img 
@@ -913,8 +912,8 @@ const MenuItem = ({ item, onAdd }) => {
                             key={carne.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.carnes.includes(carne.nome) ? 
-                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                              'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                              'border-[#3d1106] text-[#280B04]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
@@ -967,8 +966,8 @@ const MenuItem = ({ item, onAdd }) => {
                             key={acomp.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               isSelected ? 
-                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                              'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                              'border-[#3d1106] text-[#280B04]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
@@ -996,8 +995,8 @@ const MenuItem = ({ item, onAdd }) => {
                           key={salada.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.salada === salada.nome ? 
-                            'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                            'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                            'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                            'border-[#3d1106] text-[#280B04]'
                           }`}
                         >
                           <input
@@ -1023,8 +1022,8 @@ const MenuItem = ({ item, onAdd }) => {
                           <label 
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.bebida === bebida.nome ? 
-                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                              'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                              'border-[#3d1106] text-[#280B04]'
                             }`}
                           >
                             <input
@@ -1064,8 +1063,8 @@ const MenuItem = ({ item, onAdd }) => {
                           key={topping.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.toppings.includes(topping.nome) ? 
-                            'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                            'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                            'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                            'border-[#3d1106] text-[#280B04]'
                           }`}
                         >
                           <input
