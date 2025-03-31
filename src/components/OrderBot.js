@@ -4,7 +4,6 @@ import {
   ShoppingCart, X, Check, MapPin, Phone, User,
   CreditCard, Clock, Info, Smartphone, Loader2, 
   Instagram, Facebook, Calendar, AlertCircle, Star,
-  Printer
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -1949,7 +1948,7 @@ export default function OrderBot() {
       localStorage.removeItem('mbwayPhone');
       localStorage.removeItem('observacoes');
     }
-  }, [step]);
+  }, [step, orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes]);
   
   useEffect(() => {
     if (step === 3 && orderNumber) {
