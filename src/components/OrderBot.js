@@ -1728,18 +1728,22 @@ export default function OrderBot() {
   };
 
   const printOrder = (orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes) => {
-    const printWindow = window.open('', '_blank');
-    
     const printContent = `
       <html>
         <head>
           <title>Pedido #${orderNumber}</title>
           <style>
+            @page {
+              size: auto;
+              margin: 0mm;
+            }
             body {
               font-family: Arial, sans-serif;
               margin: 0;
               padding: 20px;
               color: #333;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
             }
             .header {
               text-align: center;
@@ -1807,6 +1811,14 @@ export default function OrderBot() {
               font-size: 12px;
               color: #555;
               margin-top: 3px;
+            }
+            @media print {
+              body {
+                padding: 10px;
+              }
+              button {
+                display: none !important;
+              }
             }
           </style>
         </head>
@@ -1916,9 +1928,23 @@ export default function OrderBot() {
       </html>
     `;
     
-    printWindow.document.open();
-    printWindow.document.write(printContent);
-    printWindow.document.close();
+    // Criar um iframe oculto para impressão automática
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = 'none';
+    iframe.style.left = '-9999px';
+    document.body.appendChild(iframe);
+    
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(printContent);
+    iframe.contentDocument.close();
+    
+    // Remover o iframe após a impressão
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 1000);
   };
 
   const sendOrderToWhatsApp = (orderNumber) => {
@@ -1994,7 +2020,7 @@ export default function OrderBot() {
     setOrderNumber(newOrderNumber);
     setOrderSubmitted(true);
     
-    // Imprimir o pedido
+    // Imprimir o pedido automaticamente
     printOrder(
       newOrderNumber,
       cart,
@@ -2026,7 +2052,6 @@ export default function OrderBot() {
   
   useEffect(() => {
     if (orderSubmitted && orderNumber) {
-      // A impressão e envio para WhatsApp já foram tratados em handleSubmitOrder
       setOrderSubmitted(false);
     }
   }, [orderSubmitted, orderNumber]);
