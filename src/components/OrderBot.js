@@ -4,6 +4,7 @@ import {
   ShoppingCart, X, Check, MapPin, Phone, User,
   CreditCard, Clock, Info, Smartphone, Loader2, 
   Instagram, Facebook, Calendar, AlertCircle, Star,
+  Printer, ChefHat, List, Home
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -536,7 +537,7 @@ const SpecialPromoBanner = () => {
 };
 
 // ========== COMPONENTE NAVBAR ========== //
-const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
+const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep, isAdminView, setIsAdminView }) => {
   return (
     <div>
       <header className="bg-[#FFF1E8] sticky top-0 z-40">
@@ -553,20 +554,40 @@ const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
               </button>
             </div>
             
-            {/* Botão do carrinho */}
-            <div className="flex items-center">
-              <button 
-                onClick={() => setIsCartOpen(true)}
-                className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
-                aria-label="Carrinho de compras"
-              >
-                <ShoppingCart size={24} />
-                {cart.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
-                    {cart.reduce((sum, item) => sum + item.quantidade, 0)}
-                  </span>
-                )}
-              </button>
+            {/* Botões de navegação */}
+            <div className="flex items-center space-x-4">
+              {!isAdminView ? (
+                <>
+                  <button 
+                    onClick={() => setIsAdminView(true)}
+                    className="hidden md:flex items-center text-[#280B04] hover:text-[#3D1106] transition-colors p-2 rounded-lg bg-[#FFB501]/20"
+                  >
+                    <ChefHat className="mr-2" size={18} />
+                    <span>Área do Restaurante</span>
+                  </button>
+                  
+                  <button 
+                    onClick={() => setIsCartOpen(true)}
+                    className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
+                    aria-label="Carrinho de compras"
+                  >
+                    <ShoppingCart size={24} />
+                    {cart.length > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
+                        {cart.reduce((sum, item) => sum + item.quantidade, 0)}
+                      </span>
+                    )}
+                  </button>
+                </>
+              ) : (
+                <button 
+                  onClick={() => setIsAdminView(false)}
+                  className="flex items-center text-[#280B04] hover:text-[#3D1106] transition-colors p-2 rounded-lg bg-[#FFB501]/20"
+                >
+                  <Home className="mr-2" size={18} />
+                  <span>Voltar ao Menu</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -1218,6 +1239,132 @@ const MbwayPayment = ({ phone, setPhone, errors, setErrors }) => {
   );
 };
 
+// ========== COMPONENTE ORDER ITEM (PARA A ÁREA ADMIN) ========== //
+const OrderItem = ({ order, onPrint }) => {
+  const [expanded, setExpanded] = useState(false);
+  const [isPrinting, setIsPrinting] = useState(false);
+
+  const handlePrint = () => {
+    setIsPrinting(true);
+    onPrint(order);
+    setTimeout(() => setIsPrinting(false), 1000);
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-4 mb-4 border border-[#3D1106] hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-center">
+        <div>
+          <h3 className="font-bold text-lg text-[#280B04]">Pedido #{order.orderNumber}</h3>
+          <p className="text-sm text-[#6B7280]">
+            {new Date(order.timestamp).toLocaleString('pt-PT')} • {order.entrega ? 'Entrega' : 'Retirada'}
+          </p>
+          <p className="text-sm font-medium text-[#3D1106] mt-1">
+            {order.nome} • {order.contato}
+          </p>
+        </div>
+        
+        <div className="flex space-x-2">
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors"
+          >
+            {expanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+          <button
+            onClick={handlePrint}
+            disabled={isPrinting}
+            className={`p-2 rounded-full transition-colors ${
+              isPrinting ? 'bg-gray-200 text-gray-500' : 'bg-[#FFB501] hover:bg-[#FFE5BA] text-[#280B04]'
+            }`}
+          >
+            <Printer size={20} />
+          </button>
+        </div>
+      </div>
+
+      {expanded && (
+        <div className="mt-4 pt-4 border-t border-[#E5E7EB]">
+          <div className="mb-4">
+            <h4 className="font-medium text-[#280B04] mb-2">Informações do Cliente</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm"><span className="font-medium">Nome:</span> {order.nome}</p>
+                <p className="text-sm"><span className="font-medium">Contato:</span> {order.contato}</p>
+              </div>
+              <div>
+                <p className="text-sm"><span className="font-medium">Tipo:</span> {order.entrega ? 'Entrega' : 'Retirada'}</p>
+                {order.entrega && (
+                  <p className="text-sm"><span className="font-medium">Endereço:</span> {order.endereco}</p>
+                )}
+              </div>
+            </div>
+            <p className="text-sm mt-2">
+              <span className="font-medium">Pagamento:</span> {order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
+                order.metodoPagamento === 'cartao' ? 'Cartão' : 
+                order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}
+            </p>
+            {order.observacoes && (
+              <p className="text-sm mt-2">
+                <span className="font-medium">Observações:</span> {order.observacoes}
+              </p>
+            )}
+          </div>
+
+          <h4 className="font-medium text-[#280B04] mb-2">Itens do Pedido</h4>
+          <div className="space-y-3">
+            {order.cart.map((item, index) => (
+              <div key={index} className="flex justify-between border-b border-[#E5E7EB] pb-2">
+                <div>
+                  <p className="text-sm font-medium">{item.quantidade}x {item.nome}</p>
+                  {item.selectedOptions && (
+                    <div className="text-xs text-[#6B7280]">
+                      {item.selectedOptions.carnes?.length > 0 && (
+                        <p><span className="font-medium">Carnes:</span> {item.selectedOptions.carnes.join(", ")}</p>
+                      )}
+                      {item.selectedOptions.acompanhamentos?.length > 0 && (
+                        <p><span className="font-medium">Acomp:</span> {item.selectedOptions.acompanhamentos.join(", ")}</p>
+                      )}
+                      {item.selectedOptions.salada && (
+                        <p><span className="font-medium">Salada:</span> {item.selectedOptions.salada}</p>
+                      )}
+                      {item.selectedOptions.bebida && (
+                        <p><span className="font-medium">Bebida:</span> {item.selectedOptions.bebida}</p>
+                      )}
+                      {item.selectedOptions.toppings?.length > 0 && (
+                        <p><span className="font-medium">Toppings:</span> {item.selectedOptions.toppings.join(", ")}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <p className="text-sm font-medium">
+                  €{(item.precoFinal || item.preco * item.quantidade).toFixed(2)}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-[#E5E7EB]">
+            <div className="flex justify-between">
+              <span className="font-medium">Subtotal:</span>
+              <span>€{order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</span>
+            </div>
+            {order.entrega && (
+              <div className="flex justify-between">
+                <span className="font-medium">Taxa de Entrega:</span>
+                <span>€4.00</span>
+              </div>
+            )}
+            <div className="flex justify-between font-bold text-lg mt-2 pt-2 border-t border-[#E5E7EB]">
+              <span>Total:</span>
+              <span>€{(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ========== COMPONENTE CHECKOUT FORM ========== //
 const CheckoutForm = ({ 
   cart, 
@@ -1602,6 +1749,95 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
   );
 };
 
+// ========== COMPONENTE ADMIN DASHBOARD ========== //
+const AdminDashboard = ({ orders, onPrintOrder }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState('all');
+
+  const filteredOrders = orders.filter(order => {
+    const matchesSearch = order.nome.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         order.orderNumber.toString().includes(searchTerm) ||
+                         order.contato.includes(searchTerm);
+    
+    const matchesFilter = filter === 'all' || 
+                         (filter === 'delivery' && order.entrega) || 
+                         (filter === 'pickup' && !order.entrega);
+    
+    return matchesSearch && matchesFilter;
+  });
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-[#280B04] mb-8">Painel de Pedidos</h1>
+      
+      <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-[#3D1106]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label className="block text-[#280B04] mb-2 font-medium">Buscar Pedidos</label>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar por nome, número ou contato..."
+              className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-[#280B04] mb-2 font-medium">Filtrar por Tipo</label>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => setFilter('all')}
+                className={`px-4 py-2 rounded-lg ${filter === 'all' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+              >
+                Todos
+              </button>
+              <button
+                onClick={() => setFilter('delivery')}
+                className={`px-4 py-2 rounded-lg ${filter === 'delivery' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+              >
+                Entrega
+              </button>
+              <button
+                onClick={() => setFilter('pickup')}
+                className={`px-4 py-2 rounded-lg ${filter === 'pickup' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+              >
+                Retirada
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold text-[#280B04]">
+            {filteredOrders.length} {filteredOrders.length === 1 ? 'Pedido' : 'Pedidos'} Encontrados
+          </h2>
+        </div>
+        
+        {filteredOrders.length === 0 ? (
+          <div className="text-center py-12">
+            <List size={48} className="mx-auto text-[#6B7280] mb-4" />
+            <p className="text-[#280B04]">Nenhum pedido encontrado</p>
+            <p className="text-[#280B04] text-sm mt-2">Tente ajustar seus filtros de busca</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredOrders
+              .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+              .map((order) => (
+                <OrderItem 
+                  key={order.orderNumber} 
+                  order={order} 
+                  onPrint={onPrintOrder}
+                />
+              ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Footer = () => {
   const handleAddressClick = () => {
     const address = "Cozinha da Vivi, Estr. de Alvor, São Sebastião, 8500-769 Portimão";
@@ -1708,6 +1944,11 @@ export default function OrderBot() {
   const [observacoes, setObservacoes] = useState(() => loadFromLocalStorage('observacoes', ""));
   const [orderNumber, setOrderNumber] = useState(null);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
+  const [isAdminView, setIsAdminView] = useState(false);
+  const [orders, setOrders] = useState(() => {
+    const savedOrders = localStorage.getItem('adminOrders');
+    return savedOrders ? JSON.parse(savedOrders) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -1719,7 +1960,8 @@ export default function OrderBot() {
     localStorage.setItem('metodoPagamento', JSON.stringify(metodoPagamento));
     localStorage.setItem('mbwayPhone', JSON.stringify(mbwayPhone));
     localStorage.setItem('observacoes', JSON.stringify(observacoes));
-  }, [cart, step, nome, endereco, contato, entrega, metodoPagamento, mbwayPhone, observacoes]);
+    localStorage.setItem('adminOrders', JSON.stringify(orders));
+  }, [cart, step, nome, endereco, contato, entrega, metodoPagamento, mbwayPhone, observacoes, orders]);
 
   const resetToMenu = () => {
     setOpenCategory(null);
@@ -1727,11 +1969,11 @@ export default function OrderBot() {
     setStep(1);
   };
 
-  const printOrder = (orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes) => {
+  const printOrder = (order) => {
     const printContent = `
       <html>
         <head>
-          <title>Pedido #${orderNumber}</title>
+          <title>Pedido #${order.orderNumber}</title>
           <style>
             @page {
               size: auto;
@@ -1825,40 +2067,40 @@ export default function OrderBot() {
         <body>
           <div class="header">
             <h1>Churrascaria Gaúcha</h1>
-            <div class="order-number">Pedido #${orderNumber}</div>
-            <div>${new Date().toLocaleString('pt-PT')}</div>
+            <div class="order-number">Pedido #${order.orderNumber}</div>
+            <div>${new Date(order.timestamp).toLocaleString('pt-PT')}</div>
           </div>
           
           <div class="info-section">
             <h2>Informações do Cliente</h2>
             <div class="info-row">
               <div class="info-label">Nome:</div>
-              <div>${nome}</div>
+              <div>${order.nome}</div>
             </div>
             <div class="info-row">
               <div class="info-label">Contato:</div>
-              <div>${contato}</div>
+              <div>${order.contato}</div>
             </div>
             <div class="info-row">
               <div class="info-label">Tipo:</div>
-              <div>${entrega ? 'Entrega' : 'Retirada no local'}</div>
+              <div>${order.entrega ? 'Entrega' : 'Retirada no local'}</div>
             </div>
-            ${entrega ? `
+            ${order.entrega ? `
             <div class="info-row">
               <div class="info-label">Endereço:</div>
-              <div>${endereco}</div>
+              <div>${order.endereco}</div>
             </div>
             ` : ''}
             <div class="info-row">
               <div class="info-label">Pagamento:</div>
-              <div>${metodoPagamento === 'mbway' ? `MBWay (${mbwayPhone})` : 
-                  metodoPagamento === 'cartao' ? 'Cartão' : 
-                  metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}</div>
+              <div>${order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
+                  order.metodoPagamento === 'cartao' ? 'Cartão' : 
+                  order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}</div>
             </div>
-            ${observacoes ? `
+            ${order.observacoes ? `
             <div class="info-row">
               <div class="info-label">Observações:</div>
-              <div>${observacoes}</div>
+              <div>${order.observacoes}</div>
             </div>
             ` : ''}
           </div>
@@ -1875,7 +2117,7 @@ export default function OrderBot() {
                 </tr>
               </thead>
               <tbody>
-                ${cart.map(item => `
+                ${order.cart.map(item => `
                   <tr>
                     <td>
                       ${item.nome}
@@ -1896,9 +2138,9 @@ export default function OrderBot() {
                 `).join('')}
                 <tr>
                   <td colspan="3" style="text-align: right;">Subtotal:</td>
-                  <td>€${cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</td>
+                  <td>€${order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</td>
                 </tr>
-                ${entrega ? `
+                ${order.entrega ? `
                 <tr>
                   <td colspan="3" style="text-align: right;">Taxa de Entrega:</td>
                   <td>€4.00</td>
@@ -1906,14 +2148,14 @@ export default function OrderBot() {
                 ` : ''}
                 <tr class="total-row">
                   <td colspan="3" style="text-align: right;">Total:</td>
-                  <td>€${(cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (entrega ? 4 : 0)).toFixed(2)}</td>
+                  <td>€${(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           
           <div class="footer">
-            Pedido gerado em ${new Date().toLocaleString('pt-PT')}
+            Pedido gerado em ${new Date(order.timestamp).toLocaleString('pt-PT')}
           </div>
           
           <script>
@@ -2017,26 +2259,32 @@ export default function OrderBot() {
 
   const handleSubmitOrder = () => {
     const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
-    setOrderNumber(newOrderNumber);
-    setOrderSubmitted(true);
+    const timestamp = new Date().toISOString();
     
-    // Imprimir o pedido automaticamente
-    printOrder(
-      newOrderNumber,
-      cart,
+    const newOrder = {
+      orderNumber: newOrderNumber,
+      cart: [...cart],
       nome,
       contato,
       endereco,
       entrega,
       metodoPagamento,
       mbwayPhone,
-      observacoes
-    );
+      observacoes,
+      timestamp
+    };
+    
+    setOrders([...orders, newOrder]);
+    setOrderNumber(newOrderNumber);
+    setOrderSubmitted(true);
+    
+    // Imprimir o pedido automaticamente
+    printOrder(newOrder);
     
     // Enviar para o WhatsApp
     sendOrderToWhatsApp(newOrderNumber);
     
-    // Limpar localStorage
+    // Limpar localStorage do cliente
     localStorage.removeItem('cart');
     localStorage.removeItem('step');
     localStorage.removeItem('nome');
@@ -2048,6 +2296,10 @@ export default function OrderBot() {
     localStorage.removeItem('observacoes');
     
     setStep(3);
+  };
+  
+  const handlePrintOrder = (order) => {
+    printOrder(order);
   };
   
   useEffect(() => {
@@ -2123,10 +2375,18 @@ export default function OrderBot() {
         cart={cart} 
         setIsCartOpen={setIsCartOpen}
         resetToMenu={resetToMenu}
+        setStep={setStep}
+        isAdminView={isAdminView}
+        setIsAdminView={setIsAdminView}
       />
       
       <main className="container mx-auto px-4 py-6 pb-24">
-        {step === 1 && (
+        {isAdminView ? (
+          <AdminDashboard 
+            orders={orders} 
+            onPrintOrder={handlePrintOrder}
+          />
+        ) : step === 1 ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Menu Section */}
             <div className="lg:col-span-2">
@@ -2255,9 +2515,7 @@ export default function OrderBot() {
               </div>
             </div>
           </div>
-        )}
-
-        {step === 2 && (
+        ) : step === 2 ? (
           <CheckoutForm
             cart={cart}
             total={total}
@@ -2275,9 +2533,7 @@ export default function OrderBot() {
             setMetodoPagamento={setMetodoPagamento}
             setIsCartOpen={setIsCartOpen}
           />
-        )}
-
-        {step === 3 && (
+        ) : (
           <Confirmation 
             orderNumber={orderNumber} 
             onNewOrder={startNewOrder} 
@@ -2393,7 +2649,7 @@ export default function OrderBot() {
         </div>
       )}
 
-      {step !== 3 && <Footer />}
+      {!isAdminView && step !== 3 && <Footer />}
     </div>
   );
 }
