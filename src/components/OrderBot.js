@@ -472,7 +472,7 @@ const SpecialPromoBanner = () => {
   return (
     <div className="mb-6">
       <div 
-        className="bg-[#FFF1E8] border border-[#3D1106] rounded-lg p-4 cursor-pointer hover:bg-[#FFE5BA]/30 transition-colors"
+        className="bg-[#fffbf7] border border-[#3D1106] rounded-lg p-4 cursor-pointer hover:bg-[#FFE5BA]"
         onClick={() => setShowPromoDetails(!showPromoDetails)}
       >
         <div className="flex items-center justify-between">
@@ -531,41 +531,45 @@ const SpecialPromoBanner = () => {
 // ========== COMPONENTE NAVBAR ========== //
 const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
   return (
-    <header className="bg-[#FFF1E8] sticky top-0 z-40 shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <div className="flex items-center">
-            <button onClick={resetToMenu} className="focus:outline-none">
-              <img 
-                src="imagens/vivi.jpg" 
-                alt="Cozinha da Vivi" 
-                className="h-16 w-16 object-cover rounded-full border-[#3D1106]"
-              />
-            </button>
-          </div>
-          
-          {/* Botão do carrinho */}
-          <div className="flex items-center">
-            <button 
-              onClick={() => setIsCartOpen(true)}
-              className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
-              aria-label="Carrinho de compras"
-            >
-              <ShoppingCart size={24} />
-              {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
-                  {cart.reduce((sum, item) => sum + item.quantidade, 0)}
-                </span>
-              )}
-            </button>
+    <div>
+      <header className="bg-[#FFF1E8] sticky top-0 z-40">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-20">
+            {/* Logo */}
+            <div className="flex items-center">
+              <button onClick={resetToMenu} className="focus:outline-none">
+                <img 
+                  src="imagens/vivi.jpg" 
+                  alt="Cozinha da Vivi" 
+                  className="h-16 w-16 object-cover rounded-full border-[#3D1106]"
+                />
+              </button>
+            </div>
+            
+            {/* Botão do carrinho */}
+            <div className="flex items-center">
+              <button 
+                onClick={() => setIsCartOpen(true)}
+                className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
+                aria-label="Carrinho de compras"
+              >
+                <ShoppingCart size={24} />
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
+                    {cart.reduce((sum, item) => sum + item.quantidade, 0)}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Linha separadora */}
+      <hr className="border-t-1 border-[#3d1106] my-4" />
+    </div>
   );
 };
-
 // ========== COMPONENTE DELIVERY PICKUP SELECTOR ========== //
 const DeliveryPickupSelector = ({ 
   entrega, 
@@ -667,7 +671,7 @@ const DeliveryPickupSelector = ({
       )}
       
       {error && (
-        <div className="mt-2 text-red-600 text-sm bg-red-50 p-2 rounded-lg">{error}</div>
+        <div className="mt-2 text-[#A92C0D] text-sm bg-red-50 p-2 rounded-lg">{error}</div>
       )}
     </div>
   );
@@ -901,15 +905,15 @@ const MenuItem = ({ item, onAdd }) => {
                             key={carne.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.carnes.includes(carne.nome) ? 
-                              'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
+                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
+                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
                               type="checkbox"
                               checked={selectedOptions.carnes.includes(carne.nome)}
                               onChange={() => handleOptionChange("carnes", carne.nome)}
-                              className="mr-2"
+                              className="mr-2 accent-[#617C33]"
                               disabled={isDisabled}
                             />
                             {carne.nome}
@@ -955,8 +959,8 @@ const MenuItem = ({ item, onAdd }) => {
                             key={acomp.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               isSelected ? 
-                              'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
+                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
+                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
@@ -964,7 +968,7 @@ const MenuItem = ({ item, onAdd }) => {
                               name={item.tipo === "churrasco" && isExtra ? "extra" : undefined}
                               checked={isSelected}
                               onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
-                              className="mr-2"
+                              className="mr-2 accent-[#617C33]"
                               disabled={isDisabled}
                             />
                             {acomp.nome}
@@ -984,8 +988,8 @@ const MenuItem = ({ item, onAdd }) => {
                           key={salada.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.salada === salada.nome ? 
-                            'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
-                            'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
+                            'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
+                            'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                           }`}
                         >
                           <input
@@ -993,7 +997,7 @@ const MenuItem = ({ item, onAdd }) => {
                             name="salada"
                             checked={selectedOptions.salada === salada.nome}
                             onChange={() => handleOptionChange("salada", salada.nome)}
-                            className="mr-2"
+                            className="mr-2 accent-[#617C33]"
                           />
                           {salada.nome}
                         </label>
@@ -1011,8 +1015,8 @@ const MenuItem = ({ item, onAdd }) => {
                           <label 
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.bebida === bebida.nome ? 
-                              'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
+                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
+                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                             }`}
                           >
                             <input
@@ -1020,7 +1024,7 @@ const MenuItem = ({ item, onAdd }) => {
                               name="bebida"
                               checked={selectedOptions.bebida === bebida.nome}
                               onChange={() => handleOptionChange("bebida", bebida.nome)}
-                              className="mr-2"
+                              className="mr-2 accent-[#617C33]"
                             />
                             <div className="flex items-center">
                               {bebida.imagem && (
@@ -1052,15 +1056,15 @@ const MenuItem = ({ item, onAdd }) => {
                           key={topping.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.toppings.includes(topping.nome) ? 
-                            'border-[#3D1106] bg-[#FFB501]/20 text-[#280B04]' : 
-                            'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'
+                            'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
+                            'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={selectedOptions.toppings.includes(topping.nome)}
                             onChange={() => handleOptionChange("toppings", topping.nome)}
-                            className="mr-2"
+                            className="mr-2 accent-[#617C33]"
                           />
                           {topping.nome}
                         </label>
@@ -1081,7 +1085,7 @@ const MenuItem = ({ item, onAdd }) => {
           }}
           className={`mt-4 w-full py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center ${
             addedToCart ? 
-              'bg-green-600 text-white' : 
+              'bg-[#617C33] text-[#FFF1E4]' : 
               'bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] shadow-md'
           }`}
         >
@@ -1097,7 +1101,7 @@ const MenuItem = ({ item, onAdd }) => {
         </button>
         
         {validationError && (
-          <p className="text-red-600 text-sm mt-3 text-center bg-red-50 p-2 rounded-lg">{validationError}</p>
+          <p className="text-[#A92C0D] text-sm mt-3 text-center bg-red-50 p-2 rounded-lg">{validationError}</p>
         )}
       </div>
     </div>
@@ -1167,7 +1171,7 @@ const CartItem = ({ item, index, onRemove, onIncrease, onDecrease }) => {
           
           <button
             onClick={() => onRemove(index)}
-            className="text-red-600 hover:text-red-800 mt-2 text-xs flex items-center transition-colors"
+            className="text-[#A92C0D] hover:text-red-800 mt-2 text-xs flex items-center transition-colors"
           >
             <Trash size={12} className="mr-1" /> Remover
           </button>
@@ -1197,7 +1201,7 @@ const MbwayPayment = ({ phone, setPhone, errors, setErrors }) => {
           className="flex-1 p-3 border-0 focus:ring-0"
         />
       </div>
-      {errors.mbwayPhone && <p className="text-red-600 text-sm mt-1">{errors.mbwayPhone}</p>}
+      {errors.mbwayPhone && <p className="text-[#A92C0D] text-sm mt-1">{errors.mbwayPhone}</p>}
       <div className="mt-3 bg-blue-50 p-3 rounded-lg text-sm text-blue-700">
         <p>Será enviado um pedido de pagamento para o número indicado.</p>
         <p className="font-medium mt-1">Número do restaurante: 933 737 672</p>
@@ -1316,11 +1320,11 @@ const CheckoutForm = ({
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent ${
-                  errors.nome ? 'border-red-500' : 'border-[#E5E7EB]'
+                  errors.nome ? 'border-[#A92C0D]' : 'border-[#E5E7EB]'
                 }`}
                 placeholder="Seu nome completo"
               />
-              {errors.nome && <p className="text-red-600 text-sm mt-1">{errors.nome}</p>}
+              {errors.nome && <p className="text-[#A92C0D] text-sm mt-1">{errors.nome}</p>}
             </div>
 
             <div>
@@ -1333,11 +1337,11 @@ const CheckoutForm = ({
                 value={contato}
                 onChange={(e) => setContato(e.target.value)}
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent ${
-                  errors.contato ? 'border-red-500' : 'border-[#E5E7EB]'
+                  errors.contato ? 'border-[#A92C0D]' : 'border-[#E5E7EB]'
                 }`}
                 placeholder="Seu número de telefone"
               />
-              {errors.contato && <p className="text-red-600 text-sm mt-1">{errors.contato}</p>}
+              {errors.contato && <p className="text-[#A92C0D] text-sm mt-1">{errors.contato}</p>}
             </div>
           </div>
 
@@ -1352,11 +1356,11 @@ const CheckoutForm = ({
                 value={endereco}
                 onChange={(e) => setEndereco(e.target.value)}
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#3D1106] focus:border-transparent ${
-                  errors.endereco ? 'border-red-500' : 'border-[#E5E7EB]'
+                  errors.endereco ? 'border-[#A92C0D]' : 'border-[#E5E7EB]'
                 }`}
                 placeholder="Rua, número, bairro, complemento"
               />
-              {errors.endereco && <p className="text-red-600 text-sm mt-1">{errors.endereco}</p>}
+              {errors.endereco && <p className="text-[#A92C0D] text-sm mt-1">{errors.endereco}</p>}
             </div>
           )}
 
@@ -1383,14 +1387,14 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'dinheiro' 
-                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
+                    ? 'border-[#617C33] bg-[#617C33]/10' 
+                    : 'border-[#E5E7EB] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('dinheiro')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'dinheiro' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
+                    metodoPagamento === 'dinheiro' ? 'bg-[#617C33] text-[#FFF1E4]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <CreditCard size={20} />
                   </div>
@@ -1404,14 +1408,14 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'mbway' 
-                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
+                    ? 'border-[#617C33] bg-[#617C33]/10' 
+                    : 'border-[#E5E7EB] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('mbway')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'mbway' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
+                    metodoPagamento === 'mbway' ? 'bg-[#617C33] text-[#FFF1E4]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <Smartphone size={20} />
                   </div>
@@ -1425,14 +1429,14 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'cartao' 
-                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
+                    ? 'border-[#617C33] bg-[#617C33]/10' 
+                    : 'border-[#E5E7EB] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('cartao')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'cartao' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
+                    metodoPagamento === 'cartao' ? 'bg-[#617C33] text-[#FFF1E4]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <CreditCard size={20} />
                   </div>
@@ -1446,14 +1450,14 @@ const CheckoutForm = ({
               <div 
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'multibanco' 
-                    ? 'border-[#3D1106] bg-[#FFB501]/20' 
-                    : 'border-[#E5E7EB] hover:border-[#3D1106]'
+                    ? 'border-[#617C33] bg-[#617C33]/10' 
+                    : 'border-[#E5E7EB] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('multibanco')}
               >
                 <div className="flex items-start">
                   <div className={`p-2 rounded-full mr-3 ${
-                    metodoPagamento === 'multibanco' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFFBF7] text-[#280B04]'
+                    metodoPagamento === 'multibanco' ? 'bg-[#617C33] text-[#FFF1E4]' : 'bg-[#FFFBF7] text-[#280B04]'
                   }`}>
                     <CreditCard size={20} />
                   </div>
@@ -1466,7 +1470,7 @@ const CheckoutForm = ({
             </div>
             
             {errors.metodoPagamento && (
-              <p className="text-red-600 text-sm mt-2 bg-red-50 p-2 rounded-lg">{errors.metodoPagamento}</p>
+              <p className="text-[#A92C0D] text-sm mt-2 bg-red-50 p-2 rounded-lg">{errors.metodoPagamento}</p>
             )}
 
             {metodoPagamento === 'mbway' && (
@@ -1883,10 +1887,10 @@ export default function OrderBot() {
               
               <div className="space-y-8">
                 {ementa.map((category) => (
-                  <div key={category.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-[#3D1106]">
+                  <div key={category.id} className="bg-[#FFfbf7] rounded-xl shadow-sm overflow-hidden border border-[#3D1106]">
                     <button
                       onClick={() => setOpenCategory(openCategory === category.id ? null : category.id)}
-                      className="w-full flex justify-between items-center p-5 hover:bg-[#]/10 transition-colors"
+                      className="w-full flex justify-between items-center p-5 hover:bg-[#FFE5BA]"
                     >
                       <div className="flex items-center">
                         {category.imagem && (
