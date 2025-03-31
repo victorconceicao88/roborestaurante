@@ -466,19 +466,27 @@ const ementa = [
 ];
 
 // ========== COMPONENTE SPECIAL PROMO BANNER ========== //
+// ========== COMPONENTE SPECIAL PROMO BANNER ========== //
 const SpecialPromoBanner = () => {
   const [showPromoDetails, setShowPromoDetails] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   return (
     <div className="mb-6">
       <div 
-        className="bg-[#fffbf7] border border-[#3D1106] rounded-lg p-4 cursor-pointer hover:bg-[#FFE5BA]"
+        className={`bg-[#fffbf7] border border-[#3D1106] rounded-lg p-4 cursor-pointer transition-all duration-300 ${
+          isHovering ? 'shadow-lg transform -translate-y-1' : 'shadow-md'
+        }`}
         onClick={() => setShowPromoDetails(!showPromoDetails)}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="bg-[#3D1106] text-[#FFB501] p-2 rounded-full mr-3">
-              <Star size={18} />
+            <div className={`bg-[#3D1106] text-[#FFB501] p-2 rounded-full mr-3 transition-all ${
+              isHovering ? 'rotate-12 scale-110' : ''
+            }`}>
+              <Star size={18} className="transition-transform duration-300" />
             </div>
             <div>
               <h3 className="font-medium text-[#3D1106]">Pratos Especiais da Semana</h3>
@@ -486,15 +494,15 @@ const SpecialPromoBanner = () => {
             </div>
           </div>
           {showPromoDetails ? (
-            <ChevronUp className="text-[#3D1106]" size={20} />
+            <ChevronUp className="text-[#3D1106] animate-bounce" size={20} />
           ) : (
-            <ChevronDown className="text-[#3D1106]" size={20} />
+            <ChevronDown className="text-[#3D1106] animate-pulse" size={20} />
           )}
         </div>
       </div>
 
       {showPromoDetails && (
-        <div className="bg-white p-4 rounded-lg border border-[#3D1106] mt-2 shadow-sm">
+        <div className="bg-white p-4 rounded-lg border border-[#3D1106] mt-2 shadow-sm animate-fadeIn">
           <div className="space-y-4">
             <div className="flex items-start">
               <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
@@ -566,7 +574,7 @@ const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
       </header>
 
       {/* Linha separadora */}
-      <hr className="border-t-1 border-[#3d1106] my-4" />
+      <hr className="border-t-1 border-[#3d1106] my-1" />
     </div>
   );
 };
