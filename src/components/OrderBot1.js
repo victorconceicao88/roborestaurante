@@ -3,8 +3,7 @@ import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
   ShoppingCart, X, Check, MapPin, Phone, User,
   CreditCard, Clock, Info, Smartphone, Loader2, 
-  Instagram, Facebook, Calendar, AlertCircle, Star,
-  Printer
+  Instagram, Facebook, Calendar, AlertCircle, Star
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -578,7 +577,6 @@ const Navbar = ({ cart, setIsCartOpen, resetToMenu }) => {
     </div>
   );
 };
-
 // ========== COMPONENTE DELIVERY PICKUP SELECTOR ========== //
 const DeliveryPickupSelector = ({ 
   entrega, 
@@ -835,7 +833,7 @@ const MenuItem = ({ item, onAdd }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6 border border-[#3D1106] hover:shadow-md transition-shadow">
+    <div className="bg-[#FFF1E8] rounded-xl shadow-sm overflow-hidden mb-6 border border-[#3D1106] hover:shadow-md transition-shadow">
       {/* Imagem */}
       <div className="relative h-48 w-full overflow-hidden">
         <img 
@@ -911,22 +909,22 @@ const MenuItem = ({ item, onAdd }) => {
 
                         return (
                           <label 
-                            key={carne.id}
-                            className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
-                              selectedOptions.carnes.includes(carne.nome) ? 
-                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
-                            } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedOptions.carnes.includes(carne.nome)}
-                              onChange={() => handleOptionChange("carnes", carne.nome)}
-                              className="mr-2 accent-[#617C33]"
-                              disabled={isDisabled}
-                            />
-                            {carne.nome}
-                            {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
+                              key={carne.id}
+                              className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
+                                selectedOptions.carnes.includes(carne.nome) ? 
+                                'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                                'border-[#3d1106] text-[#280B04]'
+                              } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedOptions.carnes.includes(carne.nome)}
+                                onChange={() => handleOptionChange("carnes", carne.nome)}
+                                className="mr-2 w-4 h-4 border-2 border-[#3D1106] rounded-md focus:ring-0 checked:bg-[#617C33] checked:border-[#3D1106] appearance-none"
+                                disabled={isDisabled}
+                              />
+                              {carne.nome}
+                              {carne.precoExtra > 0 && ` (+€${carne.precoExtra.toFixed(2)})`}
                           </label>
                         );
                       })}
@@ -968,8 +966,8 @@ const MenuItem = ({ item, onAdd }) => {
                             key={acomp.id}
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               isSelected ? 
-                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                              'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                              'border-[#3d1106] text-[#280B04]'
                             } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <input
@@ -977,7 +975,7 @@ const MenuItem = ({ item, onAdd }) => {
                               name={item.tipo === "churrasco" && isExtra ? "extra" : undefined}
                               checked={isSelected}
                               onChange={() => handleOptionChange("acompanhamentos", acomp.nome)}
-                              className="mr-2 accent-[#617C33]"
+                              className="mr-2 w-4 h-4 border-2 border-[#3D1106] rounded-md focus:ring-0 checked:bg-[#617C33] checked:border-[#3D1106] appearance-none"
                               disabled={isDisabled}
                             />
                             {acomp.nome}
@@ -997,8 +995,8 @@ const MenuItem = ({ item, onAdd }) => {
                           key={salada.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.salada === salada.nome ? 
-                            'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                            'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                            'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                            'border-[#3d1106] text-[#280B04]'
                           }`}
                         >
                           <input
@@ -1006,7 +1004,7 @@ const MenuItem = ({ item, onAdd }) => {
                             name="salada"
                             checked={selectedOptions.salada === salada.nome}
                             onChange={() => handleOptionChange("salada", salada.nome)}
-                            className="mr-2 accent-[#617C33]"
+                            className="mr-2 w-4 h-4 border-2 border-[#3D1106] rounded-md focus:ring-0 checked:bg-[#617C33] checked:border-[#3D1106] appearance-none"
                           />
                           {salada.nome}
                         </label>
@@ -1024,8 +1022,8 @@ const MenuItem = ({ item, onAdd }) => {
                           <label 
                             className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                               selectedOptions.bebida === bebida.nome ? 
-                              'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                              'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                              'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                              'border-[#3d1106] text-[#280B04]'
                             }`}
                           >
                             <input
@@ -1033,7 +1031,7 @@ const MenuItem = ({ item, onAdd }) => {
                               name="bebida"
                               checked={selectedOptions.bebida === bebida.nome}
                               onChange={() => handleOptionChange("bebida", bebida.nome)}
-                              className="mr-2 accent-[#617C33]"
+                              className="mr-2 w-4 h-4 border-2 border-[#3D1106] rounded-md focus:ring-0 checked:bg-[#617C33] checked:border-[#3D1106] appearance-none"
                             />
                             <div className="flex items-center">
                               {bebida.imagem && (
@@ -1065,15 +1063,15 @@ const MenuItem = ({ item, onAdd }) => {
                           key={topping.id}
                           className={`flex items-center p-2 rounded-lg border text-sm cursor-pointer transition-colors ${
                             selectedOptions.toppings.includes(topping.nome) ? 
-                            'border-[#617C33] bg-[#617C33]/10 text-[#280B04]' : 
-                            'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
+                            'border-[#3d1106] bg-[#fff1e8] text-[#280B04]' : 
+                            'border-[#3d1106] text-[#280B04]'
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={selectedOptions.toppings.includes(topping.nome)}
                             onChange={() => handleOptionChange("toppings", topping.nome)}
-                            className="mr-2 accent-[#617C33]"
+                            className="mr-2 w-4 h-4 border-2 border-[#3D1106] rounded-md focus:ring-0 checked:bg-[#617C33] checked:border-[#3D1106] appearance-none"
                           />
                           {topping.nome}
                         </label>
@@ -1727,217 +1725,10 @@ export default function OrderBot() {
     setStep(1);
   };
 
-  const printOrder = (orderNumber, cart, nome, contato, endereco, entrega, metodoPagamento, mbwayPhone, observacoes) => {
-    const printWindow = window.open('', '_blank');
-    
-    const printContent = `
-      <html>
-        <head>
-          <title>Pedido #${orderNumber}</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 20px;
-              color: #333;
-            }
-            .header {
-              text-align: center;
-              margin-bottom: 20px;
-              border-bottom: 2px solid #3D1106;
-              padding-bottom: 10px;
-            }
-            .header h1 {
-              color: #3D1106;
-              margin: 0;
-              font-size: 24px;
-            }
-            .header .order-number {
-              font-size: 18px;
-              font-weight: bold;
-              margin-top: 5px;
-            }
-            .info-section {
-              margin-bottom: 20px;
-            }
-            .info-section h2 {
-              color: #3D1106;
-              font-size: 18px;
-              border-bottom: 1px solid #3D1106;
-              padding-bottom: 5px;
-              margin-bottom: 10px;
-            }
-            .info-row {
-              display: flex;
-              margin-bottom: 5px;
-            }
-            .info-label {
-              font-weight: bold;
-              min-width: 120px;
-            }
-            .items-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 20px;
-            }
-            .items-table th {
-              background-color: #3D1106;
-              color: white;
-              text-align: left;
-              padding: 8px;
-            }
-            .items-table td {
-              padding: 8px;
-              border-bottom: 1px solid #ddd;
-            }
-            .items-table tr:nth-child(even) {
-              background-color: #f9f9f9;
-            }
-            .total-row {
-              font-weight: bold;
-              background-color: #FFB501 !important;
-            }
-            .footer {
-              margin-top: 30px;
-              text-align: center;
-              font-size: 12px;
-              color: #777;
-            }
-            .options {
-              font-size: 12px;
-              color: #555;
-              margin-top: 3px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>Churrascaria Gaúcha</h1>
-            <div class="order-number">Pedido #${orderNumber}</div>
-            <div>${new Date().toLocaleString('pt-PT')}</div>
-          </div>
-          
-          <div class="info-section">
-            <h2>Informações do Cliente</h2>
-            <div class="info-row">
-              <div class="info-label">Nome:</div>
-              <div>${nome}</div>
-            </div>
-            <div class="info-row">
-              <div class="info-label">Contato:</div>
-              <div>${contato}</div>
-            </div>
-            <div class="info-row">
-              <div class="info-label">Tipo:</div>
-              <div>${entrega ? 'Entrega' : 'Retirada no local'}</div>
-            </div>
-            ${entrega ? `
-            <div class="info-row">
-              <div class="info-label">Endereço:</div>
-              <div>${endereco}</div>
-            </div>
-            ` : ''}
-            <div class="info-row">
-              <div class="info-label">Pagamento:</div>
-              <div>${metodoPagamento === 'mbway' ? `MBWay (${mbwayPhone})` : 
-                  metodoPagamento === 'cartao' ? 'Cartão' : 
-                  metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}</div>
-            </div>
-            ${observacoes ? `
-            <div class="info-row">
-              <div class="info-label">Observações:</div>
-              <div>${observacoes}</div>
-            </div>
-            ` : ''}
-          </div>
-          
-          <div class="info-section">
-            <h2>Itens do Pedido</h2>
-            <table class="items-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Qtd</th>
-                  <th>Preço</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${cart.map(item => `
-                  <tr>
-                    <td>
-                      ${item.nome}
-                      ${item.selectedOptions ? `
-                        <div class="options">
-                          ${item.selectedOptions.carnes?.length > 0 ? `<div>Carnes: ${item.selectedOptions.carnes.join(', ')}</div>` : ''}
-                          ${item.selectedOptions.acompanhamentos?.length > 0 ? `<div>Acomp: ${item.selectedOptions.acompanhamentos.join(', ')}</div>` : ''}
-                          ${item.selectedOptions.salada ? `<div>Salada: ${item.selectedOptions.salada}</div>` : ''}
-                          ${item.selectedOptions.bebida ? `<div>Bebida: ${item.selectedOptions.bebida}</div>` : ''}
-                          ${item.selectedOptions.toppings?.length > 0 ? `<div>Toppings: ${item.selectedOptions.toppings.join(', ')}</div>` : ''}
-                        </div>
-                      ` : ''}
-                    </td>
-                    <td>${item.quantidade}</td>
-                    <td>€${(item.precoFinal || item.preco).toFixed(2)}</td>
-                    <td>€${((item.precoFinal || item.preco) * item.quantidade).toFixed(2)}</td>
-                  </tr>
-                `).join('')}
-                <tr>
-                  <td colspan="3" style="text-align: right;">Subtotal:</td>
-                  <td>€${cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</td>
-                </tr>
-                ${entrega ? `
-                <tr>
-                  <td colspan="3" style="text-align: right;">Taxa de Entrega:</td>
-                  <td>€4.00</td>
-                </tr>
-                ` : ''}
-                <tr class="total-row">
-                  <td colspan="3" style="text-align: right;">Total:</td>
-                  <td>€${(cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (entrega ? 4 : 0)).toFixed(2)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div class="footer">
-            Pedido gerado em ${new Date().toLocaleString('pt-PT')}
-          </div>
-          
-          <script>
-            window.onload = function() {
-              setTimeout(function() {
-                window.print();
-                window.close();
-              }, 200);
-            }
-          </script>
-        </body>
-      </html>
-    `;
-    
-    printWindow.document.open();
-    printWindow.document.write(printContent);
-    printWindow.document.close();
-  };
-
   useEffect(() => {
     if (step === 3) {
       const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
       setOrderNumber(newOrderNumber);
-      
-      // Imprimir o pedido
-      printOrder(
-        newOrderNumber,
-        cart,
-        nome,
-        contato,
-        endereco,
-        entrega,
-        metodoPagamento,
-        mbwayPhone,
-        observacoes
-      );
       
       localStorage.removeItem('cart');
       localStorage.removeItem('step');
