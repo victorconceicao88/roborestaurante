@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
@@ -7,7 +8,6 @@ import {
   Printer, List, Sun, Moon,
   Truck, Home
 } from 'lucide-react';
-
 
 // ========== DADOS DA EMENTA ========== //
 const ementa = [
@@ -1846,7 +1846,8 @@ const DayTab = ({ date, orders, onPrintOrder, isActive, onClick }) => {
 };
 
 // ========== COMPONENTE ADMIN DASHBOARD ========== //
-const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
+// eslint-disable-next-line no-unused-vars
+  const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
   const [activeDay, setActiveDay] = useState(null);
@@ -1855,10 +1856,8 @@ const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
     totalOrders: 0,
     totalRevenue: 0,
     deliveryCount: 0,
-    pickupCount: 0
-  });
-
-  
+    pickupCount: 0,
+  }); 
 
   // Carregar pedidos do localStorage quando o componente montar
   useEffect(() => {

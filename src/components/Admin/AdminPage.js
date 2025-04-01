@@ -4,7 +4,7 @@ import AdminPanel from './AdminPanel';
 import {
   LogOut, ChefHat, Loader2,
   Shield, Lock, User, AlertCircle,
-  Key, RefreshCw, Edit
+  Key, RefreshCw, Edit, HelpCircle
 } from 'lucide-react';
 
 const AdminPage = () => {
@@ -16,15 +16,19 @@ const AdminPage = () => {
   const [orders, setOrders] = useState([]);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
   const [showPasswordChange, setShowPasswordChange] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [masterPassword, setMasterPassword] = useState('');
+  const [useMasterPassword, setUseMasterPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const savedAuth = localStorage.getItem('adminAuth');
     const savedCredentials = localStorage.getItem('adminCredentials');
     const savedOrders = localStorage.getItem('adminOrders');
+    const savedMasterPassword = localStorage.getItem('adminMasterPassword');
 
     if (savedAuth === 'true') {
       setIsAuthenticated(true);
@@ -40,6 +44,10 @@ const AdminPage = () => {
     if (savedOrders) {
       setOrders(JSON.parse(savedOrders));
     }
+
+    if (savedMasterPassword) {
+      setMasterPassword(savedMasterPassword);
+    }
   }, []);
 
   const handleLogin = (e) => {
@@ -50,6 +58,7 @@ const AdminPage = () => {
     setTimeout(() => {
       try {
         const savedCredentials = localStorage.getItem('adminCredentials');
+        const savedMasterPassword = localStorage.getItem('adminMasterPassword');
 
         if (isFirstLogin) {
           if (!newUsername.trim()) {
@@ -64,16 +73,32 @@ const AdminPage = () => {
             throw new Error('As senhas não coincidem');
           }
           
+          if (!masterPassword) {
+            throw new Error('Por favor, defina uma senha mestra para recuperação');
+          }
+          
           const credentials = {
             username: newUsername,
             password: newPassword
           };
           
           localStorage.setItem('adminCredentials', JSON.stringify(credentials));
+          localStorage.setItem('adminMasterPassword', masterPassword);
           localStorage.setItem('adminAuth', 'true');
           setIsFirstLogin(false);
           setIsAuthenticated(true);
           setUsername(newUsername);
+        } else if (useMasterPassword) {
+          if (!savedMasterPassword) {
+            throw new Error('Senha mestra não configurada');
+          }
+          
+          if (password !== savedMasterPassword) {
+            throw new Error('Senha mestra incorreta');
+          }
+          
+          localStorage.setItem('adminAuth', 'true');
+          setIsAuthenticated(true);
         } else {
           if (!savedCredentials) {
             throw new Error('Credenciais não encontradas');
@@ -104,6 +129,7 @@ const AdminPage = () => {
     localStorage.removeItem('adminAuth');
     setIsAuthenticated(false);
     setPassword('');
+    setUseMasterPassword(false);
   };
 
   const handlePasswordChange = () => {
@@ -134,6 +160,31 @@ const AdminPage = () => {
     setConfirmPassword('');
     setError('');
     alert('Credenciais atualizadas com sucesso!');
+  };
+
+  const handleResetPassword = () => {
+    if (!masterPassword) {
+      setError('Por favor, digite a senha mestra');
+      return;
+    }
+
+    const savedMasterPassword = localStorage.getItem('adminMasterPassword');
+    if (masterPassword !== savedMasterPassword) {
+      setError('Senha mestra incorreta');
+      return;
+    }
+
+    // Reset to first login state
+    localStorage.removeItem('adminCredentials');
+    localStorage.removeItem('adminAuth');
+    setIsFirstLogin(true);
+    setShowForgotPassword(false);
+    setMasterPassword('');
+    setNewUsername('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setError('');
+    alert('Você pode agora definir novas credenciais de acesso');
   };
 
   const generatePassword = () => {
@@ -253,6 +304,13 @@ const AdminPage = () => {
             @media print {
               body { padding: 0; }
               .no-print { display: none !important; }
+            }
+            @media (max-width: 480px) {
+              .header h1 { font-size: 18px; }
+              .order-number { font-size: 14px; }
+              .info-grid { grid-template-columns: 80px 1fr; font-size: 12px; }
+              .items-table { font-size: 11px; }
+              .items-table th, .items-table td { padding: 4px 6px; }
             }
           </style>
         </head>
@@ -417,23 +475,24 @@ const AdminPage = () => {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#FFF1E8] flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="mx-auto bg-[#3D1106] text-[#FFB501] w-16 h-16 rounded-full flex items-center justify-center mb-4">
-              <ChefHat size={32} />
+        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="mx-auto bg-[#3D1106] text-[#FFB501] w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+              <ChefHat size={28} className="sm:size-[32px]" />
             </div>
-            <h1 className="text-2xl font-bold text-[#280B04]">
-              {isFirstLogin ? 'Configuração Inicial' : 'Acesso Administrativo'}
+            <h1 className="text-xl sm:text-2xl font-bold text-[#280B04]">
+              {isFirstLogin ? 'Configuração Inicial' : showForgotPassword ? 'Redefinir Senha' : 'Acesso Administrativo'}
             </h1>
-            <p className="text-[#6B7280] mt-2">
-              {isFirstLogin ? 'Defina suas credenciais de acesso' : 'Entre com suas credenciais'}
+            <p className="text-[#6B7280] mt-1 sm:mt-2 text-sm sm:text-base">
+              {isFirstLogin ? 'Defina suas credenciais de acesso' : 
+               showForgotPassword ? 'Use a senha mestra para redefinir' : 'Entre com suas credenciais'}
             </p>
           </div>
           
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-3 sm:space-y-4">
             {error && (
-              <div className="bg-red-50 p-3 rounded-lg text-red-700 text-sm flex items-center">
-                <AlertCircle className="mr-2" size={18} />
+              <div className="bg-red-50 p-2 sm:p-3 rounded-lg text-red-700 text-xs sm:text-sm flex items-center">
+                <AlertCircle className="mr-2 size-4 sm:size-[18px]" />
                 {error}
               </div>
             )}
@@ -441,30 +500,30 @@ const AdminPage = () => {
             {isFirstLogin ? (
               <>
                 <div>
-                  <label className="block text-[#280B04] mb-2 font-medium flex items-center">
-                    <User className="mr-2" size={18} />
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <User className="mr-2 size-4 sm:size-[18px]" />
                     Nome de Usuário
                   </label>
                   <input
                     type="text"
                     value={newUsername}
                     onChange={(e) => setNewUsername(e.target.value)}
-                    className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                     placeholder="Digite seu nome de usuário"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-[#280B04] mb-2 font-medium flex items-center">
-                    <Lock className="mr-2" size={18} />
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <Lock className="mr-2 size-4 sm:size-[18px]" />
                     Nova Senha
                   </label>
                   <input
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                     placeholder="Mínimo 6 caracteres"
                     required
                     minLength={6}
@@ -472,81 +531,168 @@ const AdminPage = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-[#280B04] mb-2 font-medium flex items-center">
-                    <Lock className="mr-2" size={18} />
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <Lock className="mr-2 size-4 sm:size-[18px]" />
                     Confirmar Senha
                   </label>
                   <input
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                     placeholder="Confirme sua senha"
                     required
                     minLength={6}
                   />
                 </div>
                 
+                <div>
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <Key className="mr-2 size-4 sm:size-[18px]" />
+                    Senha Mestra (para recuperação)
+                  </label>
+                  <input
+                    type="password"
+                    value={masterPassword}
+                    onChange={(e) => setMasterPassword(e.target.value)}
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
+                    placeholder="Defina uma senha mestra"
+                    required
+                    minLength={6}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Esta senha será usada para redefinir suas credenciais caso você esqueça.
+                  </p>
+                </div>
+                
                 <button
                   type="button"
                   onClick={generatePassword}
-                  className="text-sm text-[#3D1106] hover:text-[#280B04] flex items-center"
+                  className="text-xs sm:text-sm text-[#3D1106] hover:text-[#280B04] flex items-center"
                 >
-                  <RefreshCw className="mr-1" size={14} />
+                  <RefreshCw className="mr-1 size-3 sm:size-[14px]" />
                   Gerar senha aleatória
                 </button>
+              </>
+            ) : showForgotPassword ? (
+              <>
+                <div>
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <Key className="mr-2 size-4 sm:size-[18px]" />
+                    Senha Mestra
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
+                    placeholder="Digite a senha mestra"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Digite a senha mestra definida durante a configuração inicial.
+                  </p>
+                </div>
+                
+                <div className="flex space-x-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowForgotPassword(false);
+                      setError('');
+                    }}
+                    className="px-3 sm:px-4 py-2 sm:py-2.5 border border-[#3D1106] text-[#3D1106] rounded-lg hover:bg-gray-100 text-sm sm:text-base flex-1"
+                  >
+                    Voltar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleResetPassword}
+                    disabled={!password}
+                    className="px-3 sm:px-4 py-2 sm:py-2.5 bg-[#3D1106] text-[#FFB501] rounded-lg hover:bg-[#280B04] disabled:opacity-50 text-sm sm:text-base flex-1"
+                  >
+                    Redefinir Credenciais
+                  </button>
+                </div>
               </>
             ) : (
               <>
                 <div>
-                  <label className="block text-[#280B04] mb-2 font-medium flex items-center">
-                    <User className="mr-2" size={18} />
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <User className="mr-2 size-4 sm:size-[18px]" />
                     Usuário
                   </label>
                   <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                     placeholder="Digite seu usuário"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-[#280B04] mb-2 font-medium flex items-center">
-                    <Lock className="mr-2" size={18} />
+                  <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium flex items-center text-sm sm:text-base">
+                    <Lock className="mr-2 size-4 sm:size-[18px]" />
                     Senha
                   </label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                    className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                     placeholder="Digite sua senha"
                     required
                   />
                 </div>
+                
+                <div className="flex justify-between items-center pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUseMasterPassword(!useMasterPassword);
+                      setPassword('');
+                    }}
+                    className="text-xs sm:text-sm text-[#3D1106] hover:text-[#280B04] flex items-center"
+                  >
+                    <HelpCircle className="mr-1 size-3 sm:size-[14px]" />
+                    {useMasterPassword ? 'Usar senha normal' : 'Usar senha mestra'}
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowForgotPassword(true);
+                      setError('');
+                    }}
+                    className="text-xs sm:text-sm text-[#3D1106] hover:text-[#280B04]"
+                  >
+                    Esqueceu a senha?
+                  </button>
+                </div>
               </>
             )}
             
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-3 px-4 rounded-lg font-medium mt-6 flex items-center justify-center"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="animate-spin mr-2" size={18} />
-                  {isFirstLogin ? 'Configurando...' : 'Entrando...'}
-                </>
-              ) : (
-                <>
-                  <Shield className="mr-2" size={18} />
-                  {isFirstLogin ? 'Configurar Acesso' : 'Entrar'}
-                </>
-              )}
-            </button>
+            {!showForgotPassword && (
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-2 sm:py-3 px-4 rounded-lg font-medium mt-4 sm:mt-6 flex items-center justify-center text-sm sm:text-base"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="animate-spin mr-2 size-4 sm:size-[18px]" />
+                    {isFirstLogin ? 'Configurando...' : 'Entrando...'}
+                  </>
+                ) : (
+                  <>
+                    <Shield className="mr-2 size-4 sm:size-[18px]" />
+                    {isFirstLogin ? 'Configurar Acesso' : 'Entrar'}
+                  </>
+                )}
+              </button>
+            )}
           </form>
         </div>
       </div>
@@ -557,87 +703,89 @@ const AdminPage = () => {
     <div className="min-h-screen bg-[#FFF1E8]">
       <header className="sticky top-0 z-40 bg-[#3D1106]">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 sm:h-20">
             <div className="flex items-center">
               <button 
                 onClick={() => navigate('/')}
                 className="focus:outline-none flex items-center"
               >
-                <div className="h-10 w-10 bg-[#FFB501] rounded-full flex items-center justify-center">
-                  <ChefHat className="text-[#3D1106]" size={20} />
+                <div className="h-8 w-8 sm:h-10 sm:w-10 bg-[#FFB501] rounded-full flex items-center justify-center">
+                  <ChefHat className="text-[#3D1106] size-4 sm:size-5" />
                 </div>
-                <span className="ml-3 text-xl font-bold text-[#FFB501]">Painel Admin</span>
+                <span className="ml-2 sm:ml-3 text-lg sm:text-xl font-bold text-[#FFB501]">Cozinha da Vivi</span>
               </button>
             </div>
             
-            <div className="flex items-center space-x-4">
-                        <button
-              onClick={() => {
-                setShowPasswordChange(!showPasswordChange);
-                try {
-                  const credentials = JSON.parse(localStorage.getItem('adminCredentials') || '{}');
-                  setNewUsername(credentials.username || '');
-                } catch (e) {
-                  setNewUsername('');
-                }
-              }}
-              className="flex items-center text-[#FFB501] hover:text-[#FFE5BA] transition-colors p-2 rounded-lg text-sm"
-            >
-              <Edit className="mr-2" size={16} />
-              <span>Alterar Credenciais</span>
-            </button>
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <button
+                onClick={() => {
+                  setShowPasswordChange(!showPasswordChange);
+                  try {
+                    const credentials = JSON.parse(localStorage.getItem('adminCredentials') || '{}');
+                    setNewUsername(credentials.username || '');
+                  } catch (e) {
+                    setNewUsername('');
+                  }
+                }}
+                className="flex items-center text-[#FFB501] hover:text-[#FFE5BA] transition-colors p-1 sm:p-2 rounded-lg text-xs sm:text-sm"
+              >
+                <Edit className="mr-1 sm:mr-2 size-3 sm:size-4" />
+                <span className="hidden xs:inline">Alterar Credenciais</span>
+              </button>
+              
               
               <button 
                 onClick={handleLogout}
-                className="flex items-center text-[#FFB501] hover:text-[#FFE5BA] transition-colors p-2 rounded-lg"
+                className="flex items-center text-[#FFB501] hover:text-[#FFE5BA] transition-colors p-1 sm:p-2 rounded-lg text-xs sm:text-sm"
               >
-                <LogOut className="mr-2" size={18} />
-                <span>Sair</span>
+                <LogOut className="mr-1 sm:mr-2 size-3 sm:size-4" />
+                <span className="hidden xs:inline">Sair</span>
               </button>
+               
             </div>
           </div>
         </div>
       </header>
 
       {showPasswordChange && (
-        <div className="container mx-auto px-4 py-6 max-w-md">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold text-[#3D1106] mb-4 flex items-center">
-              <Key className="mr-2" size={20} />
+        <div className="container mx-auto px-4 py-4 sm:py-6 max-w-md">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-bold text-[#3D1106] mb-3 sm:mb-4 flex items-center">
+              <Key className="mr-2 size-4 sm:size-5" />
               Alterar Credenciais
             </h2>
             
             {error && (
-              <div className="bg-red-50 p-3 rounded-lg text-red-700 text-sm flex items-center mb-4">
-                <AlertCircle className="mr-2" size={18} />
+              <div className="bg-red-50 p-2 sm:p-3 rounded-lg text-red-700 text-xs sm:text-sm flex items-center mb-3 sm:mb-4">
+                <AlertCircle className="mr-2 size-3 sm:size-4" />
                 {error}
               </div>
             )}
             
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-[#280B04] mb-2 font-medium">
+                <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium text-sm sm:text-base">
                   Nome de Usuário
                 </label>
                 <input
                   type="text"
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value)}
-                  className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                  className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                   placeholder="Digite o novo nome de usuário"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-[#280B04] mb-2 font-medium">
+                <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium text-sm sm:text-base">
                   Nova Senha
                 </label>
                 <input
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                  className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                   placeholder="Mínimo 6 caracteres"
                   required
                   minLength={6}
@@ -645,38 +793,38 @@ const AdminPage = () => {
               </div>
               
               <div>
-                <label className="block text-[#280B04] mb-2 font-medium">
+                <label className="block text-[#280B04] mb-1 sm:mb-2 font-medium text-sm sm:text-base">
                   Confirmar Senha
                 </label>
                 <input
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106]"
+                  className="w-full p-2 sm:p-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#3D1106] text-sm sm:text-base"
                   placeholder="Confirme a nova senha"
                   required
                   minLength={6}
                 />
               </div>
               
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center space-y-3 xs:space-y-0">
                 <button
                   type="button"
                   onClick={generatePassword}
-                  className="text-sm text-[#3D1106] hover:text-[#280B04] flex items-center"
+                  className="text-xs sm:text-sm text-[#3D1106] hover:text-[#280B04] flex items-center"
                 >
-                  <RefreshCw className="mr-1" size={14} />
+                  <RefreshCw className="mr-1 size-3 sm:size-[14px]" />
                   Gerar senha aleatória
                 </button>
                 
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 w-full xs:w-auto">
                   <button
                     type="button"
                     onClick={() => {
                       setShowPasswordChange(false);
                       setError('');
                     }}
-                    className="px-4 py-2 border border-[#3D1106] text-[#3D1106] rounded-lg hover:bg-gray-100"
+                    className="px-3 sm:px-4 py-1 sm:py-2 border border-[#3D1106] text-[#3D1106] rounded-lg hover:bg-gray-100 text-sm sm:text-base flex-1 xs:flex-none"
                   >
                     Cancelar
                   </button>
@@ -684,7 +832,7 @@ const AdminPage = () => {
                     type="button"
                     onClick={handlePasswordChange}
                     disabled={!newUsername || !newPassword || newPassword !== confirmPassword}
-                    className="px-4 py-2 bg-[#3D1106] text-[#FFB501] rounded-lg hover:bg-[#280B04] disabled:opacity-50"
+                    className="px-3 sm:px-4 py-1 sm:py-2 bg-[#3D1106] text-[#FFB501] rounded-lg hover:bg-[#280B04] disabled:opacity-50 text-sm sm:text-base flex-1 xs:flex-none"
                   >
                     Salvar
                   </button>
