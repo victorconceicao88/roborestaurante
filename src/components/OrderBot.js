@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import {
   Trash, Plus, Minus, ChevronDown, ChevronUp,
@@ -6,7 +5,7 @@ import {
   CreditCard, Clock, Info, Smartphone, Loader2, 
   Instagram, Facebook, Calendar, AlertCircle, Star,
   Printer, List, Sun, Moon,
-  Truck, Home
+  Truck, Home,LogIn, LogOut
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -465,18 +464,48 @@ const ementa = [
         descricao: "Deliciosa sobremesa com recheio de chocolate quente que derrete na boca, acompanhada de sorvete de baunilha" 
       }
     ]
+  },
+  {
+    id: 7,
+    nome: "Pratos Especiais",
+    tipo: "categoria",
+    imagem: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=500&auto=format&fit=crop",
+    itens: [
+      { 
+        id: 701, 
+        nome: "Vaca Atolada", 
+        preco: 13.0, 
+        imagem: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=500&auto=format&fit=crop",
+        descricao: "Tradicional prato brasileiro com carne bovina cozida lentamente com mandioca e temperos especiais. Disponível às Quintas-feiras.",
+        disponivel: [4] // 4 = Quinta-feira (0 = Domingo, 1 = Segunda, etc.)
+      },
+      { 
+        id: 702, 
+        nome: "Feijoada Completa", 
+        preco: 13.0, 
+        imagem: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=500&auto=format&fit=crop",
+        descricao: "O clássico brasileiro com feijão preto, diversas carnes, acompanhamentos e couve refogada. Disponível aos Sábados e Domingos.",
+        disponivel: [0, 6] // Domingo e Sábado
+      }
+    ]
   }
 ];
 
 // ========== COMPONENTE SPECIAL PROMO BANNER ========== //
-const SpecialPromoBanner = () => {
+const SpecialPromoBanner = ({ onAddToCart }) => {
   const [showPromoDetails, setShowPromoDetails] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const today = new Date().getDay(); // 0 = Domingo, 1 = Segunda, etc.
+
+  // Verificar quais pratos especiais estão disponíveis hoje
+  const pratosDisponiveis = ementa.find(cat => cat.id === 7)?.itens.filter(item => 
+    item.disponivel.includes(today)
+  ) || [];
 
   return (
     <div className="mb-6">
       <div 
-        className={`bg-[#fffbf7] border border-[#3D1106] rounded-lg p-4 cursor-pointer transition-all duration-300 ${
+        className={`bg-gradient-to-r from-[#3D1106] to-[#A92C0D] text-white rounded-lg p-4 cursor-pointer transition-all duration-300 ${
           isHovering ? 'shadow-lg transform -translate-y-1' : 'shadow-md'
         }`}
         onClick={() => setShowPromoDetails(!showPromoDetails)}
@@ -485,53 +514,59 @@ const SpecialPromoBanner = () => {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className={`bg-[#3D1106] text-[#FFB501] p-2 rounded-full mr-3 transition-all ${
+            <div className={`bg-[#FFB501] text-[#3D1106] p-2 rounded-full mr-3 transition-all ${
               isHovering ? 'rotate-12 scale-110' : ''
             }`}>
               <Star size={18} className="transition-transform duration-300" />
             </div>
             <div>
-              <h3 className="font-medium text-[#3D1106]">Pratos Especiais da Semana</h3>
-              <p className="text-sm text-[#280B04]">Descubra nossas ofertas especiais</p>
+              <h3 className="font-bold text-lg">Pratos Especiais da Semana</h3>
+              <p className="text-sm text-[#FFE5BA]">Descubra nossas ofertas especiais</p>
             </div>
           </div>
           {showPromoDetails ? (
-            <ChevronUp className="text-[#3D1106] animate-bounce" size={20} />
+            <ChevronUp className="text-[#FFB501] animate-bounce" size={20} />
           ) : (
-            <ChevronDown className="text-[#3D1106] animate-pulse" size={20} />
+            <ChevronDown className="text-[#FFB501] animate-pulse" size={20} />
           )}
         </div>
       </div>
 
       {showPromoDetails && (
         <div className="bg-white p-4 rounded-lg border border-[#3D1106] mt-2 shadow-sm animate-fadeIn">
-          <div className="space-y-4">
-            <div className="flex items-start">
-              <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
-                <Calendar size={18} />
-              </div>
-              <div>
-                <h4 className="font-medium text-[#3D1106]">Vaca Atolada - €13,00</h4>
-                <p className="text-sm text-[#280B04]">Tradicional prato brasileiro com carne bovina cozida lentamente com mandioca e temperos especiais.</p>
-                <div className="mt-2 text-xs text-[#3D1106] font-medium">
-                  Disponível às Quintas-feiras
+          {pratosDisponiveis.length > 0 ? (
+            <div className="space-y-4">
+              {pratosDisponiveis.map((prato) => (
+                <div key={prato.id} className="flex items-start">
+                  <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
+                    <Calendar size={18} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-bold text-[#3D1106]">{prato.nome} - €{prato.preco.toFixed(2)}</h4>
+                        <p className="text-sm text-[#280B04] mt-1">{prato.descricao}</p>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onAddToCart(prato);
+                        }}
+                        className="ml-4 bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-1 px-3 rounded-lg text-sm font-medium transition-colors flex items-center"
+                      >
+                        <Plus size={14} className="mr-1" /> Adicionar
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-            
-            <div className="flex items-start">
-              <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
-                <Calendar size={18} />
-              </div>
-              <div>
-                <h4 className="font-medium text-[#3D1106]">Feijoada Completa - €13,00</h4>
-                <p className="text-sm text-[#280B04]">O clássico brasileiro com feijão preto, diversas carnes, acompanhamentos e couve refogada.</p>
-                <div className="mt-2 text-xs text-[#3D1106] font-medium">
-                  Disponível aos Sábados e Domingos
-                </div>
-              </div>
+          ) : (
+            <div className="text-center py-4 text-[#280B04]">
+              <p>Nenhum prato especial disponível hoje.</p>
+              <p className="text-sm mt-1">Volte nos dias específicos para aproveitar nossas promoções!</p>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
@@ -539,7 +574,7 @@ const SpecialPromoBanner = () => {
 };
 
 // ========== COMPONENTE NAVBAR ========== //
-const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep }) => {
+const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep, isAdmin, setIsAdmin }) => {
   return (
     <div>
       <header className="sticky top-0 z-40 bg-[#FFF1E8]">
@@ -561,6 +596,35 @@ const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep }) => {
             
             {/* Botões de navegação */}
             <div className="flex items-center space-x-4">
+              {isAdmin ? (
+                <button
+                  onClick={() => {
+                    setIsAdmin(false);
+                    resetToMenu();
+                  }}
+                  className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors flex items-center"
+                  title="Sair do modo Admin"
+                >
+                  <LogOut className="mr-1" size={20} />
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    const password = prompt("Digite a senha de administrador:");
+                    if (password === "vivi1234") {
+                      setIsAdmin(true);
+                      setStep(1);
+                    } else {
+                      alert("Senha incorreta!");
+                    }
+                  }}
+                  className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors flex items-center"
+                  title="Acessar painel Admin"
+                >
+                  <LogIn size={20} />
+                </button>
+              )}
+              
               <button 
                 onClick={() => setIsCartOpen(true)}
                 className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
@@ -1846,8 +1910,7 @@ const DayTab = ({ date, orders, onPrintOrder, isActive, onClick }) => {
 };
 
 // ========== COMPONENTE ADMIN DASHBOARD ========== //
-// eslint-disable-next-line no-unused-vars
-  const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
+const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
   const [activeDay, setActiveDay] = useState(null);
@@ -1856,13 +1919,27 @@ const DayTab = ({ date, orders, onPrintOrder, isActive, onClick }) => {
     totalOrders: 0,
     totalRevenue: 0,
     deliveryCount: 0,
-    pickupCount: 0,
-  }); 
+    pickupCount: 0
+  });
 
   // Carregar pedidos do localStorage quando o componente montar
   useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+    const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || []);
     setOrders(savedOrders);
+    
+    // Configurar listener para mudanças no localStorage
+    const handleStorageChange = (e) => {
+      if (e.key === 'adminOrders') {
+        const updatedOrders = JSON.parse(e.newValue || '[]');
+        setOrders(updatedOrders);
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   // Agrupar pedidos por dia
@@ -1944,6 +2021,9 @@ const DayTab = ({ date, orders, onPrintOrder, isActive, onClick }) => {
     
     setOrders(updatedOrders);
     localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
+    
+    // Disparar evento para sincronizar outras abas
+    window.dispatchEvent(new Event('storage'));
     
     // Chamar a função passada por props se existir
     if (onMarkAsDone) {
@@ -2294,7 +2374,7 @@ const Footer = () => {
 };
 
 // ========== COMPONENTE PRINCIPAL (ORDERBOT) ========== //
-  export default function OrderBot() {
+export default function OrderBot() {
   const loadFromLocalStorage = (key, defaultValue) => {
     try {
       const item = localStorage.getItem(key);
@@ -2318,6 +2398,7 @@ const Footer = () => {
   const [observacoes, setObservacoes] = useState(() => loadFromLocalStorage('observacoes', ""));
   const [orderNumber, setOrderNumber] = useState(null);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -2378,7 +2459,10 @@ const Footer = () => {
       }
     });
     
-    message += `\n*Subtotal:* €${(total - (customerData.entrega ? 4 : 0)).toFixed(2)}\n`;
+    const subtotal = cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0);
+    const total = subtotal + (customerData.entrega ? 4 : 0);
+    
+    message += `\n*Subtotal:* €${subtotal.toFixed(2)}\n`;
     if (customerData.entrega) {
       message += `*Taxa de Entrega:* €4.00\n`;
     }
@@ -2417,6 +2501,9 @@ const Footer = () => {
     
     orders.unshift(newOrder); // Adicionar no início do array
     localStorage.setItem('adminOrders', JSON.stringify(orders));
+    
+    // Disparar evento para sincronizar outras abas
+    window.dispatchEvent(new Event('storage'));
   };
 
   const handleSubmitOrder = (customerData) => {
@@ -2500,6 +2587,112 @@ const Footer = () => {
     setOrderSubmitted(false);
   };
 
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen bg-[#FFF1E8]">
+        <Navbar 
+          cart={cart} 
+          setIsCartOpen={setIsCartOpen}
+          resetToMenu={resetToMenu}
+          setStep={setStep}
+          isAdmin={isAdmin}
+          setIsAdmin={setIsAdmin}
+        />
+        
+        <AdminDashboard 
+          onPrintOrder={(order) => {
+            // Criar conteúdo para impressão
+            const printContent = `
+              <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 400px;">
+                <h1 style="text-align: center; margin-bottom: 10px;">Cozinha da Vivi</h1>
+                <h2 style="text-align: center; margin-bottom: 20px;">Pedido #${order.orderNumber}</h2>
+                
+                <div style="margin-bottom: 15px;">
+                  <p><strong>Cliente:</strong> ${order.nome}</p>
+                  <p><strong>Contato:</strong> ${order.contato}</p>
+                  <p><strong>Tipo:</strong> ${order.entrega ? 'Entrega' : 'Retirada'}</p>
+                  ${order.entrega ? `<p><strong>Endereço:</strong> ${order.endereco}</p>` : ''}
+                  <p><strong>Pagamento:</strong> ${
+                    order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
+                    order.metodoPagamento === 'cartao' ? 'Cartão' : 
+                    order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'
+                  }</p>
+                  ${order.observacoes ? `<p><strong>Observações:</strong> ${order.observacoes}</p>` : ''}
+                </div>
+                
+                <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px;">Itens:</h3>
+                <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
+                  ${order.cart.map(item => `
+                    <li style="margin-bottom: 10px;">
+                      <strong>${item.quantidade}x ${item.nome}</strong> - €${(item.precoFinal || item.preco).toFixed(2)}
+                      ${item.selectedOptions ? `
+                        <div style="font-size: 0.9em; margin-left: 10px;">
+                          ${item.selectedOptions.carnes?.length > 0 ? `<div>Carnes: ${item.selectedOptions.carnes.join(", ")}</div>` : ''}
+                          ${item.selectedOptions.acompanhamentos?.length > 0 ? `<div>Acomp: ${item.selectedOptions.acompanhamentos.join(", ")}</div>` : ''}
+                          ${item.selectedOptions.salada ? `<div>Salada: ${item.selectedOptions.salada}</div>` : ''}
+                          ${item.selectedOptions.bebida ? `<div>Bebida: ${item.selectedOptions.bebida}</div>` : ''}
+                          ${item.selectedOptions.toppings?.length > 0 ? `<div>Toppings: ${item.selectedOptions.toppings.join(", ")}</div>` : ''}
+                        </div>
+                      ` : ''}
+                    </li>
+                  `).join('')}
+                </ul>
+                
+               <div style="border-top: 1px solid #000; padding-top: 10px;">
+                <p style="text-align: right;"><strong>Subtotal:</strong> €${order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</p>
+                ${order.entrega ? `<p style="text-align: right;"><strong>Taxa de Entrega:</strong> €4.00</p>` : ''}
+                <p style="text-align: right; font-size: 1.2em;"><strong>Total:</strong> €${(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</p>
+               </div>
+                
+                <p style="text-align: center; margin-top: 20px; font-size: 0.8em;">
+                  ${new Date(order.timestamp).toLocaleString('pt-PT')}
+                </p>
+              </div>
+            `;
+
+            // Abrir janela de impressão
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+              <html>
+                <head>
+                  <title>Pedido #${order.orderNumber}</title>
+                  <style>
+                    @media print {
+                      body { visibility: hidden; }
+                      .print-content { visibility: visible; position: absolute; left: 0; top: 0; }
+                    }
+                  </style>
+                </head>
+                <body>
+                  <div class="print-content">${printContent}</div>
+                  <script>
+                    setTimeout(() => {
+                      window.print();
+                      window.close();
+                    }, 200);
+                  </script>
+                </body>
+              </html>
+            `);
+            printWindow.document.close();
+          }}
+          onMarkAsDone={async (orderNumber) => {
+            const orders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+            const updatedOrders = orders.map(order => {
+              if (order.orderNumber === orderNumber) {
+                return { ...order, status: 'done' };
+              }
+              return order;
+            });
+            
+            localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
+            window.dispatchEvent(new Event('storage'));
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#FFF1E8]">
       <Navbar 
@@ -2507,6 +2700,8 @@ const Footer = () => {
         setIsCartOpen={setIsCartOpen}
         resetToMenu={resetToMenu}
         setStep={setStep}
+        isAdmin={isAdmin}
+        setIsAdmin={setIsAdmin}
       />
       
       <main className="container mx-auto px-4 py-6 pb-24">
@@ -2516,10 +2711,10 @@ const Footer = () => {
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-[#280B04] mb-6">Ementa</h2>
               
-              <SpecialPromoBanner />
+              <SpecialPromoBanner onAddToCart={addToCart} />
               
               <div className="space-y-8">
-                {ementa.map((category) => (
+                {ementa.filter(cat => cat.id !== 7).map((category) => (
                   <div key={category.id} className="bg-[#FFfbf7] rounded-xl shadow-sm overflow-hidden border border-[#3D1106]">
                     <button
                       onClick={() => setOpenCategory(openCategory === category.id ? null : category.id)}
@@ -2756,6 +2951,7 @@ const Footer = () => {
           </div>
         </>
       )}
+      
 
       {/* Mobile Checkout Button */}
       {step === 1 && cart.length > 0 && !isCartOpen && (
