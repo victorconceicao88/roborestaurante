@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+/* Estilos para o painel admin */
+.admin-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  overflow-y: auto;
+}
+
+.admin-panel-container {
+  background-color: white;
+  border-radius: 8px;
+  width: 95%;
+  max-width: 1200px;
+  padding: 20px;
+  position: relative;
+}
+
+.close-admin-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #3D1106;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1001;
+}

@@ -1,36 +1,18 @@
-import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import OrderBot from './components/OrderBot';
-
-
+import AdminPage from './components/Admin/AdminPage';
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  // Keyboard shortcut (Ctrl + Alt + A) to toggle admin panel
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.altKey && e.key === 'a') {
-        setIsAdmin(prev => !prev);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   return (
-    <div className="App">
-      {/* Renderiza o OrderBot e passa isAdmin como prop se necessário */}
-      <OrderBot />
-      
-      {/* Exemplo de como você poderia usar o estado isAdmin */}
-      {isAdmin && (
-        <div className="admin-panel">
-          {/* Conteúdo do painel admin */}
-          Painel Administrativo
-        </div>
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<OrderBot />} />
+        <Route path="/admin" element={<AdminPage />} />
+        
+        {/* Adicione esta rota para lidar com atualizações de página no admin */}
+        <Route path="/admin/*" element={<AdminPage />} />
+      </Routes>
+    </Router>
   );
 }
 

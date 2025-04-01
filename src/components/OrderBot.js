@@ -4,8 +4,10 @@ import {
   ShoppingCart, X, Check, MapPin, Phone, User,
   CreditCard, Clock, Info, Smartphone, Loader2, 
   Instagram, Facebook, Calendar, AlertCircle, Star,
-  Printer, ChefHat, List, Home
+  Printer, List, Sun, Moon,
+  Truck, Home
 } from 'lucide-react';
+
 
 // ========== DADOS DA EMENTA ========== //
 const ementa = [
@@ -537,57 +539,40 @@ const SpecialPromoBanner = () => {
 };
 
 // ========== COMPONENTE NAVBAR ========== //
-const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep, isAdminView, setIsAdminView }) => {
+const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep }) => {
   return (
     <div>
-      <header className="bg-[#FFF1E8] sticky top-0 z-40">
+      <header className="sticky top-0 z-40 bg-[#FFF1E8]">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <div className="flex items-center">
-              <button onClick={resetToMenu} className="focus:outline-none">
+              <button 
+                onClick={resetToMenu} 
+                className="focus:outline-none flex items-center"
+              >
                 <img 
                   src="imagens/vivi.jpg" 
                   alt="Cozinha da Vivi" 
-                  className="h-16 w-16 object-cover rounded-full border-[#3D1106]"
+                  className="h-16 w-16 object-cover rounded-full"
                 />
               </button>
             </div>
             
             {/* Botões de navegação */}
             <div className="flex items-center space-x-4">
-              {!isAdminView ? (
-                <>
-                  <button 
-                    onClick={() => setIsAdminView(true)}
-                    className="hidden md:flex items-center text-[#280B04] hover:text-[#3D1106] transition-colors p-2 rounded-lg bg-[#FFB501]/20"
-                  >
-                    <ChefHat className="mr-2" size={18} />
-                    <span>Área do Restaurante</span>
-                  </button>
-                  
-                  <button 
-                    onClick={() => setIsCartOpen(true)}
-                    className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
-                    aria-label="Carrinho de compras"
-                  >
-                    <ShoppingCart size={24} />
-                    {cart.length > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
-                        {cart.reduce((sum, item) => sum + item.quantidade, 0)}
-                      </span>
-                    )}
-                  </button>
-                </>
-              ) : (
-                <button 
-                  onClick={() => setIsAdminView(false)}
-                  className="flex items-center text-[#280B04] hover:text-[#3D1106] transition-colors p-2 rounded-lg bg-[#FFB501]/20"
-                >
-                  <Home className="mr-2" size={18} />
-                  <span>Voltar ao Menu</span>
-                </button>
-              )}
+              <button 
+                onClick={() => setIsCartOpen(true)}
+                className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
+                aria-label="Carrinho de compras"
+              >
+                <ShoppingCart size={24} />
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#280B04] text-[#FFF1E4] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">
+                    {cart.reduce((sum, item) => sum + item.quantidade, 0)}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -813,8 +798,8 @@ const MenuItem = ({ item, onAdd }) => {
     
     // Validação para salada em itens de churrasco
     if (item.tipo === "churrasco" && !selectedOptions.salada) {
-      setValidationError("Por favor, selecione 1 salada");
-      return false;
+        setValidationError("Por favor, selecione 1 salada");
+        return false;
     }
     
     // Validação para bebida em combos
@@ -1240,9 +1225,10 @@ const MbwayPayment = ({ phone, setPhone, errors, setErrors }) => {
 };
 
 // ========== COMPONENTE ORDER ITEM (PARA A ÁREA ADMIN) ========== //
-const OrderItem = ({ order, onPrint }) => {
+const OrderItem = ({ order, onPrint, onMarkAsDone }) => {
   const [expanded, setExpanded] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
+  const [isMarkingDone, setIsMarkingDone] = useState(false);
 
   const handlePrint = () => {
     setIsPrinting(true);
@@ -1250,16 +1236,52 @@ const OrderItem = ({ order, onPrint }) => {
     setTimeout(() => setIsPrinting(false), 1000);
   };
 
+  const handleMarkAsDone = async () => {
+    setIsMarkingDone(true);
+    await onMarkAsDone(order.orderNumber);
+    setIsMarkingDone(false);
+  };
+
+  const total = order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0);
+
+  const orderDate = new Date(order.timestamp);
+  const formattedDate = orderDate.toLocaleDateString('pt-PT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  const formattedTime = orderDate.toLocaleTimeString('pt-PT', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-4 border border-[#3D1106] hover:shadow-md transition-shadow">
+    <div className={`bg-white rounded-lg shadow-sm p-4 mb-4 border border-[#3D1106] hover:shadow-md transition-shadow ${
+      order.status === 'done' ? 'opacity-70 bg-gray-50' : ''
+    }`}>
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="font-bold text-lg text-[#280B04]">Pedido #{order.orderNumber}</h3>
+          <div className="flex items-center">
+            <h3 className="font-bold text-lg text-[#280B04]">Pedido #{order.orderNumber}</h3>
+            {order.status === 'done' && (
+              <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                Concluído
+              </span>
+            )}
+            {order.status === 'pending' && (
+              <span className="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
+                Pendente
+              </span>
+            )}
+          </div>
           <p className="text-sm text-[#6B7280]">
-            {new Date(order.timestamp).toLocaleString('pt-PT')} • {order.entrega ? 'Entrega' : 'Retirada'}
+            {formattedDate} às {formattedTime} • {order.entrega ? 'Entrega' : 'Retirada'}
           </p>
           <p className="text-sm font-medium text-[#3D1106] mt-1">
             {order.nome} • {order.contato}
+          </p>
+          <p className="text-sm font-bold text-[#617C33] mt-1">
+            Total: €{total.toFixed(2)}
           </p>
         </div>
         
@@ -1279,6 +1301,17 @@ const OrderItem = ({ order, onPrint }) => {
           >
             <Printer size={20} />
           </button>
+          {order.status !== 'done' && (
+            <button
+              onClick={handleMarkAsDone}
+              disabled={isMarkingDone}
+              className={`p-2 rounded-full transition-colors ${
+                isMarkingDone ? 'bg-gray-200 text-gray-500' : 'bg-green-100 hover:bg-green-200 text-green-800'
+              }`}
+            >
+              <Check size={20} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -1304,9 +1337,11 @@ const OrderItem = ({ order, onPrint }) => {
                 order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}
             </p>
             {order.observacoes && (
-              <p className="text-sm mt-2">
-                <span className="font-medium">Observações:</span> {order.observacoes}
-              </p>
+              <div className="mt-2 bg-yellow-50 p-2 rounded-lg">
+                <p className="text-sm">
+                  <span className="font-medium">Observações:</span> {order.observacoes}
+                </p>
+              </div>
             )}
           </div>
 
@@ -1356,7 +1391,7 @@ const OrderItem = ({ order, onPrint }) => {
             )}
             <div className="flex justify-between font-bold text-lg mt-2 pt-2 border-t border-[#E5E7EB]">
               <span>Total:</span>
-              <span>€{(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</span>
+              <span>€{total.toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -1407,7 +1442,15 @@ const CheckoutForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onSubmit();
+      onSubmit({
+        nome,
+        contato,
+        endereco,
+        entrega,
+        metodoPagamento,
+        mbwayPhone,
+        observacoes
+      });
     }
   };
 
@@ -1543,7 +1586,7 @@ const CheckoutForm = ({
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'dinheiro' 
                     ? 'border-[#617C33] bg-[#617C33]/10' 
-                    : 'border-[#E5E7EB] hover:border-[#617C33]'
+                    : 'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('dinheiro')}
               >
@@ -1564,7 +1607,7 @@ const CheckoutForm = ({
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'mbway' 
                     ? 'border-[#617C33] bg-[#617C33]/10' 
-                    : 'border-[#E5E7EB] hover:border-[#617C33]'
+                    : 'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('mbway')}
               >
@@ -1585,7 +1628,7 @@ const CheckoutForm = ({
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'cartao' 
                     ? 'border-[#617C33] bg-[#617C33]/10' 
-                    : 'border-[#E5E7EB] hover:border-[#617C33]'
+                    : 'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('cartao')}
               >
@@ -1606,7 +1649,7 @@ const CheckoutForm = ({
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   metodoPagamento === 'multibanco' 
                     ? 'border-[#617C33] bg-[#617C33]/10' 
-                    : 'border-[#E5E7EB] hover:border-[#617C33]'
+                    : 'border-[#E5E7EB] text-[#280B04] hover:border-[#617C33]'
                 }`}
                 onClick={() => setMetodoPagamento('multibanco')}
               >
@@ -1749,26 +1792,298 @@ const Confirmation = ({ orderNumber, onNewOrder }) => {
   );
 };
 
+// ========== COMPONENTE DAY TAB ========== //
+const DayTab = ({ date, orders, onPrintOrder, isActive, onClick }) => {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  const orderDate = new Date(date);
+  const formattedDate = orderDate.toLocaleDateString('pt-PT', {
+    day: '2-digit',
+    month: '2-digit'
+  });
+  
+  const isToday = orderDate.toDateString() === today.toDateString();
+  const isYesterday = orderDate.toDateString() === yesterday.toDateString();
+  
+  const dayLabel = isToday ? 'Hoje' : isYesterday ? 'Ontem' : formattedDate;
+  
+  const totalRevenue = orders.reduce((sum, order) => {
+    const orderTotal = order.cart.reduce((orderSum, item) => 
+      orderSum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0);
+    return sum + orderTotal;
+  }, 0);
+  
+  const pendingOrders = orders.filter(order => order.status !== 'done').length;
+  
+  return (
+    <button
+      onClick={onClick}
+      className={`flex flex-col items-start p-3 rounded-lg transition-colors ${
+        isActive ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#FFF1E8] text-[#280B04] hover:bg-[#FFE5BA]'
+      }`}
+    >
+      <div className="flex items-center">
+        {isToday ? <Sun size={16} className="mr-2" /> : 
+         isYesterday ? <Moon size={16} className="mr-2" /> : 
+         <Calendar size={16} className="mr-2" />}
+        <span className="font-medium">{dayLabel}</span>
+      </div>
+      <div className="flex justify-between w-full mt-1">
+        <span className="text-sm">{orders.length} pedido{orders.length !== 1 ? 's' : ''}</span>
+        {pendingOrders > 0 && (
+          <span className="bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+            {pendingOrders}
+          </span>
+        )}
+      </div>
+      <div className="w-full mt-2 text-right">
+        <span className="text-sm font-bold">€{totalRevenue.toFixed(2)}</span>
+      </div>
+    </button>
+  );
+};
+
 // ========== COMPONENTE ADMIN DASHBOARD ========== //
-const AdminDashboard = ({ orders, onPrintOrder }) => {
+const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
+  const [activeDay, setActiveDay] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [stats, setStats] = useState({
+    totalOrders: 0,
+    totalRevenue: 0,
+    deliveryCount: 0,
+    pickupCount: 0
+  });
 
-  const filteredOrders = orders.filter(order => {
+  
+
+  // Carregar pedidos do localStorage quando o componente montar
+  useEffect(() => {
+    const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+    setOrders(savedOrders);
+  }, []);
+
+  // Agrupar pedidos por dia
+  const ordersByDay = orders.reduce((acc, order) => {
+    const orderDate = new Date(order.timestamp);
+    const dateKey = new Date(
+      orderDate.getFullYear(), 
+      orderDate.getMonth(), 
+      orderDate.getDate()
+    ).toISOString();
+    
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
+    }
+    acc[dateKey].push(order);
+    return acc;
+  }, {});
+
+  // Ordenar dias do mais recente para o mais antigo
+  const sortedDays = Object.keys(ordersByDay).sort((a, b) => new Date(b) - new Date(a));
+
+  // Definir o dia ativo como o mais recente se ainda não estiver definido
+  useEffect(() => {
+    if (sortedDays.length > 0 && !activeDay) {
+      setActiveDay(sortedDays[0]);
+    }
+  }, [sortedDays, activeDay]);
+
+  // Atualizar estatísticas
+  useEffect(() => {
+    const totalOrders = orders.length;
+    const totalRevenue = orders.reduce((sum, order) => {
+      const orderTotal = order.cart.reduce((orderSum, item) => 
+        orderSum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0);
+      return sum + orderTotal;
+    }, 0);
+    
+    const deliveryCount = orders.filter(order => order.entrega).length;
+    const pickupCount = orders.filter(order => !order.entrega).length;
+    
+    setStats({
+      totalOrders,
+      totalRevenue,
+      deliveryCount,
+      pickupCount
+    });
+  }, [orders]);
+
+  // Filtrar pedidos do dia ativo
+  const filteredOrders = ordersByDay[activeDay]?.filter(order => {
     const matchesSearch = order.nome.toLowerCase().includes(searchTerm.toLowerCase()) || 
                          order.orderNumber.toString().includes(searchTerm) ||
                          order.contato.includes(searchTerm);
     
     const matchesFilter = filter === 'all' || 
                          (filter === 'delivery' && order.entrega) || 
-                         (filter === 'pickup' && !order.entrega);
+                         (filter === 'pickup' && !order.entrega) ||
+                         (filter === 'pending' && order.status !== 'done') ||
+                         (filter === 'done' && order.status === 'done');
     
     return matchesSearch && matchesFilter;
-  });
+  }) || [];
+
+  // Calcular faturamento total do dia ativo
+  const dailyRevenue = ordersByDay[activeDay]?.reduce((sum, order) => {
+    const orderTotal = order.cart.reduce((orderSum, item) => 
+      orderSum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0);
+    return sum + orderTotal;
+  }, 0) || 0;
+
+  // Função para marcar pedido como concluído
+  const handleMarkAsDone = async (orderNumber) => {
+    const updatedOrders = orders.map(order => {
+      if (order.orderNumber === orderNumber) {
+        return { ...order, status: 'done' };
+      }
+      return order;
+    });
+    
+    setOrders(updatedOrders);
+    localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
+    
+    // Chamar a função passada por props se existir
+    if (onMarkAsDone) {
+      await onMarkAsDone(orderNumber);
+    }
+  };
+
+  // Função para imprimir pedido
+  const handlePrintOrder = (order) => {
+    // Criar conteúdo para impressão
+    const printContent = `
+      <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 400px;">
+        <h1 style="text-align: center; margin-bottom: 10px;">Cozinha da Vivi</h1>
+        <h2 style="text-align: center; margin-bottom: 20px;">Pedido #${order.orderNumber}</h2>
+        
+        <div style="margin-bottom: 15px;">
+          <p><strong>Cliente:</strong> ${order.nome}</p>
+          <p><strong>Contato:</strong> ${order.contato}</p>
+          <p><strong>Tipo:</strong> ${order.entrega ? 'Entrega' : 'Retirada'}</p>
+          ${order.entrega ? `<p><strong>Endereço:</strong> ${order.endereco}</p>` : ''}
+          <p><strong>Pagamento:</strong> ${
+            order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
+            order.metodoPagamento === 'cartao' ? 'Cartão' : 
+            order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'
+          }</p>
+          ${order.observacoes ? `<p><strong>Observações:</strong> ${order.observacoes}</p>` : ''}
+        </div>
+        
+        <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px;">Itens:</h3>
+        <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
+          ${order.cart.map(item => `
+            <li style="margin-bottom: 10px;">
+              <strong>${item.quantidade}x ${item.nome}</strong> - €${(item.precoFinal || item.preco).toFixed(2)}
+              ${item.selectedOptions ? `
+                <div style="font-size: 0.9em; margin-left: 10px;">
+                  ${item.selectedOptions.carnes?.length > 0 ? `<div>Carnes: ${item.selectedOptions.carnes.join(", ")}</div>` : ''}
+                  ${item.selectedOptions.acompanhamentos?.length > 0 ? `<div>Acomp: ${item.selectedOptions.acompanhamentos.join(", ")}</div>` : ''}
+                  ${item.selectedOptions.salada ? `<div>Salada: ${item.selectedOptions.salada}</div>` : ''}
+                  ${item.selectedOptions.bebida ? `<div>Bebida: ${item.selectedOptions.bebida}</div>` : ''}
+                  ${item.selectedOptions.toppings?.length > 0 ? `<div>Toppings: ${item.selectedOptions.toppings.join(", ")}</div>` : ''}
+                </div>
+              ` : ''}
+            </li>
+          `).join('')}
+        </ul>
+        
+       <div style="border-top: 1px solid #000; padding-top: 10px;">
+        <p style="text-align: right;"><strong>Subtotal:</strong> €${order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</p>
+        ${order.entrega ? `<p style="text-align: right;"><strong>Taxa de Entrega:</strong> €4.00</p>` : ''}
+        <p style="text-align: right; font-size: 1.2em;"><strong>Total:</strong> €${(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</p>
+       </div>
+        
+        <p style="text-align: center; margin-top: 20px; font-size: 0.8em;">
+          ${new Date(order.timestamp).toLocaleString('pt-PT')}
+        </p>
+      </div>
+    `;
+
+    // Abrir janela de impressão
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Pedido #${order.orderNumber}</title>
+          <style>
+            @media print {
+              body { visibility: hidden; }
+              .print-content { visibility: visible; position: absolute; left: 0; top: 0; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="print-content">${printContent}</div>
+          <script>
+            setTimeout(() => {
+              window.print();
+              window.close();
+            }, 200);
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-[#280B04] mb-8">Painel de Pedidos</h1>
+      <h1 className="text-3xl font-bold text-[#280B04] mb-6">Painel de Pedidos</h1>
+      
+      {/* Estatísticas */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white rounded-lg shadow p-4 border border-[#3D1106]">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#6B7280]">Total Pedidos</p>
+              <p className="text-2xl font-bold text-[#3D1106]">{stats.totalOrders}</p>
+            </div>
+            <div className="bg-[#FFB501]/20 p-3 rounded-full">
+              <ShoppingCart className="text-[#3D1106]" size={20} />
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-4 border border-[#3D1106]">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#6B7280]">Faturamento Total</p>
+              <p className="text-2xl font-bold text-[#3D1106]">€{stats.totalRevenue.toFixed(2)}</p>
+            </div>
+            <div className="bg-[#FFB501]/20 p-3 rounded-full">
+              <CreditCard className="text-[#3D1106]" size={20} />
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-4 border border-[#3D1106]">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#6B7280]">Entregas</p>
+              <p className="text-2xl font-bold text-[#3D1106]">{stats.deliveryCount}</p>
+            </div>
+            <div className="bg-[#FFB501]/20 p-3 rounded-full">
+              <Truck className="text-[#3D1106]" size={20} />
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow p-4 border border-[#3D1106]">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-[#6B7280]">Retiradas</p>
+              <p className="text-2xl font-bold text-[#3D1106]">{stats.pickupCount}</p>
+            </div>
+            <div className="bg-[#FFB501]/20 p-3 rounded-full">
+              <Home className="text-[#3D1106]" size={20} />
+            </div>
+          </div>
+        </div>
+      </div>
       
       <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-[#3D1106]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -1784,30 +2099,89 @@ const AdminDashboard = ({ orders, onPrintOrder }) => {
           </div>
           
           <div>
-            <label className="block text-[#280B04] mb-2 font-medium">Filtrar por Tipo</label>
-            <div className="flex space-x-4">
+            <label className="block text-[#280B04] mb-2 font-medium">Filtrar por</label>
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-4 py-2 rounded-lg ${filter === 'all' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+                className={`px-3 py-2 rounded-lg text-sm ${filter === 'all' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
               >
                 Todos
               </button>
               <button
                 onClick={() => setFilter('delivery')}
-                className={`px-4 py-2 rounded-lg ${filter === 'delivery' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+                className={`px-3 py-2 rounded-lg text-sm ${filter === 'delivery' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
               >
                 Entrega
               </button>
               <button
                 onClick={() => setFilter('pickup')}
-                className={`px-4 py-2 rounded-lg ${filter === 'pickup' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+                className={`px-3 py-2 rounded-lg text-sm ${filter === 'pickup' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
               >
                 Retirada
+              </button>
+              <button
+                onClick={() => setFilter('pending')}
+                className={`px-3 py-2 rounded-lg text-sm ${filter === 'pending' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+              >
+                Pendentes
+              </button>
+              <button
+                onClick={() => setFilter('done')}
+                className={`px-3 py-2 rounded-lg text-sm ${filter === 'done' ? 'bg-[#3D1106] text-[#FFB501]' : 'bg-[#E5E7EB] text-[#280B04]'}`}
+              >
+                Concluídos
               </button>
             </div>
           </div>
         </div>
         
+        {/* Abas de dias */}
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-[#280B04] mb-3">Pedidos por Dia</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {sortedDays.map((day) => (
+              <DayTab
+                key={day}
+                date={day}
+                orders={ordersByDay[day]}
+                isActive={day === activeDay}
+                onClick={() => setActiveDay(day)}
+              />
+            ))}
+          </div>
+        </div>
+        
+        {/* Resumo do dia */}
+        <div className="bg-[#FFFBF7] p-4 rounded-lg border border-[#FFB501] mb-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold text-[#280B04]">
+              {activeDay ? new Date(activeDay).toLocaleDateString('pt-PT', { 
+                weekday: 'long', 
+                day: 'numeric', 
+                month: 'long' 
+              }) : 'Selecione um dia'}
+            </h2>
+            <div className="text-lg font-bold text-[#617C33]">
+              Total do dia: €{dailyRevenue.toFixed(2)}
+            </div>
+          </div>
+          <div className="flex space-x-4 mt-2">
+            <div className="text-sm">
+              <span className="font-medium">Pedidos:</span> {ordersByDay[activeDay]?.length || 0}
+            </div>
+            <div className="text-sm">
+              <span className="font-medium">Entregas:</span> {ordersByDay[activeDay]?.filter(o => o.entrega).length || 0}
+            </div>
+            <div className="text-sm">
+              <span className="font-medium">Retiradas:</span> {ordersByDay[activeDay]?.filter(o => !o.entrega).length || 0}
+            </div>
+            <div className="text-sm">
+              <span className="font-medium">Pendentes:</span> {ordersByDay[activeDay]?.filter(o => o.status !== 'done').length || 0}
+            </div>
+          </div>
+        </div>
+        
+        {/* Lista de pedidos */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-[#280B04]">
             {filteredOrders.length} {filteredOrders.length === 1 ? 'Pedido' : 'Pedidos'} Encontrados
@@ -1828,14 +2202,15 @@ const AdminDashboard = ({ orders, onPrintOrder }) => {
                 <OrderItem 
                   key={order.orderNumber} 
                   order={order} 
-                  onPrint={onPrintOrder}
+                  onPrint={handlePrintOrder}
+                  onMarkAsDone={handleMarkAsDone}
                 />
               ))}
           </div>
         )}
       </div>
     </div>
-  );
+   );
 };
 
 const Footer = () => {
@@ -1846,73 +2221,73 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#FFB501] text-[#3D1106] py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Hours Section */}
+    <footer className="bg-[#FFB501] text-[#3D1106] py-16 mt-12">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+          {/* Horário */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Horário</h3>
-            <div className="space-y-3">
+            <h3 className="text-2xl font-semibold mb-6">Horário</h3>
+            <div className="space-y-4">
               <div className="flex justify-between border-b border-[#3D1106] pb-2">
-                <span>Segunda-feira:</span>
-                <span className="font-medium">Fechado</span>
+                <span className="font-medium">Segunda-feira:</span>
+                <span>Fechado</span>
               </div>
               <div className="flex justify-between border-b border-[#3D1106] pb-2">
-                <span>Terça a Sábado:</span>
-                <span className="font-medium">12:00 - 14:45</span>
+                <span className="font-medium">Terça a Sábado:</span>
+                <span>12:00 - 14:45</span>
               </div>
               <div className="flex justify-between border-b border-[#3D1106] pb-2">
-                <span>Terça a Sábado:</span>
-                <span className="font-medium">19:00 - 21:30</span>
+                <span className="font-medium">Terça a Sábado:</span>
+                <span>19:00 - 21:30</span>
               </div>
               <div className="flex justify-between">
-                <span>Domingo:</span>
-                <span className="font-medium">12:00 - 14:45</span>
+                <span className="font-medium">Domingo:</span>
+                <span>12:00 - 14:45</span>
               </div>
             </div>
           </div>
 
-          {/* Contact Section */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold mb-4">Contactos</h3>
-            <div className="flex items-center">
-              <Phone className="text-[#3D1106] mr-3" size={20} />
-              <a href="tel:+351933737672" className="hover:text-[#280B04] transition-colors">
+          {/* Contactos */}
+          <div>
+            <h3 className="text-2xl font-semibold mb-6">Contactos</h3>
+            <div className="flex items-center mb-4">
+              <Phone className="text-[#3D1106] mr-3" size={24} />
+              <a href="tel:+351933737672" className="hover:text-[#280B04] transition-colors text-lg">
                 (93) 373-7672
               </a>
             </div>
           </div>
           
-          {/* Location Section */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold mb-4">Localização</h3>
+          {/* Localização */}
+          <div>
+            <h3 className="text-2xl font-semibold mb-6">Localização</h3>
             <div 
               className="flex items-start cursor-pointer hover:text-[#280B04] transition-colors"
               onClick={handleAddressClick}
             >
-              <MapPin className="text-[#3D1106] mr-3 mt-0.5 flex-shrink-0" size={20} />
+              <MapPin className="text-[#3D1106] mr-3 mt-0.5 flex-shrink-0" size={24} />
               <div>
                 <p className="hover:underline">Cozinha da Vivi, Estr. de Alvor, São Sebastião</p>
                 <p className="hover:underline">8500-769 Portimão</p>
               </div>
             </div>
             
-            <div className="flex justify-center space-x-6 pt-4">
+            <div className="flex justify-center space-x-6 pt-6">
               <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" 
                 className="text-[#3D1106] hover:text-[#280B04] transition-colors">
-                <Instagram size={24} />
+                <Instagram size={28} />
               </a>
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
                 className="text-[#3D1106] hover:text-[#280B04] transition-colors">
-                <Facebook size={24} />
+                <Facebook size={28} />
               </a>
             </div>
           </div>
         </div>
-        
+
         {/* Copyright */}
-        <div className="border-t border-[#3D1106] mt-8 pt-8 text-center text-sm">
-          © {new Date().getFullYear()} Churrascaria Gaúcha. Todos os direitos reservados.
+        <div className="border-t border-[#3D1106] mt-8 pt-8 text-center text-sm text-[#3D1106]">
+          <p>© {new Date().getFullYear()} Restaurante da Vivi. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
@@ -1920,7 +2295,7 @@ const Footer = () => {
 };
 
 // ========== COMPONENTE PRINCIPAL (ORDERBOT) ========== //
-export default function OrderBot() {
+  export default function OrderBot() {
   const loadFromLocalStorage = (key, defaultValue) => {
     try {
       const item = localStorage.getItem(key);
@@ -1944,11 +2319,6 @@ export default function OrderBot() {
   const [observacoes, setObservacoes] = useState(() => loadFromLocalStorage('observacoes', ""));
   const [orderNumber, setOrderNumber] = useState(null);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
-  const [isAdminView, setIsAdminView] = useState(false);
-  const [orders, setOrders] = useState(() => {
-    const savedOrders = localStorage.getItem('adminOrders');
-    return savedOrders ? JSON.parse(savedOrders) : [];
-  });
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -1960,8 +2330,7 @@ export default function OrderBot() {
     localStorage.setItem('metodoPagamento', JSON.stringify(metodoPagamento));
     localStorage.setItem('mbwayPhone', JSON.stringify(mbwayPhone));
     localStorage.setItem('observacoes', JSON.stringify(observacoes));
-    localStorage.setItem('adminOrders', JSON.stringify(orders));
-  }, [cart, step, nome, endereco, contato, entrega, metodoPagamento, mbwayPhone, observacoes, orders]);
+  }, [cart, step, nome, endereco, contato, entrega, metodoPagamento, mbwayPhone, observacoes]);
 
   const resetToMenu = () => {
     setOpenCategory(null);
@@ -1969,339 +2338,102 @@ export default function OrderBot() {
     setStep(1);
   };
 
-  const printOrder = (order) => {
-    const printContent = `
-      <html>
-        <head>
-          <title>Pedido #${order.orderNumber}</title>
-          <style>
-            @page {
-              size: auto;
-              margin: 0mm;
-            }
-            body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 20px;
-              color: #333;
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
-            }
-            .header {
-              text-align: center;
-              margin-bottom: 20px;
-              border-bottom: 2px solid #3D1106;
-              padding-bottom: 10px;
-            }
-            .header h1 {
-              color: #3D1106;
-              margin: 0;
-              font-size: 24px;
-            }
-            .header .order-number {
-              font-size: 18px;
-              font-weight: bold;
-              margin-top: 5px;
-            }
-            .info-section {
-              margin-bottom: 20px;
-            }
-            .info-section h2 {
-              color: #3D1106;
-              font-size: 18px;
-              border-bottom: 1px solid #3D1106;
-              padding-bottom: 5px;
-              margin-bottom: 10px;
-            }
-            .info-row {
-              display: flex;
-              margin-bottom: 5px;
-            }
-            .info-label {
-              font-weight: bold;
-              min-width: 120px;
-            }
-            .items-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 20px;
-            }
-            .items-table th {
-              background-color: #3D1106;
-              color: white;
-              text-align: left;
-              padding: 8px;
-            }
-            .items-table td {
-              padding: 8px;
-              border-bottom: 1px solid #ddd;
-            }
-            .items-table tr:nth-child(even) {
-              background-color: #f9f9f9;
-            }
-            .total-row {
-              font-weight: bold;
-              background-color: #FFB501 !important;
-            }
-            .footer {
-              margin-top: 30px;
-              text-align: center;
-              font-size: 12px;
-              color: #777;
-            }
-            .options {
-              font-size: 12px;
-              color: #555;
-              margin-top: 3px;
-            }
-            @media print {
-              body {
-                padding: 10px;
-              }
-              button {
-                display: none !important;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>Churrascaria Gaúcha</h1>
-            <div class="order-number">Pedido #${order.orderNumber}</div>
-            <div>${new Date(order.timestamp).toLocaleString('pt-PT')}</div>
-          </div>
-          
-          <div class="info-section">
-            <h2>Informações do Cliente</h2>
-            <div class="info-row">
-              <div class="info-label">Nome:</div>
-              <div>${order.nome}</div>
-            </div>
-            <div class="info-row">
-              <div class="info-label">Contato:</div>
-              <div>${order.contato}</div>
-            </div>
-            <div class="info-row">
-              <div class="info-label">Tipo:</div>
-              <div>${order.entrega ? 'Entrega' : 'Retirada no local'}</div>
-            </div>
-            ${order.entrega ? `
-            <div class="info-row">
-              <div class="info-label">Endereço:</div>
-              <div>${order.endereco}</div>
-            </div>
-            ` : ''}
-            <div class="info-row">
-              <div class="info-label">Pagamento:</div>
-              <div>${order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
-                  order.metodoPagamento === 'cartao' ? 'Cartão' : 
-                  order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}</div>
-            </div>
-            ${order.observacoes ? `
-            <div class="info-row">
-              <div class="info-label">Observações:</div>
-              <div>${order.observacoes}</div>
-            </div>
-            ` : ''}
-          </div>
-          
-          <div class="info-section">
-            <h2>Itens do Pedido</h2>
-            <table class="items-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Qtd</th>
-                  <th>Preço</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${order.cart.map(item => `
-                  <tr>
-                    <td>
-                      ${item.nome}
-                      ${item.selectedOptions ? `
-                        <div class="options">
-                          ${item.selectedOptions.carnes?.length > 0 ? `<div>Carnes: ${item.selectedOptions.carnes.join(', ')}</div>` : ''}
-                          ${item.selectedOptions.acompanhamentos?.length > 0 ? `<div>Acomp: ${item.selectedOptions.acompanhamentos.join(', ')}</div>` : ''}
-                          ${item.selectedOptions.salada ? `<div>Salada: ${item.selectedOptions.salada}</div>` : ''}
-                          ${item.selectedOptions.bebida ? `<div>Bebida: ${item.selectedOptions.bebida}</div>` : ''}
-                          ${item.selectedOptions.toppings?.length > 0 ? `<div>Toppings: ${item.selectedOptions.toppings.join(', ')}</div>` : ''}
-                        </div>
-                      ` : ''}
-                    </td>
-                    <td>${item.quantidade}</td>
-                    <td>€${(item.precoFinal || item.preco).toFixed(2)}</td>
-                    <td>€${((item.precoFinal || item.preco) * item.quantidade).toFixed(2)}</td>
-                  </tr>
-                `).join('')}
-                <tr>
-                  <td colspan="3" style="text-align: right;">Subtotal:</td>
-                  <td>€${order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</td>
-                </tr>
-                ${order.entrega ? `
-                <tr>
-                  <td colspan="3" style="text-align: right;">Taxa de Entrega:</td>
-                  <td>€4.00</td>
-                </tr>
-                ` : ''}
-                <tr class="total-row">
-                  <td colspan="3" style="text-align: right;">Total:</td>
-                  <td>€${(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div class="footer">
-            Pedido gerado em ${new Date(order.timestamp).toLocaleString('pt-PT')}
-          </div>
-          
-          <script>
-            window.onload = function() {
-              setTimeout(function() {
-                window.print();
-                window.close();
-              }, 200);
-            }
-          </script>
-        </body>
-      </html>
-    `;
+  const sendOrderToWhatsApp = (orderNumber, customerData) => {
+    // Construir a mensagem do pedido
+    let message = `*NOVO PEDIDO #${orderNumber}*\n\n`;
+    message += `*Cliente:* ${customerData.nome}\n`;
+    message += `*Contato:* ${customerData.contato}\n`;
+    message += `*Tipo:* ${customerData.entrega ? 'Entrega' : 'Retirada'}\n`;
     
-    // Criar um iframe oculto para impressão automática
-    const iframe = document.createElement('iframe');
-    iframe.style.position = 'absolute';
-    iframe.style.width = '0';
-    iframe.style.height = '0';
-    iframe.style.border = 'none';
-    iframe.style.left = '-9999px';
-    document.body.appendChild(iframe);
+    if (customerData.entrega) {
+      message += `*Endereço:* ${customerData.endereco}\n`;
+    }
     
-    iframe.contentDocument.open();
-    iframe.contentDocument.write(printContent);
-    iframe.contentDocument.close();
+    message += `*Método de Pagamento:* ${customerData.metodoPagamento === 'mbway' ? `MBWay (${customerData.mbwayPhone})` : 
+                customerData.metodoPagamento === 'cartao' ? 'Cartão' : 
+                customerData.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'}\n\n`;
     
-    // Remover o iframe após a impressão
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-    }, 1000);
-  };
-
-  const sendOrderToWhatsApp = (orderNumber) => {
-    const now = new Date();
-    const formattedDate = now.toLocaleDateString('pt-PT', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-    const formattedTime = now.toLocaleTimeString('pt-PT', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-    const itemsText = cart.map(item => {
-      let itemText = `${item.quantidade}x *${item.nome}* - €${(item.precoFinal || item.preco).toFixed(2)}`;
+    message += `*Itens do Pedido:*\n`;
+    
+    // Adicionar itens do carrinho
+    cart.forEach(item => {
+      message += `- ${item.quantidade}x ${item.nome} (€${(item.precoFinal || item.preco).toFixed(2)})\n`;
+      
+      // Adicionar opções selecionadas
       if (item.selectedOptions) {
         if (item.selectedOptions.carnes?.length > 0) {
-          itemText += `\n  🥩 *Carnes:* ${item.selectedOptions.carnes.join(", ")}`;
+          message += `  Carnes: ${item.selectedOptions.carnes.join(", ")}\n`;
         }
         if (item.selectedOptions.acompanhamentos?.length > 0) {
-          itemText += `\n  🍚 *Acomp:* ${item.selectedOptions.acompanhamentos.join(", ")}`;
+          message += `  Acompanhamentos: ${item.selectedOptions.acompanhamentos.join(", ")}\n`;
         }
         if (item.selectedOptions.salada) {
-          itemText += `\n  🥗 *Salada:* ${item.selectedOptions.salada}`;
+          message += `  Salada: ${item.selectedOptions.salada}\n`;
         }
         if (item.selectedOptions.bebida) {
-          itemText += `\n  🥤 *Bebida:* ${item.selectedOptions.bebida}`;
+          message += `  Bebida: ${item.selectedOptions.bebida}\n`;
         }
         if (item.selectedOptions.toppings?.length > 0) {
-          itemText += `\n  🍓 *Toppings:* ${item.selectedOptions.toppings.join(", ")}`;
+          message += `  Toppings: ${item.selectedOptions.toppings.join(", ")}\n`;
         }
       }
-      return itemText;
-    }).join('\n\n');
-
-    let paymentMethod = '';
-    if (metodoPagamento === 'mbway') {
-      paymentMethod = `💳 *MBWay* (Número: ${mbwayPhone})\nNúmero do restaurante: 933 737 672`;
-    } else if (metodoPagamento === 'cartao') {
-      paymentMethod = '💳 *Cartão* (Débito/Crédito na entrega)';
-    } else if (metodoPagamento === 'multibanco') {
-      paymentMethod = '💳 *Multibanco* (Pagamento por referência MB)';
-    } else {
-      paymentMethod = '💵 *Dinheiro* (Com troco)';
-    }
-
-    const subtotal = cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0);
-    const total = subtotal + (entrega ? 4 : 0);
-
-    const message = `*🍖 NOVO PEDIDO #${orderNumber} - CHURRASCARIA GAÚCHA* 🍖\n\n` +
-      `📅 *Data:* ${formattedDate}\n` +
-      `⏰ *Hora:* ${formattedTime}\n\n` +
-      `*🍽️ ITENS DO PEDIDO*\n${itemsText}\n\n` +
-      `*💰 TOTAL DO PEDIDO*\n` +
-      `• Subtotal: €${subtotal.toFixed(2)}\n` +
-      `• Taxa de entrega: ${entrega ? "€4.00" : "Grátis"}\n` +
-      `• *Total a pagar: €${total.toFixed(2)}*\n\n` +
-      `*👤 INFORMAÇÕES DO CLIENTE*\n` +
-      `• Nome: ${nome}\n` +
-      `• Contato: ${contato}\n` +
-      `• Tipo: ${entrega ? `🚚 *Entrega* (${endereco})` : "🏃 *Retirada no local*"}\n` +
-      `• Pagamento: ${paymentMethod}\n\n` +
-      (observacoes ? `*📝 OBSERVAÇÕES*\n${observacoes}\n\n` : '') +
-      `_Obrigado pelo seu pedido! Entraremos em contacto em breve para confirmar._`;
-
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/351933737672?text=${encodedMessage}`, '_blank');
-  };
-
-  const handleSubmitOrder = () => {
-    const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
-    const timestamp = new Date().toISOString();
+    });
     
+    message += `\n*Subtotal:* €${(total - (customerData.entrega ? 4 : 0)).toFixed(2)}\n`;
+    if (customerData.entrega) {
+      message += `*Taxa de Entrega:* €4.00\n`;
+    }
+    message += `*Total:* €${total.toFixed(2)}\n\n`;
+    
+    if (customerData.observacoes) {
+      message += `*Observações:* ${customerData.observacoes}\n\n`;
+    }
+    
+    message += `_Pedido realizado em ${new Date().toLocaleString('pt-PT')}_`;
+    
+    // Codificar a mensagem para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Número de telefone do restaurante
+    const restaurantPhone = "933737672";
+    
+    // Abrir WhatsApp com a mensagem pré-preenchida
+    window.open(`https://wa.me/${restaurantPhone}?text=${encodedMessage}`, '_blank');
+    
+    // Salvar o pedido no localStorage para o painel admin
+    const orders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
     const newOrder = {
-      orderNumber: newOrderNumber,
+      orderNumber,
       cart: [...cart],
-      nome,
-      contato,
-      endereco,
-      entrega,
-      metodoPagamento,
-      mbwayPhone,
-      observacoes,
-      timestamp
+      nome: customerData.nome,
+      contato: customerData.contato,
+      endereco: customerData.endereco,
+      entrega: customerData.entrega,
+      metodoPagamento: customerData.metodoPagamento,
+      mbwayPhone: customerData.mbwayPhone,
+      observacoes: customerData.observacoes,
+      timestamp: new Date().toISOString(),
+      status: 'pending' // Status inicial como pendente
     };
     
-    setOrders([...orders, newOrder]);
+    orders.unshift(newOrder); // Adicionar no início do array
+    localStorage.setItem('adminOrders', JSON.stringify(orders));
+  };
+
+  const handleSubmitOrder = (customerData) => {
+    const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
+    
+    // Envie para o WhatsApp e salve no localStorage
+    sendOrderToWhatsApp(newOrderNumber, customerData);
+    
     setOrderNumber(newOrderNumber);
     setOrderSubmitted(true);
     
-    // Imprimir o pedido automaticamente
-    printOrder(newOrder);
-    
-    // Enviar para o WhatsApp
-    sendOrderToWhatsApp(newOrderNumber);
-    
-    // Limpar localStorage do cliente
-    localStorage.removeItem('cart');
-    localStorage.removeItem('step');
-    localStorage.removeItem('nome');
-    localStorage.removeItem('endereco');
-    localStorage.removeItem('contato');
-    localStorage.removeItem('entrega');
-    localStorage.removeItem('metodoPagamento');
-    localStorage.removeItem('mbwayPhone');
-    localStorage.removeItem('observacoes');
-    
+    // Limpar carrinho
+    setCart([]);
     setStep(3);
   };
-  
-  const handlePrintOrder = (order) => {
-    printOrder(order);
-  };
-  
+
   useEffect(() => {
     if (orderSubmitted && orderNumber) {
       setOrderSubmitted(false);
@@ -2376,17 +2508,10 @@ export default function OrderBot() {
         setIsCartOpen={setIsCartOpen}
         resetToMenu={resetToMenu}
         setStep={setStep}
-        isAdminView={isAdminView}
-        setIsAdminView={setIsAdminView}
       />
       
       <main className="container mx-auto px-4 py-6 pb-24">
-        {isAdminView ? (
-          <AdminDashboard 
-            orders={orders} 
-            onPrintOrder={handlePrintOrder}
-          />
-        ) : step === 1 ? (
+        {step === 1 ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Menu Section */}
             <div className="lg:col-span-2">
@@ -2483,17 +2608,17 @@ export default function OrderBot() {
                     </div>
 
                     <div className="border-t border-[#3D1106] pt-4">
-                      <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
+                      <div className="flex justify-between mb-1 text-[#280B04] text-sm">
                         <span>Subtotal:</span>
                         <span>€{subtotal.toFixed(2)}</span>
                       </div>
                       {entrega && (
-                        <div className="flex justify-between mb-1 text-[#FFF1E4] text-sm">
+                        <div className="flex justify-between mb-1 text-[#280B04] text-sm">
                           <span>Taxa de Entrega:</span>
                           <span>€4.00</span>
                         </div>
                       )}
-                      <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#3D1106] text-[#FFF1E4]">
+                      <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t border-[#3D1106] text-[#280B04]">
                         <span>Total:</span>
                         <span>€{total.toFixed(2)}</span>
                       </div>
@@ -2649,7 +2774,7 @@ export default function OrderBot() {
         </div>
       )}
 
-      {!isAdminView && step !== 3 && <Footer />}
+      {step !== 3 && <Footer />}
     </div>
   );
 }
