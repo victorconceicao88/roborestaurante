@@ -5,7 +5,7 @@ import {
   CreditCard, Clock, Info, Smartphone, Loader2, 
   Instagram, Facebook, Calendar, AlertCircle, Star,
   Printer, List, Sun, Moon,
-  Truck, Home,LogIn, LogOut
+  Truck, Home, LogIn, LogOut
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -470,7 +470,7 @@ const ementa = [
     nome: "Pratos Especiais",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=500&auto=format&fit=crop",
-    itens: [
+    iten: [
       { 
         id: 701, 
         nome: "Vaca Atolada", 
@@ -1924,7 +1924,7 @@ const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
 
   // Carregar pedidos do localStorage quando o componente montar
   useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || []);
+    const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
     setOrders(savedOrders);
     
     // Configurar listener para mudanças no localStorage
