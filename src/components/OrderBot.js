@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
+import { ref, onValue, update } from "firebase/database";
+import { database } from './firebase-config';
 import {
-  Trash, Plus, Minus, ChevronDown, ChevronUp,
-  ShoppingCart, X, Check, MapPin, Phone, User,
-  CreditCard, Clock, Info, Smartphone, Loader2, 
-  Instagram, Facebook, Calendar, AlertCircle, Star,
-  Printer, List, Sun, Moon,
-  Truck, Home, LogIn, LogOut
+  Printer, List, Sun, Moon, Truck, Home,
+  ShoppingCart, CreditCard, Check, X, Calendar,
+  ChevronUp, ChevronDown, AlertCircle, Star
 } from 'lucide-react';
 
 // ========== DADOS DA EMENTA ========== //
@@ -470,7 +469,7 @@ const ementa = [
     nome: "Pratos Especiais",
     tipo: "categoria",
     imagem: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=500&auto=format&fit=crop",
-    iten: [
+    itens: [
       { 
         id: 701, 
         nome: "Vaca Atolada", 
@@ -505,7 +504,7 @@ const SpecialPromoBanner = ({ onAddToCart }) => {
   return (
     <div className="mb-6">
       <div 
-        className={`bg-gradient-to-r from-[#3D1106] to-[#A92C0D] text-white rounded-lg p-4 cursor-pointer transition-all duration-300 ${
+        className={`bg-gradient-to-r from-[#2E1A1D] to-[#6A2A31] text-white rounded-lg p-4 cursor-pointer transition-all duration-300 ${
           isHovering ? 'shadow-lg transform -translate-y-1' : 'shadow-md'
         }`}
         onClick={() => setShowPromoDetails(!showPromoDetails)}
@@ -520,8 +519,8 @@ const SpecialPromoBanner = ({ onAddToCart }) => {
               <Star size={18} className="transition-transform duration-300" />
             </div>
             <div>
-              <h3 className="font-bold text-lg">Pratos Especiais da Semana</h3>
-              <p className="text-sm text-[#FFE5BA]">Descubra nossas ofertas especiais</p>
+              <h3 className="font-bold text-lg">Promoções Especiais da Semana</h3>
+              <p className="text-sm text-[#FFE5BA]">Não perca nossos pratos exclusivos</p>
             </div>
           </div>
           {showPromoDetails ? (
@@ -533,35 +532,58 @@ const SpecialPromoBanner = ({ onAddToCart }) => {
       </div>
 
       {showPromoDetails && (
-        <div className="bg-white p-4 rounded-lg border border-[#3D1106] mt-2 shadow-sm animate-fadeIn">
-          {pratosDisponiveis.length > 0 ? (
-            <div className="space-y-4">
-              {pratosDisponiveis.map((prato) => (
-                <div key={prato.id} className="flex items-start">
-                  <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
-                    <Calendar size={18} />
+        <div className="bg-white p-4 rounded-lg border border-[#6A2A31] mt-2 shadow-sm animate-fadeIn">
+          <div className="space-y-4">
+            {/* Quinta-feira - Vaca Atolada */}
+            <div className="flex items-start">
+              <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
+                <Calendar size={18} />
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-bold text-[#3D1106] text-xl">Quinta-feira: Vaca Atolada</h4>
+                    <p className="text-sm text-[#280B04] mt-1">Prato tradicional brasileiro, com carne de boi desfiada cozida lentamente com legumes e arroz. Uma combinação rica em sabor e aconchego.</p>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-bold text-[#3D1106]">{prato.nome} - €{prato.preco.toFixed(2)}</h4>
-                        <p className="text-sm text-[#280B04] mt-1">{prato.descricao}</p>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onAddToCart(prato);
-                        }}
-                        className="ml-4 bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-1 px-3 rounded-lg text-sm font-medium transition-colors flex items-center"
-                      >
-                        <Plus size={14} className="mr-1" /> Adicionar
-                      </button>
-                    </div>
-                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddToCart({ nome: 'Vaca Atolada', preco: 12.99, descricao: 'Prato tradicional brasileiro com carne de boi e legumes.' });
+                    }}
+                    className="ml-4 bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center"
+                  >
+                    Encomendar
+                  </button>
                 </div>
-              ))}
+              </div>
             </div>
-          ) : (
+
+            {/* Sábado e Domingo - Feijoada Brasileira */}
+            <div className="flex items-start">
+              <div className="bg-[#FFB501]/20 text-[#3D1106] p-2 rounded-full mr-3 flex-shrink-0">
+                <Calendar size={18} />
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-bold text-[#3D1106] text-xl">Sábado e Domingo: Feijoada Brasileira</h4>
+                    <p className="text-sm text-[#280B04] mt-1">A feijoada é um prato completo, recheado de sabores com feijão preto, carnes selecionadas e acompanhamentos típicos como arroz, farofa e laranja. Uma verdadeira experiência gastronômica.</p>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddToCart({ nome: 'Feijoada Brasileira', preco: 15.99, descricao: 'Feijão preto com carnes selecionadas e acompanhamentos típicos.' });
+                    }}
+                    className="ml-4 bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center"
+                  >
+                    Encomendar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {pratosDisponiveis.length === 0 && (
             <div className="text-center py-4 text-[#280B04]">
               <p>Nenhum prato especial disponível hoje.</p>
               <p className="text-sm mt-1">Volte nos dias específicos para aproveitar nossas promoções!</p>
@@ -574,7 +596,7 @@ const SpecialPromoBanner = ({ onAddToCart }) => {
 };
 
 // ========== COMPONENTE NAVBAR ========== //
-const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep, isAdmin, setIsAdmin }) => {
+const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep }) => {
   return (
     <div>
       <header className="sticky top-0 z-40 bg-[#FFF1E8]">
@@ -596,35 +618,6 @@ const Navbar = ({ cart, setIsCartOpen, resetToMenu, setStep, isAdmin, setIsAdmin
             
             {/* Botões de navegação */}
             <div className="flex items-center space-x-4">
-              {isAdmin ? (
-                <button
-                  onClick={() => {
-                    setIsAdmin(false);
-                    resetToMenu();
-                  }}
-                  className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors flex items-center"
-                  title="Sair do modo Admin"
-                >
-                  <LogOut className="mr-1" size={20} />
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    const password = prompt("Digite a senha de administrador:");
-                    if (password === "vivi1234") {
-                      setIsAdmin(true);
-                      setStep(1);
-                    } else {
-                      alert("Senha incorreta!");
-                    }
-                  }}
-                  className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors flex items-center"
-                  title="Acessar painel Admin"
-                >
-                  <LogIn size={20} />
-                </button>
-              )}
-              
               <button 
                 onClick={() => setIsCartOpen(true)}
                 className="p-2 text-[#280B04] hover:text-[#3D1106] transition-colors relative"
@@ -727,7 +720,7 @@ const DeliveryPickupSelector = ({
             'border-[#E5E7EB] text-[#280B04] hover:border-[#3D1106]'}`}
         >
           <div className="font-semibold">Retirada no Local</div>
-          <div className="text-sm mt-1">Sem custo adicional</div>
+          <div className="text-sm mt-1">Sem cost adicional</div>
         </button>
         <button
           type="button"
@@ -1161,7 +1154,7 @@ const MenuItem = ({ item, onAdd }) => {
             setAddedToCart(true);
             setTimeout(() => setAddedToCart(false), 2000);
           }}
-          className={`mt-4 w-full py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center ${
+          className={`mt-4 w-full py-3 px-4 rounded-lg font-medium transition-colors ${
             addedToCart ? 
               'bg-[#617C33] text-[#FFF1E4]' : 
               'bg-[#3D1106] hover:bg-[#280B04] text-[#FFB501] shadow-md'
@@ -1910,11 +1903,12 @@ const DayTab = ({ date, orders, onPrintOrder, isActive, onClick }) => {
 };
 
 // ========== COMPONENTE ADMIN DASHBOARD ========== //
-const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
+const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
   const [activeDay, setActiveDay] = useState(null);
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalOrders: 0,
     totalRevenue: 0,
@@ -1923,26 +1917,41 @@ const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
   });
 
   // Carregar pedidos do localStorage quando o componente montar
+ // Conexão em tempo real com o Firebase
+ useEffect(() => {
+  const ordersRef = ref(database, 'orders');
+  
+  const unsubscribe = onValue(ordersRef, (snapshot) => {
+    const data = snapshot.val();
+    const loadedOrders = data ? Object.values(data) : [];
+    
+    // Reconstruir objetos complexos
+    const processedOrders = loadedOrders.map(order => ({
+      ...order,
+      cart: order.cart.map(item => ({
+        ...item,
+        selectedOptions: item.selectedOptions ? JSON.parse(item.selectedOptions) : null
+      }))
+    }));
+
+    setOrders(processedOrders);
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
+  // Atualizar automaticamente a cada 5 segundos (para garantir sincronização)
   useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
-    setOrders(savedOrders);
+    const interval = setInterval(() => {
+      const savedOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+      setOrders(savedOrders);
+    }, 5000);
     
-    // Configurar listener para mudanças no localStorage
-    const handleStorageChange = (e) => {
-      if (e.key === 'adminOrders') {
-        const updatedOrders = JSON.parse(e.newValue || '[]');
-        setOrders(updatedOrders);
-      }
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    return () => clearInterval(interval);
   }, []);
 
-  // Agrupar pedidos por dia
+  // Ordenar dias do mais recente para o mais antigo
   const ordersByDay = orders.reduce((acc, order) => {
     const orderDate = new Date(order.timestamp);
     const dateKey = new Date(
@@ -1958,7 +1967,6 @@ const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
     return acc;
   }, {});
 
-  // Ordenar dias do mais recente para o mais antigo
   const sortedDays = Object.keys(ordersByDay).sort((a, b) => new Date(b) - new Date(a));
 
   // Definir o dia ativo como o mais recente se ainda não estiver definido
@@ -2021,9 +2029,6 @@ const AdminDashboard = ({ onPrintOrder, onMarkAsDone }) => {
     
     setOrders(updatedOrders);
     localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
-    
-    // Disparar evento para sincronizar outras abas
-    window.dispatchEvent(new Event('storage'));
     
     // Chamar a função passada por props se existir
     if (onMarkAsDone) {
@@ -2398,7 +2403,6 @@ export default function OrderBot() {
   const [observacoes, setObservacoes] = useState(() => loadFromLocalStorage('observacoes', ""));
   const [orderNumber, setOrderNumber] = useState(null);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -2459,10 +2463,7 @@ export default function OrderBot() {
       }
     });
     
-    const subtotal = cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0);
-    const total = subtotal + (customerData.entrega ? 4 : 0);
-    
-    message += `\n*Subtotal:* €${subtotal.toFixed(2)}\n`;
+    message += `\n*Subtotal:* €${(total - (customerData.entrega ? 4 : 0)).toFixed(2)}\n`;
     if (customerData.entrega) {
       message += `*Taxa de Entrega:* €4.00\n`;
     }
@@ -2501,23 +2502,42 @@ export default function OrderBot() {
     
     orders.unshift(newOrder); // Adicionar no início do array
     localStorage.setItem('adminOrders', JSON.stringify(orders));
-    
-    // Disparar evento para sincronizar outras abas
-    window.dispatchEvent(new Event('storage'));
   };
 
   const handleSubmitOrder = (customerData) => {
     const newOrderNumber = Math.floor(10000 + Math.random() * 90000);
+    const orderRef = ref(database, 'orders/' + newOrderNumber);
     
-    // Envie para o WhatsApp e salve no localStorage
-    sendOrderToWhatsApp(newOrderNumber, customerData);
-    
-    setOrderNumber(newOrderNumber);
-    setOrderSubmitted(true);
-    
-    // Limpar carrinho
-    setCart([]);
-    setStep(3);
+    const newOrder = {
+      orderNumber: newOrderNumber,
+      cart: cart.map(item => ({
+        ...item,
+        // Firebase não aceita objetos complexos, então simplificamos
+        selectedOptions: item.selectedOptions ? JSON.stringify(item.selectedOptions) : null
+      })),
+      nome: customerData.nome,
+      contato: customerData.contato,
+      endereco: customerData.endereco,
+      entrega: customerData.entrega,
+      metodoPagamento: customerData.metodoPagamento,
+      mbwayPhone: customerData.mbwayPhone || null,
+      observacoes: customerData.observacoes || null,
+      timestamp: new Date().toISOString(),
+      status: 'pending'
+    };
+  
+    set(orderRef, newOrder)
+      .then(() => {
+        setOrderNumber(newOrderNumber);
+        setOrderSubmitted(true);
+        setCart([]);
+        setStep(3);
+        sendOrderToWhatsApp(newOrderNumber, customerData);
+      })
+      .catch((error) => {
+        console.error("Erro ao enviar pedido:", error);
+        alert("Ocorreu um erro ao enviar seu pedido. Por favor, tente novamente.");
+      });
   };
 
   useEffect(() => {
@@ -2587,112 +2607,6 @@ export default function OrderBot() {
     setOrderSubmitted(false);
   };
 
-  if (isAdmin) {
-    return (
-      <div className="min-h-screen bg-[#FFF1E8]">
-        <Navbar 
-          cart={cart} 
-          setIsCartOpen={setIsCartOpen}
-          resetToMenu={resetToMenu}
-          setStep={setStep}
-          isAdmin={isAdmin}
-          setIsAdmin={setIsAdmin}
-        />
-        
-        <AdminDashboard 
-          onPrintOrder={(order) => {
-            // Criar conteúdo para impressão
-            const printContent = `
-              <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 400px;">
-                <h1 style="text-align: center; margin-bottom: 10px;">Cozinha da Vivi</h1>
-                <h2 style="text-align: center; margin-bottom: 20px;">Pedido #${order.orderNumber}</h2>
-                
-                <div style="margin-bottom: 15px;">
-                  <p><strong>Cliente:</strong> ${order.nome}</p>
-                  <p><strong>Contato:</strong> ${order.contato}</p>
-                  <p><strong>Tipo:</strong> ${order.entrega ? 'Entrega' : 'Retirada'}</p>
-                  ${order.entrega ? `<p><strong>Endereço:</strong> ${order.endereco}</p>` : ''}
-                  <p><strong>Pagamento:</strong> ${
-                    order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
-                    order.metodoPagamento === 'cartao' ? 'Cartão' : 
-                    order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'
-                  }</p>
-                  ${order.observacoes ? `<p><strong>Observações:</strong> ${order.observacoes}</p>` : ''}
-                </div>
-                
-                <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px;">Itens:</h3>
-                <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
-                  ${order.cart.map(item => `
-                    <li style="margin-bottom: 10px;">
-                      <strong>${item.quantidade}x ${item.nome}</strong> - €${(item.precoFinal || item.preco).toFixed(2)}
-                      ${item.selectedOptions ? `
-                        <div style="font-size: 0.9em; margin-left: 10px;">
-                          ${item.selectedOptions.carnes?.length > 0 ? `<div>Carnes: ${item.selectedOptions.carnes.join(", ")}</div>` : ''}
-                          ${item.selectedOptions.acompanhamentos?.length > 0 ? `<div>Acomp: ${item.selectedOptions.acompanhamentos.join(", ")}</div>` : ''}
-                          ${item.selectedOptions.salada ? `<div>Salada: ${item.selectedOptions.salada}</div>` : ''}
-                          ${item.selectedOptions.bebida ? `<div>Bebida: ${item.selectedOptions.bebida}</div>` : ''}
-                          ${item.selectedOptions.toppings?.length > 0 ? `<div>Toppings: ${item.selectedOptions.toppings.join(", ")}</div>` : ''}
-                        </div>
-                      ` : ''}
-                    </li>
-                  `).join('')}
-                </ul>
-                
-               <div style="border-top: 1px solid #000; padding-top: 10px;">
-                <p style="text-align: right;"><strong>Subtotal:</strong> €${order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</p>
-                ${order.entrega ? `<p style="text-align: right;"><strong>Taxa de Entrega:</strong> €4.00</p>` : ''}
-                <p style="text-align: right; font-size: 1.2em;"><strong>Total:</strong> €${(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</p>
-               </div>
-                
-                <p style="text-align: center; margin-top: 20px; font-size: 0.8em;">
-                  ${new Date(order.timestamp).toLocaleString('pt-PT')}
-                </p>
-              </div>
-            `;
-
-            // Abrir janela de impressão
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-              <html>
-                <head>
-                  <title>Pedido #${order.orderNumber}</title>
-                  <style>
-                    @media print {
-                      body { visibility: hidden; }
-                      .print-content { visibility: visible; position: absolute; left: 0; top: 0; }
-                    }
-                  </style>
-                </head>
-                <body>
-                  <div class="print-content">${printContent}</div>
-                  <script>
-                    setTimeout(() => {
-                      window.print();
-                      window.close();
-                    }, 200);
-                  </script>
-                </body>
-              </html>
-            `);
-            printWindow.document.close();
-          }}
-          onMarkAsDone={async (orderNumber) => {
-            const orders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
-            const updatedOrders = orders.map(order => {
-              if (order.orderNumber === orderNumber) {
-                return { ...order, status: 'done' };
-              }
-              return order;
-            });
-            
-            localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
-            window.dispatchEvent(new Event('storage'));
-          }}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#FFF1E8]">
       <Navbar 
@@ -2700,8 +2614,6 @@ export default function OrderBot() {
         setIsCartOpen={setIsCartOpen}
         resetToMenu={resetToMenu}
         setStep={setStep}
-        isAdmin={isAdmin}
-        setIsAdmin={setIsAdmin}
       />
       
       <main className="container mx-auto px-4 py-6 pb-24">
@@ -2970,6 +2882,105 @@ export default function OrderBot() {
       )}
 
       {step !== 3 && <Footer />}
+    </div>
+  );
+}
+
+// ========== COMPONENTE ADMIN PAGE ========== //
+export function AdminPage() {
+  const handleMarkAsDone = (orderNumber) => {
+    const orderRef = ref(database, `orders/${orderNumber}`);
+    
+    update(orderRef, { status: 'done' })
+      .catch((error) => {
+        console.error("Erro ao atualizar pedido:", error);
+        alert("Ocorreu um erro ao marcar o pedido como concluído.");
+    });
+    
+    localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
+  };
+
+  return (
+    <div className="min-h-screen bg-[#FFF1E8]">
+      <AdminDashboard 
+        onPrintOrder={(order) => {
+          // Implementação da função de impressão (igual à do OrderBot)
+          const printContent = `
+            <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 400px;">
+              <h1 style="text-align: center; margin-bottom: 10px;">Cozinha da Vivi</h1>
+              <h2 style="text-align: center; margin-bottom: 20px;">Pedido #${order.orderNumber}</h2>
+              
+              <div style="margin-bottom: 15px;">
+                <p><strong>Cliente:</strong> ${order.nome}</p>
+                <p><strong>Contato:</strong> ${order.contato}</p>
+                <p><strong>Tipo:</strong> ${order.entrega ? 'Entrega' : 'Retirada'}</p>
+                ${order.entrega ? `<p><strong>Endereço:</strong> ${order.endereco}</p>` : ''}
+                <p><strong>Pagamento:</strong> ${
+                  order.metodoPagamento === 'mbway' ? `MBWay (${order.mbwayPhone})` : 
+                  order.metodoPagamento === 'cartao' ? 'Cartão' : 
+                  order.metodoPagamento === 'multibanco' ? 'Multibanco' : 'Dinheiro'
+                }</p>
+                ${order.observacoes ? `<p><strong>Observações:</strong> ${order.observacoes}</p>` : ''}
+              </div>
+              
+              <h3 style="border-bottom: 1px solid #000; padding-bottom: 5px;">Itens:</h3>
+              <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
+                ${order.cart.map(item => `
+                  <li style="margin-bottom: 10px;">
+                    <strong>${item.quantidade}x ${item.nome}</strong> - €${(item.precoFinal || item.preco).toFixed(2)}
+                    ${item.selectedOptions ? `
+                      <div style="font-size: 0.9em; margin-left: 10px;">
+                        ${item.selectedOptions.carnes?.length > 0 ? `<div>Carnes: ${item.selectedOptions.carnes.join(", ")}</div>` : ''}
+                        ${item.selectedOptions.acompanhamentos?.length > 0 ? `<div>Acomp: ${item.selectedOptions.acompanhamentos.join(", ")}</div>` : ''}
+                        ${item.selectedOptions.salada ? `<div>Salada: ${item.selectedOptions.salada}</div>` : ''}
+                        ${item.selectedOptions.bebida ? `<div>Bebida: ${item.selectedOptions.bebida}</div>` : ''}
+                        ${item.selectedOptions.toppings?.length > 0 ? `<div>Toppings: ${item.selectedOptions.toppings.join(", ")}</div>` : ''}
+                      </div>
+                    ` : ''}
+                  </li>
+                `).join('')}
+              </ul>
+              
+             <div style="border-top: 1px solid #000; padding-top: 10px;">
+              <p style="text-align: right;"><strong>Subtotal:</strong> €${order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0).toFixed(2)}</p>
+              ${order.entrega ? `<p style="text-align: right;"><strong>Taxa de Entrega:</strong> €4.00</p>` : ''}
+              <p style="text-align: right; font-size: 1.2em;"><strong>Total:</strong> €${(order.cart.reduce((sum, item) => sum + (item.precoFinal || item.preco) * item.quantidade, 0) + (order.entrega ? 4 : 0)).toFixed(2)}</p>
+             </div>
+              
+              <p style="text-align: center; margin-top: 20px; font-size: 0.8em;">
+                ${new Date(order.timestamp).toLocaleString('pt-PT')}
+              </p>
+            </div>
+          `;
+
+          // Abrir janela de impressão
+          const printWindow = window.open('', '_blank');
+          printWindow.document.write(`
+            <html>
+              <head>
+                <title>Pedido #${order.orderNumber}</title>
+                <style>
+                  @media print {
+                    body { visibility: hidden; }
+                    .print-content { visibility: visible; position: absolute; left: 0; top: 0; }
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="print-content">${printContent}</div>
+                <script>
+                  setTimeout(() => {
+                    window.print();
+                    window.close();
+                  }, 200);
+                </script>
+              </body>
+            </html>
+          `);
+          printWindow.document.close();
+        }}
+        onMarkAsDone={handleMarkAsDone}
+      />
     </div>
   );
 }

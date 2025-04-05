@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ref, onValue, update } from "firebase/database";
+import { database } from './firebase-config'; // Importe sua configuração do Firebase
 import AdminPanel from './AdminPanel';
 import {
   LogOut, ChefHat, Loader2,
@@ -24,10 +26,40 @@ const AdminPage = () => {
   const [useMasterPassword, setUseMasterPassword] = useState(false);
   const navigate = useNavigate();
 
+
+  // Conexão em tempo real com o Firebase
+  useEffect(() => {
+    if (isAuthenticated) {
+      const ordersRef = ref(database, 'orders');
+      
+      const unsubscribe = onValue(ordersRef, (snapshot) => {
+        const data = snapshot.val();
+        const loadedOrders = data ? Object.values(data) : [];
+        
+        // Processar os pedidos para garantir que selectedOptions seja um objeto
+        const processedOrders = loadedOrders.map(order => ({
+          ...order,
+          cart: order.cart.map(item => ({
+            ...item,
+            selectedOptions: item.selectedOptions ? 
+              (typeof item.selectedOptions === 'string' ? 
+                JSON.parse(item.selectedOptions) : 
+                item.selectedOptions) : 
+              null
+          }))
+        }));
+
+        setOrders(processedOrders);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [isAuthenticated]);
+
+  // Verificação inicial de autenticação e credenciais
   useEffect(() => {
     const savedAuth = localStorage.getItem('adminAuth');
     const savedCredentials = localStorage.getItem('adminCredentials');
-    const savedOrders = localStorage.getItem('adminOrders');
     const savedMasterPassword = localStorage.getItem('adminMasterPassword');
 
     if (savedAuth === 'true') {
@@ -37,12 +69,12 @@ const AdminPage = () => {
     if (!savedCredentials) {
       setIsFirstLogin(true);
     } else {
-      const credentials = JSON.parse(savedCredentials);
-      setUsername(credentials.username);
-    }
-
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
+      try {
+        const credentials = JSON.parse(savedCredentials);
+        setUsername(credentials.username);
+      } catch (e) {
+        console.error("Erro ao analisar credenciais:", e);
+      }
     }
 
     if (savedMasterPassword) {
@@ -462,13 +494,15 @@ const AdminPage = () => {
   };
 
   const handleMarkAsDone = (orderNumber) => {
-    return new Promise((resolve) => {
-      const updatedOrders = orders.map(order => 
-        order.orderNumber === orderNumber ? { ...order, status: 'done' } : order
-      );
-      setOrders(updatedOrders);
-      localStorage.setItem('adminOrders', JSON.stringify(updatedOrders));
-      resolve();
+    return new Promise((resolve, reject) => {
+      const orderRef = ref(database, `orders/${orderNumber}`);
+      
+      update(orderRef, { status: 'done' })
+        .then(() => resolve())
+        .catch((error) => {
+          console.error("Erro ao atualizar pedido:", error);
+          reject(error);
+        });
     });
   };
 
