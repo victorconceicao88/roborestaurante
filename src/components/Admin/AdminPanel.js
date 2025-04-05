@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
+import { ref, onValue, update } from "firebase/database";
+import { database } from '../../firebaseConfig'; // Importação corrigida
 import {
   ShoppingCart, Check, Printer,
-  CreditCard, Truck, Home, List, 
+  CreditCard, Truck, Home, List,
   Calendar, Sun, Moon,
   ChevronUp, ChevronDown, CookingPot,
   Edit, MessageCircle, X, Save, Plus, Minus
 } from 'lucide-react';
-
-
 
 
 // ========== COMPONENTE ORDER ITEM ========== //

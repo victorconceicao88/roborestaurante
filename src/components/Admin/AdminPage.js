@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ref, onValue, update } from "firebase/database";
-import { database } from './firebase-config'; // Importe sua configuração do Firebase
+import { database } from '../../firebaseConfig';
 import AdminPanel from './AdminPanel';
 import {
   LogOut, ChefHat, Loader2,
