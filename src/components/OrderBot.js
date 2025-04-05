@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ref, onValue, update } from "firebase/database";
-import { database } from './firebase-config';
+import { database } from './firebaseConfig'; // Caminho e nome corrigidos
 import {
   Printer, List, Sun, Moon, Truck, Home,
   ShoppingCart, CreditCard, Check, X, Calendar,
